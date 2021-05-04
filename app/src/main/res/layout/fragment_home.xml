@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#1A1414BC"
     tools:context=".HomeFragment">
 
@@ -20,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginStart="6dp"
+            android:layout_marginStart="10dp"
             android:src="@drawable/ic_menu" />
 
         <Spinner
@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="6dp"
+            android:layout_marginEnd="10dp"
             android:src="@drawable/ic_notification" />
 
         <ImageView
@@ -52,7 +52,7 @@
     <!--Custom Tool bar ends here-->
 
 
-    <TextView
+    <!--<TextView
         android:id="@+id/todaySummary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -61,36 +61,38 @@
         android:text="Today's Summary"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:layout_below="@+id/toolBar"/>
+        android:layout_below="@+id/toolBar"/>-->
 
     <!--ScrollView for Today's Summary starts here-->
 
-    <HorizontalScrollView
+    <LinearLayout
         android:id="@+id/todaySummaryDashboard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/todaySummary"
+        android:layout_below="@+id/toolBar"
         android:layout_margin="5dp"
-        android:scrollbars="none">
+        android:orientation="vertical">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <androidx.cardview.widget.CardView
-                android:layout_width="100dp"
+                android:layout_width="0dp"
                 android:layout_height="100dp"
                 android:layout_margin="5dp"
-                app:cardCornerRadius="5dp"
-                android:backgroundTint="@color/white">
+                android:layout_weight="1"
+                android:backgroundTint="@color/white"
+                app:cardCornerRadius="5dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_gravity="center"
                     android:layout_margin="5dp"
-                    android:orientation="vertical"
-                    android:gravity="center_vertical">
+                    android:gravity="center"
+                    android:orientation="vertical">
 
                     <ImageView
                         android:id="@+id/leadImage"
@@ -106,7 +108,6 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="2dp"
                         android:text="150"
-                        android:textColor="@color/black"
                         android:textSize="20sp" />
 
 
@@ -115,8 +116,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="2dp"
                         android:text="New leads"
-                        android:textColor="@color/black" />
-
+                        />
 
 
                 </LinearLayout>
@@ -124,18 +124,20 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:layout_width="100dp"
+                android:layout_width="0dp"
                 android:layout_height="100dp"
                 android:layout_margin="5dp"
-                app:cardCornerRadius="5dp"
-                android:backgroundTint="@color/white">
+                android:layout_weight="1"
+                android:backgroundTint="@color/white"
+                app:cardCornerRadius="5dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_gravity="center"
                     android:layout_margin="5dp"
-                    android:orientation="vertical"
-                    android:gravity="center_vertical">
+                    android:gravity="center"
+                    android:orientation="vertical">
 
                     <ImageView
                         android:id="@+id/interestedImage"
@@ -151,7 +153,6 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="2dp"
                         android:text="100"
-                        android:textColor="@color/black"
                         android:textSize="20sp" />
 
 
@@ -159,27 +160,36 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="2dp"
-                        android:text="Interested"
-                        android:textColor="@color/black" />
+                        android:text="Interested"/>
 
 
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
 
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
             <androidx.cardview.widget.CardView
-                android:layout_width="100dp"
+                android:layout_width="0dp"
                 android:layout_height="100dp"
                 android:layout_margin="5dp"
-                app:cardCornerRadius="5dp"
-                android:backgroundTint="@color/white">
+                android:layout_weight="1"
+                android:backgroundTint="@color/white"
+                app:cardCornerRadius="5dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_gravity="center"
                     android:layout_margin="5dp"
-                    android:orientation="vertical"
-                    android:gravity="center_vertical">
+                    android:gravity="center"
+                    android:orientation="vertical">
 
                     <ImageView
                         android:id="@+id/followupsImage"
@@ -195,7 +205,6 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="2dp"
                         android:text="80"
-                        android:textColor="@color/black"
                         android:textSize="20sp" />
 
 
@@ -203,28 +212,28 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="2dp"
-                        android:text="Followups"
-                        android:textColor="@color/black" />
+                        android:text="Followups"/>
 
 
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
 
-
             <androidx.cardview.widget.CardView
-                android:layout_width="100dp"
+                android:layout_width="0dp"
                 android:layout_height="100dp"
                 android:layout_margin="5dp"
-                app:cardCornerRadius="5dp"
-                android:backgroundTint="@color/white">
+                android:layout_weight="1"
+                android:backgroundTint="@color/white"
+                app:cardCornerRadius="5dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_gravity="center"
                     android:layout_margin="5dp"
-                    android:orientation="vertical"
-                    android:gravity="center_vertical">
+                    android:gravity="center"
+                    android:orientation="vertical">
 
                     <ImageView
                         android:id="@+id/convertedImage"
@@ -240,48 +249,53 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="2dp"
                         android:text="20"
-                        android:textColor="@color/black"
                         android:textSize="20sp" />
 
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Converted"
                         android:layout_margin="2dp"
-                        android:textColor="@color/black" />
+                        android:text="Converted"/>
 
 
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
 
-
         </LinearLayout>
 
 
-    </HorizontalScrollView>
+    </LinearLayout>
 
     <!--ScrollView for Today's Summary ends here-->
 
 
-    <TextView
+   <!-- <TextView
         android:id="@+id/pipeLine"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/todaySummaryDashboard"
         android:layout_margin="10dp"
-        android:textColor="@color/black"
         android:text="Pipeline"
+        android:textColor="@color/black"
         android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_below="@+id/todaySummaryDashboard"/>
+        android:textStyle="bold" />-->
 
     <!--Linear layout for pipeline starts here-->
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="0.2dp"
+        android:layout_margin="10dp"
+        android:layout_below="@id/todaySummaryDashboard"
+        android:background="#bdbdbd"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/pipeLine"
+        android:layout_below="@+id/view"
         android:layout_margin="5dp"
         android:orientation="vertical">
 
@@ -291,8 +305,8 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_margin="5dp"
-            app:cardCornerRadius="5dp"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            app:cardCornerRadius="5dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -302,8 +316,8 @@
 
                 <RelativeLayout
                     android:id="@+id/meetingDrawable"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="10dp"
                     android:background="@drawable/drawable">
@@ -323,11 +337,9 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@id/meetingDrawable"
                     android:text="Today's Meeting"
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
-                    android:layout_toEndOf="@id/meetingDrawable"/>
-
+                    android:textSize="20sp" />
 
 
                 <TextView
@@ -337,9 +349,9 @@
                     android:layout_marginEnd="10dp"
                     android:layout_toStartOf="@+id/rightArrow1"
                     android:text="5"
-                    android:textSize="20sp"
                     android:textColor="#BB86FC"
-                    android:textStyle="bold"/>
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
                 <ImageView
                     android:id="@+id/rightArrow1"
@@ -348,8 +360,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="10dp"
-                    android:src="@drawable/ic_right_arrow"/>
-
+                    android:src="@drawable/ic_right_arrow" />
 
 
             </RelativeLayout>
@@ -357,8 +368,6 @@
         </androidx.cardview.widget.CardView>
 
         <!--cardView holding relative layout with Today's meeting ends here-->
-
-
 
 
         <!--cardView holding relative layout with Unanswered starts here-->
@@ -377,8 +386,8 @@
 
                 <RelativeLayout
                     android:id="@+id/unansweredDrawable"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="10dp"
                     android:background="@drawable/drawable">
@@ -398,12 +407,9 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@id/unansweredDrawable"
                     android:text="Unanswered"
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
-                    android:layout_toEndOf="@id/unansweredDrawable"/>
-
-
+                    android:textSize="20sp" />
 
 
                 <TextView
@@ -413,9 +419,9 @@
                     android:layout_marginEnd="10dp"
                     android:layout_toStartOf="@+id/rightArrow2"
                     android:text="5"
-                    android:textSize="20sp"
                     android:textColor="#BB86FC"
-                    android:textStyle="bold"/>
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
                 <ImageView
                     android:id="@+id/rightArrow2"
@@ -424,8 +430,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="10dp"
-                    android:src="@drawable/ic_right_arrow"/>
-
+                    android:src="@drawable/ic_right_arrow" />
 
 
             </RelativeLayout>
@@ -436,16 +441,14 @@
         <!--cardView holding relative layout with Unanswered ends here-->
 
 
-
-
         <!--cardView holding relative layout with Busy starts here-->
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_margin="5dp"
-            app:cardCornerRadius="5dp"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            app:cardCornerRadius="5dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -455,8 +458,8 @@
 
                 <RelativeLayout
                     android:id="@+id/busyDrawable"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="10dp"
                     android:background="@drawable/drawable">
@@ -476,12 +479,9 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@id/busyDrawable"
                     android:text="Busy"
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
-                    android:layout_toEndOf="@id/busyDrawable"/>
-
-
+                    android:textSize="20sp" />
 
 
                 <TextView
@@ -491,9 +491,9 @@
                     android:layout_marginEnd="10dp"
                     android:layout_toStartOf="@+id/rightArrow3"
                     android:text="5"
-                    android:textSize="20sp"
                     android:textColor="#BB86FC"
-                    android:textStyle="bold"/>
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
                 <ImageView
                     android:id="@+id/rightArrow3"
@@ -502,9 +502,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="10dp"
-                    android:src="@drawable/ic_right_arrow"/>
-
-
+                    android:src="@drawable/ic_right_arrow" />
 
 
             </RelativeLayout>
@@ -512,8 +510,6 @@
         </androidx.cardview.widget.CardView>
 
         <!--cardView holding relative layout with Busy ends here-->
-
-
 
 
         <!--cardView holding relative layout with Not Interested starts here-->
@@ -532,8 +528,8 @@
 
                 <RelativeLayout
                     android:id="@+id/notInterestedDrawable"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="10dp"
                     android:background="@drawable/drawable">
@@ -553,12 +549,9 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@id/notInterestedDrawable"
                     android:text="Not Interested"
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
-                    android:layout_toEndOf="@id/notInterestedDrawable"/>
-
-
+                    android:textSize="20sp" />
 
 
                 <TextView
@@ -568,9 +561,9 @@
                     android:layout_marginEnd="10dp"
                     android:layout_toStartOf="@+id/rightArrow4"
                     android:text="5"
-                    android:textSize="20sp"
                     android:textColor="#BB86FC"
-                    android:textStyle="bold"/>
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
                 <ImageView
                     android:id="@+id/rightArrow4"
@@ -579,9 +572,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="10dp"
-                    android:src="@drawable/ic_right_arrow"/>
-
-
+                    android:src="@drawable/ic_right_arrow" />
 
 
             </RelativeLayout>
@@ -590,11 +581,6 @@
         </androidx.cardview.widget.CardView>
 
         <!--cardView holding relative layout with Not Interested ends here-->
-
-
-
-
-
 
 
     </LinearLayout>
