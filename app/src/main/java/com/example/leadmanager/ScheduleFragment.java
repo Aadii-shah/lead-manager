@@ -62,20 +62,7 @@ public class ScheduleFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_schedule, container, false);
-        //spinner for status
-        Spinner spinner = view.findViewById(R.id.spinnerStatus);
-        ArrayAdapter adapter = ArrayAdapter.createFromResource(getContext(),
-                R.array.status, R.layout.status_color_spinner);
-        adapter.setDropDownViewResource(R.layout.status_dropdown_layout);
-        spinner.setAdapter(adapter);
 
-
-        //spinner for leadSource
-        Spinner spinnerSource = view.findViewById(R.id.spinnerLeadSource);
-        ArrayAdapter adapterSource = ArrayAdapter.createFromResource(getContext(),
-                R.array.lead_source, R.layout.status_color_spinner);
-        adapterSource.setDropDownViewResource(R.layout.status_dropdown_layout);
-        spinnerSource.setAdapter(adapterSource);
         return view;
     }
 }
