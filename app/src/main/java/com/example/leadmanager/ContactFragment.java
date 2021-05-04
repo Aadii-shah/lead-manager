@@ -1,5 +1,6 @@
 package com.example.leadmanager;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -123,7 +124,8 @@ public class ContactFragment extends Fragment {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Toast.makeText(getContext(), "Contact Added", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getContext(), AddNewContactActivity.class);
+                        startActivity(intent);
                     }
                 });
 
