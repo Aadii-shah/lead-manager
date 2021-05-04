@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,6 +15,8 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
@@ -26,6 +30,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) {
+            signIn();
+        } else {
+          //  syncData();
+        }
+
+
 
 
 
@@ -77,5 +90,22 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+    }
+
+    private void signIn() {
+        Intent i = new Intent(MainActivity.this, Login.class);
+        startActivity(i);
+        finish();
+    }
+
+    private void signOut() {
+
+        SharedPreferences.Editor editor = getSharedPreferences("date", MODE_PRIVATE).edit();
+        editor.putString("store_name", null);
+        editor.putString("store_owner", null);
+        editor.putString("country", null);
+        editor.apply();
+        FirebaseAuth.getInstance().signOut();
+        signIn();
     }
 }

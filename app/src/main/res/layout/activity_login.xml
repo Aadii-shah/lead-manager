@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Login">
+
+    <LinearLayout
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="200dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Paper"
+            android:textSize="28sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Boats"
+            android:textStyle="bold"
+            android:textSize="28sp"/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="...where your store floats..."
+        android:gravity="end"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/name"
+        android:textSize="12sp"/>
+
+    <TextView
+        android:id="@+id/loginInstruction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Something went wrong:(\nplease SignIn again."
+        android:layout_centerHorizontal="true"
+        android:padding="20dp"
+        android:layout_above="@+id/googleSignIn"
+        android:gravity="center"
+        android:visibility="gone"/>
+
+    <com.shobhitpuri.custombuttons.GoogleSignInButton
+        android:id="@+id/googleSignIn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/privacyPolicy"
+        android:layout_centerHorizontal="true"
+        android:text="Sign in with Google"
+        app:isDarkTheme="true"
+        android:layout_marginBottom="8dp"/>
+
+    <TextView
+        android:id="@+id/privacyPolicy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="Privacy policy"
+        android:textSize="12sp"
+        android:layout_marginBottom="80dp" />
+
+</RelativeLayout>
