@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">Lead Manager</string>
+
+    <string-array name="day_array">
+        <item>Today</item>
+        <item>Overall</item>
+    </string-array>
+
+
+    <string-array name="status">
+        <item>New Lead</item>
+        <item>Interested</item>
+        <item>Unanswered</item>
+        <item>Busy</item>
+        <item>Not Interested</item>
+        <item>Converted</item>
+    </string-array>
+
+    <string-array name="lead_source">
+        <item>Friend</item>
+        <item>Social Media</item>
+        <item>Direct Marketing</item>
+        <item>Referral</item>
+    </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
