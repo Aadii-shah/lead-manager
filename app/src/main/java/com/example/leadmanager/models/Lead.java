@@ -2,7 +2,7 @@ package com.example.leadmanager.models;
 
 public class Lead {
     String status, source, description;
-    Contact contact;
+
 
     public String getStatus() {
         return status;
@@ -28,11 +28,5 @@ public class Lead {
         this.description = description;
     }
 
-    public Contact getContact() {
-        return contact;
-    }
 
-    public void setContact(Contact contact) {
-        this.contact = contact;
-    }
 }
