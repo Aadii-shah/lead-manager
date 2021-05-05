@@ -168,13 +168,29 @@
 
 
 
+                    <TextView
+                        android:id="@+id/newLeadText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Add new lead"
+                        android:drawableStart="@drawable/ic_add_circle_outline_24px"
+                        android:drawablePadding="4dp"
+                        android:gravity="center"
+                        android:layout_marginTop="16dp"/>
                 </LinearLayout>
+                <!--New Lead Layout starts here-->
+                <LinearLayout
+                    android:id="@+id/newLeadLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_below="@+id/number"
+                    android:visibility="gone">
 
                 <LinearLayout
                     android:id="@+id/spinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/number"
                     android:orientation="horizontal">
 
                     <!--Linear layout for holding status nad lead source starts here-->
@@ -277,10 +293,15 @@
 
                 </LinearLayout>
 
+                </LinearLayout>
+
+
                 <Button
+                    android:id="@+id/doneButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
+                    android:layout_below="@id/newLeadLayout"
+                    android:layout_marginTop="8dp"
                     android:text="Done"/>
 
             </RelativeLayout>
