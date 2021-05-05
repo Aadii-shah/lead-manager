@@ -297,7 +297,11 @@
 
 
                 <Button
+<<<<<<< HEAD
                     android:id="@+id/doneButton"
+=======
+                    android:id="@+id/submitButton"
+>>>>>>> 6eef1b7b6cc75bd4ec5d00e03b831d9df891583a
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/newLeadLayout"

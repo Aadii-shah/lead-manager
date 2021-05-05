@@ -137,7 +137,8 @@ public class ContactFragment extends Fragment {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Toast.makeText(getContext(), "Contact Imported", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getContext(), NewLeadActivity.class);
+                        startActivity(intent);
                     }
                 });
         return view;
