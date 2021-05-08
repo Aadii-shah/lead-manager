@@ -137,7 +137,7 @@ public class ContactFragment extends Fragment {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent intent = new Intent(getContext(), FollowupActivity.class);
+                        Intent intent = new Intent(getContext(), DealsActivity.class);
                         startActivity(intent);
                     }
                 });
