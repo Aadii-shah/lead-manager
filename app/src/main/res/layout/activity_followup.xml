@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#1A1414BC"
+    tools:context=".FollowupActivity">
+
+    <RelativeLayout
+        android:id="@+id/toolBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp">
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_back_arrow" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Followup Task"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_centerInParent="true"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolBar"
+        android:background="@drawable/custom_card_view">
+
+
+        <!--cardView to show assign task or followups starts here-->
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/task"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            app:cardCornerRadius="5dp"
+            app:cardElevation="10dp">
+
+                <!--Relative Layout for holding checkBox and design relative starts here-->
+
+                <RelativeLayout
+                    android:id="@+id/relativeFirst"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <androidx.appcompat.widget.AppCompatCheckBox
+                        android:id="@+id/checkBox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@+id/checkBox">
+
+
+                        <!--Relative layout for holding task and menu option starts here-->
+
+                        <RelativeLayout
+                            android:id="@+id/assignTask"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Design Android Layout"
+                                android:textSize="20sp"
+                                android:textColor="@color/black"
+                                android:maxLines="1"/>
+
+                        </RelativeLayout>
+
+                        <!--Relative layout for holding task and menu option ends here-->
+
+                        <!--TextView of task doer name starts here-->
+
+                        <TextView
+                            android:id="@+id/doer"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/assignTask"
+                            android:text="Aaditya Shah"
+                            android:maxLines="1"/>
+
+                        <!--TextView of task doer name ends here-->
+
+
+                        <!--TextView for initial time starts here-->
+
+
+                        <TextView
+                            android:id="@+id/initialTime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/doer"
+                            android:text="May 4 12:00 PM"
+                            app:drawableStartCompat="@drawable/ic_clock"
+                            android:drawablePadding="10dp" />
+
+                        <!--TextView for initial time ends here-->
+
+                        <TextView
+                            android:id="@+id/dash"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="2dp"
+                            android:layout_marginEnd="2dp"
+                            android:layout_below="@+id/doer"
+                            android:layout_toRightOf="@id/initialTime"
+                            android:text="-"/>
+
+                        <!--TextView for starts duration starts here-->
+
+                        <!--TextView for final time starts here-->
+
+
+                        <TextView
+                            android:id="@+id/finalTime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@id/dash"
+                            android:layout_below="@+id/doer"
+                            android:text="May 7 10:00 PM"/>
+
+                        <!--TextView for final time ends here-->
+
+
+                    </RelativeLayout>
+
+
+
+
+
+
+                <!--Relative Layout for holding checkBox and design relative ends here-->
+
+
+
+
+
+
+
+
+
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <!--cardView to show assign task or followups starts here-->
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/addFab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/ic_add"
+            app:fabSize="normal"
+            app:tint="@color/blue"
+            app:backgroundTint="@color/white"
+            />
+
+    </RelativeLayout>
+
+
+</RelativeLayout>
