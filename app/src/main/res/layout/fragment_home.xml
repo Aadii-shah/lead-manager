@@ -297,6 +297,7 @@
         android:background="#bdbdbd"/>
 
     <LinearLayout
+        android:id="@+id/directGO"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/view"
@@ -344,7 +345,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginStart="10dp"
                     android:layout_toEndOf="@id/notInterestedDrawable"
-                    android:text="New Lead"
+                    android:text="New Leads"
                     android:textSize="20sp" />
 
 
@@ -600,5 +601,4 @@
 
 
     <!--Linear layout for pipeline ends here-->
-
 </RelativeLayout>

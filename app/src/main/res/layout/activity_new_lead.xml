@@ -156,7 +156,19 @@
                 <!--Edit Layout for email starts here-->
 
             </LinearLayout>
+
             <!--Linear layout for description ends here-->
+
+            <TextView
+                android:id="@+id/contactInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:textColor="@color/blue"
+                android:drawablePadding="4dp"
+                android:gravity="center"
+                android:text="Contact info"
+                android:layout_below="@+id/description"/>
 
             <!--Layout for name starts here-->
             <LinearLayout
@@ -165,7 +177,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:orientation="vertical"
-                android:layout_below="@id/description">
+                android:layout_below="@id/contactInfo">
                 <!--Edit Layout for Name starts here-->
                 <TextView
                     android:layout_width="wrap_content"
@@ -173,6 +185,17 @@
                     android:text="Name"
                     android:textSize="18sp" />
 
+                    <AutoCompleteTextView
+                        android:id="@+id/supplierName"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_marginTop="5dp"
+                        android:dropDownHeight="200dp"
+                        android:hint="Enter Name"
+                        android:maxLines="1"
+                        android:paddingStart="10dp"
+                        android:singleLine="true"
+                        android:background="@drawable/edit_background"/>
 
                 <EditText
                     android:id="@+id/editName"
@@ -183,7 +206,8 @@
                     android:hint="Enter Name"
                     android:maxLines="1"
                     android:paddingStart="10dp"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:visibility="gone"/>
                 <!--Edit Layout for Name ends here-->
 
             </LinearLayout>

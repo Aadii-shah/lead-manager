@@ -8,184 +8,183 @@
     tools:context=".AddNewContactActivity">
 
 
+    <ImageView
+        android:id="@+id/back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:src="@drawable/ic_back_arrow" />
 
-        <ImageView
-            android:id="@+id/back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:src="@drawable/ic_back_arrow" />
+    <TextView
+        android:id="@+id/addContacts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/back"
+        android:layout_marginStart="20dp"
+        android:text="Add Contacts"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/addContacts"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/back"
-            android:layout_marginStart="20dp"
-            android:text="Add Contacts"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+    <TextView
+        android:id="@+id/Information"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/addContacts"
+        android:layout_marginStart="20dp"
+        android:text="Please Fill In The Following Information" />
 
-        <TextView
-            android:id="@+id/Information"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/addContacts"
-            android:layout_marginStart="20dp"
-            android:text="Please Fill In The Following Information" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/Information"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/custom_card_view">
+
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/Information"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/custom_card_view">
+            android:layout_margin="10dp">
 
-
-            <RelativeLayout
+            <LinearLayout
+                android:id="@+id/name"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="10dp">
-
-                <LinearLayout
-                    android:id="@+id/name"
-                    android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <!--Edit Layout for Name starts here-->
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
-                    <!--Edit Layout for Name starts here-->
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Name"
-                        android:textSize="18sp" />
+                    android:text="Name"
+                    android:textSize="18sp" />
 
 
-                    <EditText
-                        android:id="@+id/editName"
-                        android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:layout_marginTop="5dp"
-                        android:background="@drawable/edit_background"
-                        android:hint="Enter Name"
-                        android:maxLines="1"
-                        android:paddingStart="10dp"
-                        android:singleLine="true" />
-                    <!--Edit Layout for Name ends here-->
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/address"
+                <EditText
+                    android:id="@+id/editName"
                     android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/edit_background"
+                    android:hint="Enter Name"
+                    android:maxLines="1"
+                    android:paddingStart="10dp"
+                    android:singleLine="true" />
+                <!--Edit Layout for Name ends here-->
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/name"
+                android:orientation="vertical">
+
+                <!--Edit Layout for Address starts here-->
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_below="@id/name">
-
-                    <!--Edit Layout for Address starts here-->
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp"
-                        android:text="Address"
-                        android:textSize="18sp" />
+                    android:layout_marginTop="15dp"
+                    android:text="Address"
+                    android:textSize="18sp" />
 
 
-                    <EditText
-                        android:id="@+id/editAddress"
-                        android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:layout_marginTop="5dp"
-                        android:background="@drawable/edit_background"
-                        android:hint="Enter Address"
-                        android:maxLines="1"
-                        android:paddingStart="10dp"
-                        android:singleLine="true" />
-                    <!--Edit Layout for Address starts here-->
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/email"
+                <EditText
+                    android:id="@+id/editAddress"
                     android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/edit_background"
+                    android:hint="Enter Address"
+                    android:maxLines="1"
+                    android:paddingStart="10dp"
+                    android:singleLine="true" />
+                <!--Edit Layout for Address starts here-->
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/address"
+                android:orientation="vertical">
+
+                <!--Edit Layout for Email starts here-->
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_below="@+id/address">
-
-                    <!--Edit Layout for Email starts here-->
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp"
-                        android:text="Email"
-                        android:textSize="18sp" />
+                    android:layout_marginTop="15dp"
+                    android:text="Email"
+                    android:textSize="18sp" />
 
 
-                    <EditText
-                        android:id="@+id/editEmail"
-                        android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:layout_marginTop="5dp"
-                        android:background="@drawable/edit_background"
-                        android:hint="Enter Email(optional)"
-                        android:inputType="textEmailAddress"
-                        android:maxLines="1"
-                        android:paddingStart="10dp"
-                        android:singleLine="true" />
-                    <!--Edit Layout for email starts here-->
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/number"
+                <EditText
+                    android:id="@+id/editEmail"
                     android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/edit_background"
+                    android:hint="Enter Email(optional)"
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1"
+                    android:paddingStart="10dp"
+                    android:singleLine="true" />
+                <!--Edit Layout for email starts here-->
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/email"
+                android:orientation="vertical">
+
+
+                <!--Edit Layout for Number starts here-->
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/email"
-                    android:orientation="vertical">
+                    android:layout_marginTop="15dp"
+                    android:text="Number"
+                    android:textSize="18sp" />
 
 
-                    <!--Edit Layout for Number starts here-->
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp"
-                        android:text="Number"
-                        android:textSize="18sp" />
-
-
-                    <EditText
-                        android:id="@+id/editNumber"
-                        android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:layout_marginTop="5dp"
-                        android:background="@drawable/edit_background"
-                        android:hint="Enter Mobile Number"
-                        android:inputType="number"
-                        android:maxLines="1"
-                        android:paddingStart="10dp"
-                        android:singleLine="true" />
-                    <!--Edit Layout for Number ends here-->
-
-
-
-                    <TextView
-                        android:id="@+id/newLeadText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Add new lead"
-                        android:drawableStart="@drawable/ic_add_circle_outline_24px"
-                        android:drawablePadding="4dp"
-                        android:gravity="center"
-                        android:layout_marginTop="16dp"/>
-                </LinearLayout>
-                <!--New Lead Layout starts here-->
-                <LinearLayout
-                    android:id="@+id/newLeadLayout"
+                <EditText
+                    android:id="@+id/editNumber"
                     android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/edit_background"
+                    android:hint="Enter Mobile Number"
+                    android:inputType="number"
+                    android:maxLines="1"
+                    android:paddingStart="10dp"
+                    android:singleLine="true" />
+                <!--Edit Layout for Number ends here-->
+
+
+                <TextView
+                    android:id="@+id/newLeadText"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_below="@+id/number"
-                    android:visibility="gone">
+                    android:layout_marginTop="16dp"
+                    android:drawableStart="@drawable/ic_add_circle_outline_24px"
+                    android:drawablePadding="4dp"
+                    android:gravity="center"
+                    android:text="Add new lead" />
+
+            </LinearLayout>
+            <!--New Lead Layout starts here-->
+            <LinearLayout
+                android:id="@+id/newLeadLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/number"
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <LinearLayout
                     android:id="@+id/spinner"
@@ -293,23 +292,23 @@
 
                 </LinearLayout>
 
-                </LinearLayout>
+            </LinearLayout>
 
 
-                <Button
-                    android:id="@+id/doneButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/newLeadLayout"
-                    android:layout_marginTop="8dp"
-                    android:text="Done"/>
-
-            </RelativeLayout>
-
+            <Button
+                android:id="@+id/doneButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/newLeadLayout"
+                android:layout_marginTop="8dp"
+                android:text="Done" />
 
         </RelativeLayout>
 
+
     </RelativeLayout>
+
+</RelativeLayout>
 
 
 
