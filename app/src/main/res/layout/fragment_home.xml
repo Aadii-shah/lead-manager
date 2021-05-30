@@ -307,6 +307,7 @@
         <!--cardView holding relative layout with Not Interested starts here-->
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/newLead"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_margin="5dp"
@@ -378,6 +379,7 @@
         <!--cardView holding relative layout with Today's meeting starts here-->
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/todayMeeting"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_margin="5dp"
@@ -449,6 +451,7 @@
         <!--cardView holding relative layout with Unanswered starts here-->
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/unAnswered"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_margin="5dp"
@@ -521,6 +524,7 @@
         <!--cardView holding relative layout with Busy starts here-->
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/busy"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_margin="5dp"
