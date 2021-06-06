@@ -2,7 +2,15 @@ package com.example.leadmanager.models;
 
 public class Lead {
     String status, source, description;
+    private Long date;
 
+    public Long getDate() {
+        return date;
+    }
+
+    public void setDate(Long date) {
+        this.date = date;
+    }
 
     public String getStatus() {
         return status;

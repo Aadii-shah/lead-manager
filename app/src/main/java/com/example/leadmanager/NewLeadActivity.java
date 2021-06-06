@@ -104,6 +104,7 @@ public class NewLeadActivity extends AppCompatActivity {
                 else {
                     Toast.makeText(NewLeadActivity.this, "Please fill the form", Toast.LENGTH_SHORT).show();
                 }
+                finish();
             }
         });
     }
