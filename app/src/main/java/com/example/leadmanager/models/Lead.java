@@ -2,15 +2,52 @@ package com.example.leadmanager.models;
 
 public class Lead {
     String status, source, description;
-    private Long date;
 
-    public Long getDate() {
-        return date;
+    public long getCreationDate() {
+        return creationDate;
     }
 
-    public void setDate(Long date) {
-        this.date = date;
+    public void setCreationDate(long creationDate) {
+        this.creationDate = creationDate;
     }
+
+    public long getLatestFollowup() {
+        return latestFollowup;
+    }
+
+    public void setLatestFollowup(long latestFollowup) {
+        this.latestFollowup = latestFollowup;
+    }
+
+    public String[] getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String[] notes) {
+        this.notes = notes;
+    }
+
+    public String[] getDeals() {
+        return deals;
+    }
+
+    public void setDeals(String[] deals) {
+        this.deals = deals;
+    }
+
+    public String[] getHistory() {
+        return history;
+    }
+
+    public void setHistory(String[] history) {
+        this.history = history;
+    }
+
+    private long creationDate;
+    private long latestFollowup;
+    private String[] notes;
+    private String[] deals;
+    private String[] history;
 
     public String getStatus() {
         return status;

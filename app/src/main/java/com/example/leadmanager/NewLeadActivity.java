@@ -37,8 +37,10 @@ import com.google.gson.JsonElement;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
+import java.util.TimeZone;
 
 import static android.view.View.GONE;
 
@@ -104,7 +106,6 @@ public class NewLeadActivity extends AppCompatActivity {
                 else {
                     Toast.makeText(NewLeadActivity.this, "Please fill the form", Toast.LENGTH_SHORT).show();
                 }
-                finish();
             }
         });
     }
@@ -216,20 +217,21 @@ public class NewLeadActivity extends AppCompatActivity {
 
     public void addNewLead(Contact contact) {
 
+        progress.setMessage("adding new lead");
+        progress.setCancelable(false); // disable dismiss by tapping outside of the dialog
+        progress.show();
+
 
         contact.setName(contactName.getText().toString());
         contact.setAddress(editAddress.getText().toString());
         contact.setPhone(editNumber.getText().toString());
         contact.setEmail(editEmail.getText().toString());
 
-        progress.setMessage("adding new lead");
-        progress.setCancelable(false); // disable dismiss by tapping outside of the dialog
-        progress.show();
-
         Lead lead = new Lead();
         lead.setStatus(spinnerStatus.getSelectedItem().toString());
         lead.setSource(spinnerSource.getSelectedItem().toString());
         lead.setDescription(editDescription.getText().toString());
+        lead.setCreationDate(getCurrentTime());
 
         if (contactList.contains(contact)) {
             db.collection("cache").document(user.getUid()).collection("contacts").document(contact.getUid())
@@ -237,12 +239,14 @@ public class NewLeadActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(DocumentReference documentReference) {
                     progress.dismiss();
+                    finish();
 
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
                     progress.dismiss();
+                    finish();
 
                 }
             });
@@ -260,17 +264,20 @@ public class NewLeadActivity extends AppCompatActivity {
                     lead.setStatus(spinnerStatus.getSelectedItem().toString());
                     lead.setSource(spinnerSource.getSelectedItem().toString());
                     lead.setDescription(editDescription.getText().toString());
+                    lead.setCreationDate(getCurrentTime());
                     db.collection("cache").document(user.getUid()).collection("contacts")
                             .document(documentReference.getId()).collection("leads").add(lead).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                         @Override
                         public void onSuccess(DocumentReference documentReference) {
                             progress.dismiss();
+                            finish();
 
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             progress.dismiss();
+                            finish();
 
                         }
                     });
@@ -289,5 +296,13 @@ public class NewLeadActivity extends AppCompatActivity {
             });
 
         }
+    }
+
+    private Long getCurrentTime() {
+        Calendar c = Calendar.getInstance();
+        c.setTimeZone(TimeZone.getDefault());
+        //Log.v("dipak", TimeZone.getDefault() + "");
+        Log.v("dipak", "" + c.getTimeInMillis());
+        return c.getTimeInMillis() / 1000;
     }
 }
