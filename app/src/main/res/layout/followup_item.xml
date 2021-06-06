@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="5dp"
     android:layout_marginBottom="8dp"
     android:layout_marginStart="8dp"
@@ -13,29 +13,50 @@
         android:layout_height="wrap_content"
         android:padding="12dp">
 
-        <!--TextView for name starts here-->
-
         <TextView
-            android:id="@+id/contactName"
+            android:id="@+id/leadInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
-            android:text="Aaditya Shah"
-            android:textColor="@color/black" />
-
-
-        <TextView
-            android:id="@+id/contactAddress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/contactName"
             android:layout_marginStart="5dp"
             android:layout_marginTop="5dp"
-            android:drawablePadding="5dp"
-            android:text="Simara Bara, Nepal"
-            android:textSize="12sp"
-            app:drawableStartCompat="@drawable/ic_address" />
+            android:layout_marginEnd="5dp"
+            android:text="Sale of Panasonic tv"
+            android:textColor="@color/black"
+            android:textSize="22sp"
+            android:maxLines="1"/>
+
+        <!--TextView for name starts here-->
+
+        <LinearLayout
+            android:id="@+id/contactDetails"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@+id/leadInfo"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/contactName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
+                android:text="Aaditya Shah"
+                android:textColor="#575454" />
+
+
+            <TextView
+                android:id="@+id/contactAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:drawablePadding="5dp"
+                android:text="Simara Bara, Nepal"
+                android:textSize="12sp"
+                app:drawableStartCompat="@drawable/ic_location" />
+        </LinearLayout>
 
         <!--TextView for next address ends here-->
 
@@ -47,21 +68,22 @@
             android:id="@+id/contact"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/contactAddress"
-            android:orientation="horizontal">
+            android:layout_below="@id/contactDetails"
+            android:orientation="horizontal"
+            android:visibility="visible">
 
             <TextView
-                android:id="@+id/phone"
+                android:id="@+id/creationDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/contact"
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="5dp"
-                android:drawableStart="@drawable/ic_phone"
+                android:layout_marginEnd="5dp"
                 android:drawablePadding="5dp"
-                android:gravity="center"
-                android:includeFontPadding="false"
-                android:text="98000000"
-                android:textSize="12sp" />
+                android:text="May 4 12:00 PM"
+                android:textSize="14sp"
+                app:drawableStartCompat="@drawable/ic_meeting" />
 
             <!--TextView for next address ends here-->
 
@@ -69,18 +91,18 @@
             <!--TextView for next followups starts here-->
 
             <TextView
-                android:id="@+id/email"
+                android:id="@+id/note"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="14dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="5dp"
-                android:drawableStart="@drawable/ic_email"
+                android:drawableStart="@drawable/ic_post_it"
                 android:drawablePadding="5dp"
                 android:gravity="center"
                 android:includeFontPadding="false"
                 android:maxLines="1"
-                android:text="aaperboats@papbo.com" />
+                android:text="NA" />
 
         </LinearLayout>
 
@@ -88,19 +110,7 @@
 
 
         <!--TextView for notes starts here-->
-        <TextView
-            android:id="@+id/taskSchedule"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/contact"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="5dp"
-            android:drawablePadding="5dp"
-            android:text="May 4 12:00 PM"
-            android:textSize="12sp"
-            app:drawableStartCompat="@drawable/ic_timestamp"
-            android:visibility="gone"/>
+
 
     </RelativeLayout>
 

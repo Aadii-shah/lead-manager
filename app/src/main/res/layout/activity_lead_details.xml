@@ -12,28 +12,71 @@
         android:id="@+id/back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginStart="20dp"
         android:src="@drawable/ic_back_arrow" />
 
-
-    <androidx.cardview.widget.CardView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_margin="10dp"
-        android:layout_weight="1"
-        app:cardCornerRadius="5dp">
+        android:layout_height="match_parent"
+        android:layout_below="@+id/back"
+        android:background="@drawable/custom_card_view">
+
+        <!--Relative for holding contact information starts here-->
+
+
+
+        <!--Relative layout for holding contact Image and Name starts here-->
 
         <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:id="@+id/relativeContactImage"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/custom_circle">
 
-            <!--Relative image for Holding image in center with background starts here-->
+            <TextView
+                android:id="@+id/contactImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="A"
+                android:textSize="50sp"
+                android:textStyle="bold"/>
+
+        </RelativeLayout>
+
+        <!--Relative layout for holding contact Image and Name ends here-->
+
+        <TextView
+            android:id="@+id/contactName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/relativeContactImage"
+            android:text="Aaditya Shah"
+            android:textStyle="bold"
+            android:textColor="@color/darkGrey"
+            android:textSize="20sp"/>
+
+
+        <!--Linear layout for holding contact means/mode starts here-->
+
+        <LinearLayout
+            android:id="@+id/contactMode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:orientation="horizontal"
+            android:layout_below="@id/contactName">
 
             <RelativeLayout
-                android:id="@+id/statusDrawable"
-                android:layout_width="60dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="60dp"
-                android:layout_centerVertical="true"
                 android:layout_marginStart="10dp"
                 android:background="@drawable/drawable">
 
@@ -41,76 +84,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/ic_lead" />
+                    android:src="@drawable/ic_phone_call" />
 
             </RelativeLayout>
 
-            <!--Relative image for Holding image in center with background ends here-->
-
-
             <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_centerVertical="true"
-                android:layout_toEndOf="@id/statusDrawable">
-
-                <TextView
-                    android:id="@+id/status"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="center_vertical"
-                    android:layout_marginStart="10dp"
-                    android:text="Status"
-                    android:textColor="@color/black"
-                    android:textSize="20sp" />
-
-
-                <TextView
-                    android:id="@+id/tvStatus"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/status"
-                    android:layout_marginStart="10dp"
-                    android:text="New Lead" />
-
-            </RelativeLayout>
-
-
-
-            <ImageView
-                android:id="@+id/rightArrow4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="10dp"
-                android:src="@drawable/ic_right_arrow" />
-
-
-        </RelativeLayout>
-
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_margin="10dp"
-        android:layout_weight="1"
-        app:cardCornerRadius="5dp">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <!--Relative image for Holding image in center with background starts here-->
-
-            <RelativeLayout
-                android:id="@+id/followupDrawable"
-                android:layout_width="60dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="60dp"
-                android:layout_centerVertical="true"
                 android:layout_marginStart="10dp"
                 android:background="@drawable/drawable">
 
@@ -118,76 +99,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/ic_followups" />
+                    android:src="@drawable/ic_sms" />
 
             </RelativeLayout>
 
-            <!--Relative image for Holding image in center with background ends here-->
-
-
             <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_centerVertical="true"
-                android:layout_toEndOf="@id/followupDrawable">
-
-                <TextView
-                    android:id="@+id/followup"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="center_vertical"
-                    android:layout_marginStart="10dp"
-                    android:text="Followup"
-                    android:textColor="@color/black"
-                    android:textSize="20sp" />
-
-
-                <TextView
-                    android:id="@+id/tvFollowup"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/followup"
-                    android:layout_marginStart="10dp"
-                    android:text="no followup added" />
-
-            </RelativeLayout>
-
-
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="10dp"
-                android:src="@drawable/ic_right_arrow" />
-
-
-        </RelativeLayout>
-
-
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_margin="10dp"
-        android:layout_weight="1"
-        app:cardCornerRadius="5dp">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <!--Relative image for Holding image in center with background starts here-->
-
-            <RelativeLayout
-                android:id="@+id/dealsDrawable"
-                android:layout_width="60dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="60dp"
-                android:layout_centerVertical="true"
                 android:layout_marginStart="10dp"
                 android:background="@drawable/drawable">
 
@@ -195,76 +114,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/ic_deal" />
+                    android:src="@drawable/ic_whatsapp" />
 
             </RelativeLayout>
 
-            <!--Relative image for Holding image in center with background ends here-->
-
-
             <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_centerVertical="true"
-                android:layout_toEndOf="@id/dealsDrawable">
-
-                <TextView
-                    android:id="@+id/deals"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="center_vertical"
-                    android:layout_marginStart="10dp"
-                    android:text="Deals"
-                    android:textColor="@color/black"
-                    android:textSize="20sp" />
-
-
-                <TextView
-                    android:id="@+id/tvDeals"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/deals"
-                    android:layout_marginStart="10dp"
-                    android:text="no deals yet" />
-
-            </RelativeLayout>
-
-
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="10dp"
-                android:src="@drawable/ic_right_arrow" />
-
-
-        </RelativeLayout>
-
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_margin="10dp"
-        android:layout_weight="1"
-        app:cardCornerRadius="5dp">
-
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <!--Relative image for Holding image in center with background starts here-->
-
-            <RelativeLayout
-                android:id="@+id/notesDrawable"
-                android:layout_width="60dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="60dp"
-                android:layout_centerVertical="true"
                 android:layout_marginStart="10dp"
                 android:background="@drawable/drawable">
 
@@ -272,131 +129,421 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/ic_add_notes" />
-
-            </RelativeLayout>
-
-            <!--Relative image for Holding image in center with background ends here-->
-
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_centerVertical="true"
-                android:layout_toEndOf="@id/notesDrawable">
-
-                <TextView
-                    android:id="@+id/notes"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="center_vertical"
-                    android:layout_marginStart="10dp"
-                    android:text="Notes"
-                    android:textColor="@color/black"
-                    android:textSize="20sp" />
-
-
-                <TextView
-                    android:id="@+id/tvNotes"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/notes"
-                    android:layout_marginStart="10dp"
-                    android:text="no notes yet" />
+                    android:src="@drawable/ic_email" />
 
             </RelativeLayout>
 
 
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="10dp"
-                android:src="@drawable/ic_right_arrow" />
+        </LinearLayout>
+
+        <!--Linear layout for holding contact means/mode ends here-->
 
 
-        </RelativeLayout>
 
-    </androidx.cardview.widget.CardView>
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_margin="10dp"
-        android:layout_weight="1"
-        app:cardCornerRadius="5dp">
+        <!--Linear layout to show dashboard starts here -->
 
-        <RelativeLayout
+
+
+        <!--Linear layout to show dashboard ends here -->
+
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_below="@+id/contactMode">
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                app:cardCornerRadius="5dp">
 
-            <!--Relative image for Holding image in center with background starts here-->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-            <RelativeLayout
-                android:id="@+id/historyDrawable"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="10dp"
-                android:background="@drawable/drawable">
+                    <!--Relative image for Holding image in center with background starts here-->
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/ic_history" />
+                    <RelativeLayout
+                        android:id="@+id/statusDrawable"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="10dp"
+                        android:background="@drawable/drawable">
 
-            </RelativeLayout>
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:src="@drawable/ic_lead" />
 
-            <!--Relative image for Holding image in center with background ends here-->
+                    </RelativeLayout>
 
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_centerVertical="true"
-                android:layout_toEndOf="@id/historyDrawable">
-
-                <TextView
-                    android:id="@+id/history"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="center_vertical"
-                    android:layout_marginStart="10dp"
-                    android:text="History"
-                    android:textColor="@color/black"
-                    android:textSize="20sp" />
+                    <!--Relative image for Holding image in center with background ends here-->
 
 
-                <TextView
-                    android:id="@+id/tvHistory"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/history"
-                    android:layout_marginStart="10dp"
-                    android:text="Tap to see history" />
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@id/statusDrawable">
 
-            </RelativeLayout>
-
-
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="10dp"
-                android:src="@drawable/ic_right_arrow" />
+                        <TextView
+                            android:id="@+id/status"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="center_vertical"
+                            android:layout_marginStart="10dp"
+                            android:text="Status"
+                            android:textColor="@color/black"
+                            android:textSize="20sp" />
 
 
-        </RelativeLayout>
+                        <TextView
+                            android:id="@+id/tvStatus"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/status"
+                            android:layout_marginStart="10dp"
+                            android:text="New Lead" />
 
-    </androidx.cardview.widget.CardView>
+                    </RelativeLayout>
+
+
+
+                    <ImageView
+                        android:id="@+id/rightArrow4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="10dp"
+                        android:src="@drawable/ic_right_arrow" />
+
+
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                app:cardCornerRadius="5dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <!--Relative image for Holding image in center with background starts here-->
+
+                    <RelativeLayout
+                        android:id="@+id/followupDrawable"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="10dp"
+                        android:background="@drawable/drawable">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:src="@drawable/ic_followups" />
+
+                    </RelativeLayout>
+
+                    <!--Relative image for Holding image in center with background ends here-->
+
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@id/followupDrawable">
+
+                        <TextView
+                            android:id="@+id/followup"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="center_vertical"
+                            android:layout_marginStart="10dp"
+                            android:text="Followup"
+                            android:textColor="@color/black"
+                            android:textSize="20sp" />
+
+
+                        <TextView
+                            android:id="@+id/tvFollowup"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/followup"
+                            android:layout_marginStart="10dp"
+                            android:text="no followup added" />
+
+                    </RelativeLayout>
+
+
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="10dp"
+                        android:src="@drawable/ic_right_arrow" />
+
+
+                </RelativeLayout>
+
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                app:cardCornerRadius="5dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <!--Relative image for Holding image in center with background starts here-->
+
+                    <RelativeLayout
+                        android:id="@+id/dealsDrawable"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="10dp"
+                        android:background="@drawable/drawable">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:src="@drawable/ic_deal" />
+
+                    </RelativeLayout>
+
+                    <!--Relative image for Holding image in center with background ends here-->
+
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@id/dealsDrawable">
+
+                        <TextView
+                            android:id="@+id/deals"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="center_vertical"
+                            android:layout_marginStart="10dp"
+                            android:text="Deals"
+                            android:textColor="@color/black"
+                            android:textSize="20sp" />
+
+
+                        <TextView
+                            android:id="@+id/tvDeals"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/deals"
+                            android:layout_marginStart="10dp"
+                            android:text="no deals yet" />
+
+                    </RelativeLayout>
+
+
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="10dp"
+                        android:src="@drawable/ic_right_arrow" />
+
+
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                app:cardCornerRadius="5dp">
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <!--Relative image for Holding image in center with background starts here-->
+
+                    <RelativeLayout
+                        android:id="@+id/notesDrawable"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="10dp"
+                        android:background="@drawable/drawable">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:src="@drawable/ic_add_notes" />
+
+                    </RelativeLayout>
+
+                    <!--Relative image for Holding image in center with background ends here-->
+
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@id/notesDrawable">
+
+                        <TextView
+                            android:id="@+id/notes"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="center_vertical"
+                            android:layout_marginStart="10dp"
+                            android:text="Notes"
+                            android:textColor="@color/black"
+                            android:textSize="20sp" />
+
+
+                        <TextView
+                            android:id="@+id/tvNotes"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/notes"
+                            android:layout_marginStart="10dp"
+                            android:text="no notes yet" />
+
+                    </RelativeLayout>
+
+
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="10dp"
+                        android:src="@drawable/ic_right_arrow" />
+
+
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                app:cardCornerRadius="5dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <!--Relative image for Holding image in center with background starts here-->
+
+                    <RelativeLayout
+                        android:id="@+id/historyDrawable"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="10dp"
+                        android:background="@drawable/drawable">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:src="@drawable/ic_history" />
+
+                    </RelativeLayout>
+
+                    <!--Relative image for Holding image in center with background ends here-->
+
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@id/historyDrawable">
+
+                        <TextView
+                            android:id="@+id/history"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="center_vertical"
+                            android:layout_marginStart="10dp"
+                            android:text="History"
+                            android:textColor="@color/black"
+                            android:textSize="20sp" />
+
+
+                        <TextView
+                            android:id="@+id/tvHistory"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/history"
+                            android:layout_marginStart="10dp"
+                            android:text="Tap to see history" />
+
+                    </RelativeLayout>
+
+
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="10dp"
+                        android:src="@drawable/ic_right_arrow" />
+
+
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+
+
+
+
+    </RelativeLayout>
+
+
+
 
 </LinearLayout>

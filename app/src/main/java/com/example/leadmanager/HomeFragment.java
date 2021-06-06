@@ -17,7 +17,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class HomeFragment extends Fragment {
 
-    private CardView newLead, todayMeeting, unAnswered, busy;
+    private CardView newLead, todayMeeting, unAnswered, busy, allLead, converted, notInterested, interested;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -43,12 +43,89 @@ public class HomeFragment extends Fragment {
         todayMeeting = view.findViewById(R.id.todayMeeting);
         unAnswered = view.findViewById(R.id.unAnswered);
         busy = view.findViewById(R.id.busy);
+        allLead = view.findViewById(R.id.allLead);
+        converted = view.findViewById(R.id.converted);
+        notInterested = view.findViewById(R.id.notInterested);
+        interested = view.findViewById(R.id.interested);
         // spinner.setOnItemSelectedListener(this);
 
         newLead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), ListActivity.class);
+                intent.putExtra("category", "new_lead");
+                startActivity(intent);
+            }
+        });
+
+        todayMeeting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), ListActivity.class);
+                intent.putExtra("category", "today_meetings");
+                startActivity(intent);
+            }
+        });
+
+        unAnswered.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), ListActivity.class);
+                intent.putExtra("category", "unanswered");
+                startActivity(intent);
+            }
+        });
+
+        busy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), ListActivity.class);
+                intent.putExtra("category", "busy");
+                startActivity(intent);
+            }
+        });
+
+        newLead.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), ListActivity.class);
+                intent.putExtra("category", "new_lead");
+                startActivity(intent);
+            }
+        });
+
+        allLead.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), ListActivity.class);
+                intent.putExtra("category", "all_leads");
+                startActivity(intent);
+            }
+        });
+
+        converted.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), ListActivity.class);
+                intent.putExtra("category", "converted");
+                startActivity(intent);
+            }
+        });
+
+        notInterested.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), ListActivity.class);
+                intent.putExtra("category", "not_interested");
+                startActivity(intent);
+            }
+        });
+
+        interested.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), ListActivity.class);
+                intent.putExtra("category", "interested");
                 startActivity(intent);
             }
         });

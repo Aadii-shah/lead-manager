@@ -1,7 +1,19 @@
 package com.example.leadmanager.models;
 
 public class Lead {
-    String status, source, description;
+    String status;
+    String source;
+    String description;
+
+    public String getContactUid() {
+        return contactUid;
+    }
+
+    public void setContactUid(String contactUid) {
+        this.contactUid = contactUid;
+    }
+
+    String contactUid;
 
     public long getCreationDate() {
         return creationDate;

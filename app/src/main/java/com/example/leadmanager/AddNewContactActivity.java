@@ -105,7 +105,7 @@ public class AddNewContactActivity extends AppCompatActivity {
                     contactDetails.setDetails(contact);
 
                     db.collection("cache").document(user.getUid()).collection("contacts")
-                            .add(contactDetails).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                            .add(contact).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                         @Override
                         public void onSuccess(DocumentReference documentReference) {
                             if(newLeadLayout.getVisibility() == View.VISIBLE) {
@@ -113,8 +113,10 @@ public class AddNewContactActivity extends AppCompatActivity {
                                 lead.setStatus(spinnerStatus.getSelectedItem().toString());
                                 lead.setSource(spinnerSource.getSelectedItem().toString());
                                 lead.setDescription(editDescription.getText().toString());
-                                db.collection("cache").document(user.getUid()).collection("contacts")
-                                        .document(documentReference.getId()).collection("leads").add(lead).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                lead.setContactUid(documentReference.getId());
+                                db.collection("cache").document(user.getUid()).collection("leads")
+                                        //.document(documentReference.getId()).collection("leads")
+                                        .add(lead).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                     @Override
                                     public void onSuccess(DocumentReference documentReference) {
                                         progress.dismiss();

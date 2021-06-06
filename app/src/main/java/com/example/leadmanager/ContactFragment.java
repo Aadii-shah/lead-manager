@@ -205,7 +205,7 @@ public class ContactFragment extends Fragment implements ContactsAdapter.Recycle
                 for (DocumentSnapshot document : task.getResult().getDocuments()) {
 
                     Gson gson = new Gson();
-                    JsonElement jsonElement = gson.toJsonTree(document.get("details"));
+                    JsonElement jsonElement = gson.toJsonTree(document.getData());
                     Contact contact = gson.fromJson(jsonElement, Contact.class);
                     contact.setUid(document.getId());
 

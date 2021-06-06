@@ -133,7 +133,7 @@ public class NewLeadActivity extends AppCompatActivity {
                 for (DocumentSnapshot document : task.getResult().getDocuments()) {
 
                     Gson gson = new Gson();
-                    JsonElement jsonElement = gson.toJsonTree(document.get("details"));
+                    JsonElement jsonElement = gson.toJsonTree(document.getData());
                     Contact contact = gson.fromJson(jsonElement, Contact.class);
                     contact.setUid(document.getId());
 
@@ -234,7 +234,9 @@ public class NewLeadActivity extends AppCompatActivity {
         lead.setCreationDate(getCurrentTime());
 
         if (contactList.contains(contact)) {
-            db.collection("cache").document(user.getUid()).collection("contacts").document(contact.getUid())
+            lead.setContactUid(contact.getUid());
+            db.collection("cache").document(user.getUid())
+                    //.collection("contacts").document(contact.getUid())
                     .collection("leads").add(lead).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                 @Override
                 public void onSuccess(DocumentReference documentReference) {
@@ -256,7 +258,7 @@ public class NewLeadActivity extends AppCompatActivity {
             contactDetails.setDetails(contact);
 
             db.collection("cache").document(user.getUid()).collection("contacts")
-                    .add(contactDetails).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    .add(contact).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                 @Override
                 public void onSuccess(DocumentReference documentReference) {
                     // if(newLeadLayout.getVisibility() == View.VISIBLE) {
@@ -265,8 +267,10 @@ public class NewLeadActivity extends AppCompatActivity {
                     lead.setSource(spinnerSource.getSelectedItem().toString());
                     lead.setDescription(editDescription.getText().toString());
                     lead.setCreationDate(getCurrentTime());
-                    db.collection("cache").document(user.getUid()).collection("contacts")
-                            .document(documentReference.getId()).collection("leads").add(lead).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    lead.setContactUid(documentReference.getId());
+                    db.collection("cache").document(user.getUid())
+                            //.collection("contacts").document(documentReference.getId())
+                            .collection("leads").add(lead).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                         @Override
                         public void onSuccess(DocumentReference documentReference) {
                             progress.dismiss();
