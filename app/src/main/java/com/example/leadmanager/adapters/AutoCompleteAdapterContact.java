@@ -21,13 +21,13 @@ import java.util.List;
 import static java.util.Collections.addAll;
 
 public class AutoCompleteAdapterContact extends ArrayAdapter<Contact> {
-    private List<Contact> allSuppliersList;
-    public List<Contact> filteredSuppliersList;
+    private List<Contact> allContactsList;
+    public List<Contact> filteredContactsList;
 
     public AutoCompleteAdapterContact(@NonNull Context context, @NonNull List<Contact> placesList) {
         super(context, 0, placesList);
 
-        allSuppliersList = new ArrayList<>(placesList);
+        allContactsList = new ArrayList<>(placesList);
     }
 
     @NonNull
@@ -45,13 +45,17 @@ public class AutoCompleteAdapterContact extends ArrayAdapter<Contact> {
             );
         }
 
-        TextView supplierName = convertView.findViewById(R.id.contactName);
-        TextView supplierPhone = convertView.findViewById(R.id.phone);
+        TextView contactName = convertView.findViewById(R.id.contactName);
+        TextView contactPhone = convertView.findViewById(R.id.phone);
+        TextView contactAddress = convertView.findViewById(R.id.contactAddress);
+        TextView contactEmail = convertView.findViewById(R.id.email);
 
-        Contact supplier = getItem(position);
-        if (supplier != null) {
-            supplierName.setText(supplier.getName());
-            supplierPhone.setText(supplier.getPhone());
+        Contact contact = getItem(position);
+        if (contact != null) {
+            contactName.setText(contact.getName());
+            contactPhone.setText(contact.getPhone());
+            contactAddress.setText(contact.getAddress());
+            contactEmail.setText(contact.getEmail());
         }
 
         return convertView;
@@ -62,22 +66,22 @@ public class AutoCompleteAdapterContact extends ArrayAdapter<Contact> {
         protected FilterResults performFiltering(CharSequence constraint) {
             FilterResults results = new FilterResults();
 
-            filteredSuppliersList = new ArrayList<>();
+            filteredContactsList = new ArrayList<>();
 
             if (constraint == null || constraint.length() == 0) {
-                filteredSuppliersList.addAll(allSuppliersList);
+                filteredContactsList.addAll(allContactsList);
             } else {
                 String filterPattern = constraint.toString().toLowerCase().trim();
-                for (Contact supplier: allSuppliersList) {
-                    Log.v("dipak", supplier.getName() + "");
-                    if (supplier.getName().toLowerCase().contains(filterPattern)) {
-                        filteredSuppliersList.add(supplier);
+                for (Contact contact: allContactsList) {
+                    Log.v("dipak", contact.getName() + "");
+                    if (contact.getName().toLowerCase().contains(filterPattern)) {
+                        filteredContactsList.add(contact);
                     }
                 }
             }
 
-            results.values = filteredSuppliersList;
-            results.count = filteredSuppliersList.size();
+            results.values = filteredContactsList;
+            results.count = filteredContactsList.size();
 
             return results;
         }

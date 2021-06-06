@@ -1,7 +1,9 @@
 package com.example.leadmanager;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -16,6 +18,10 @@ import android.widget.Spinner;
 
 import com.example.leadmanager.adapters.AutoCompleteAdapterContact;
 import com.example.leadmanager.models.Contact;
+import com.example.leadmanager.models.ContactDetails;
+import com.example.leadmanager.models.Lead;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -46,11 +52,13 @@ public class NewLeadActivity extends AppCompatActivity {
     private Contact availableContact;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseUser user;
+    private ProgressDialog progress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_lead);
+        progress = new ProgressDialog(this);
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) {
@@ -85,6 +93,12 @@ public class NewLeadActivity extends AppCompatActivity {
         getContacts();
 
         submitButton = findViewById(R.id.submitButton);
+        submitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     public void finish(View view) {
@@ -112,6 +126,7 @@ public class NewLeadActivity extends AppCompatActivity {
                     Gson gson = new Gson();
                     JsonElement jsonElement = gson.toJsonTree(document.get("details"));
                     Contact contact = gson.fromJson(jsonElement, Contact.class);
+                    contact.setUid(document.getId());
 
 
                     Log.v("dipak", contact.getName() + "");
@@ -171,7 +186,14 @@ public class NewLeadActivity extends AppCompatActivity {
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                         //isSupplierAvailable = true;
                         availableContact = contactAdapter.getItem(i);
+                        editAddress.setText(availableContact.getAddress());
+                        editEmail.setText(availableContact.getEmail());
+                        editNumber.setText(availableContact.getPhone());
+                      /*  editAddress.setEnabled(false);
+                        editEmail.setEnabled(false);
+                        editNumber.setEnabled(false);*/
                         //newSupplierLayout.setVisibility(GONE);
+
                         //addItem.setVisibility(View.VISIBLE);
                     }
                 });
@@ -181,5 +203,75 @@ public class NewLeadActivity extends AppCompatActivity {
 
         });
 
+    }
+
+    public void addNewLead(Contact contact) {
+        progress.setMessage("adding new lead");
+        progress.setCancelable(false); // disable dismiss by tapping outside of the dialog
+        progress.show();
+
+        Lead lead = new Lead();
+        lead.setStatus(spinnerStatus.getSelectedItem().toString());
+        lead.setSource(spinnerSource.getSelectedItem().toString());
+        lead.setDescription(editDescription.getText().toString());
+
+        if (contactList.contains(contact)) {
+            db.collection("cache").document(user.getUid()).collection("contacts").document(contact.getUid())
+                    .collection("leads").add(lead).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                @Override
+                public void onSuccess(DocumentReference documentReference) {
+                    progress.dismiss();
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    progress.dismiss();
+
+                }
+            });
+        } else {
+
+            ContactDetails contactDetails = new ContactDetails();
+            contactDetails.setDetails(contact);
+
+            db.collection("cache").document(user.getUid()).collection("contacts")
+                    .add(contactDetails).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                @Override
+                public void onSuccess(DocumentReference documentReference) {
+                   // if(newLeadLayout.getVisibility() == View.VISIBLE) {
+                        Lead lead = new Lead();
+                        lead.setStatus(spinnerStatus.getSelectedItem().toString());
+                        lead.setSource(spinnerSource.getSelectedItem().toString());
+                        lead.setDescription(editDescription.getText().toString());
+                        db.collection("cache").document(user.getUid()).collection("contacts")
+                                .document(documentReference.getId()).collection("leads").add(lead).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                            @Override
+                            public void onSuccess(DocumentReference documentReference) {
+                                progress.dismiss();
+
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                progress.dismiss();
+
+                            }
+                        });
+
+                  /*  } else {
+                        progress.dismiss();
+                    }*/
+
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+
+                }
+            });
+
+        }
     }
 }

@@ -4,12 +4,21 @@ public class Contact {
 
     @Override
     public boolean equals(Object obj) {
-        return this.name.equals(((Contact) obj).getName()) && this.phone.equals(((Contact) obj).getPhone());
+        return this.uid.equals(((Contact) obj).getUid());
     }
 
     String name;
     String email;
     String phone;
+    String uid;
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
 
     public String getName() {
         return name;
