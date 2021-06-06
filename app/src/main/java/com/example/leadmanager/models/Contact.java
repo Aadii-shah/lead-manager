@@ -1,6 +1,12 @@
 package com.example.leadmanager.models;
 
 public class Contact {
+
+    @Override
+    public boolean equals(Object obj) {
+        return this.name.equals(((Contact) obj).getName()) && this.phone.equals(((Contact) obj).getPhone());
+    }
+
     String name;
     String email;
     String phone;

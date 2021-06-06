@@ -1,6 +1,7 @@
 package com.example.leadmanager.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,7 +45,7 @@ public class AutoCompleteAdapterContact extends ArrayAdapter<Contact> {
             );
         }
 
-        TextView supplierName = convertView.findViewById(R.id.name);
+        TextView supplierName = convertView.findViewById(R.id.contactName);
         TextView supplierPhone = convertView.findViewById(R.id.phone);
 
         Contact supplier = getItem(position);
@@ -68,6 +69,7 @@ public class AutoCompleteAdapterContact extends ArrayAdapter<Contact> {
             } else {
                 String filterPattern = constraint.toString().toLowerCase().trim();
                 for (Contact supplier: allSuppliersList) {
+                    Log.v("dipak", supplier.getName() + "");
                     if (supplier.getName().toLowerCase().contains(filterPattern)) {
                         filteredSuppliersList.add(supplier);
                     }
