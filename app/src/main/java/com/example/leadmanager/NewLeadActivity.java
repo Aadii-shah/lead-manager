@@ -15,6 +15,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.leadmanager.adapters.AutoCompleteAdapterContact;
 import com.example.leadmanager.models.Contact;
@@ -53,12 +54,14 @@ public class NewLeadActivity extends AppCompatActivity {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseUser user;
     private ProgressDialog progress;
+    private Contact contactGlobal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_lead);
         progress = new ProgressDialog(this);
+        contactGlobal = new Contact();
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) {
@@ -96,7 +99,11 @@ public class NewLeadActivity extends AppCompatActivity {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if(!contactName.getText().toString().equals(""))
+                addNewLead(contactGlobal);
+                else {
+                    Toast.makeText(NewLeadActivity.this, "Please fill the form", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -189,6 +196,7 @@ public class NewLeadActivity extends AppCompatActivity {
                         editAddress.setText(availableContact.getAddress());
                         editEmail.setText(availableContact.getEmail());
                         editNumber.setText(availableContact.getPhone());
+                        contactGlobal = availableContact;
                       /*  editAddress.setEnabled(false);
                         editEmail.setEnabled(false);
                         editNumber.setEnabled(false);*/
@@ -206,6 +214,13 @@ public class NewLeadActivity extends AppCompatActivity {
     }
 
     public void addNewLead(Contact contact) {
+
+
+        contact.setName(contactName.getText().toString());
+        contact.setAddress(editAddress.getText().toString());
+        contact.setPhone(editNumber.getText().toString());
+        contact.setEmail(editEmail.getText().toString());
+
         progress.setMessage("adding new lead");
         progress.setCancelable(false); // disable dismiss by tapping outside of the dialog
         progress.show();
@@ -239,25 +254,25 @@ public class NewLeadActivity extends AppCompatActivity {
                     .add(contactDetails).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                 @Override
                 public void onSuccess(DocumentReference documentReference) {
-                   // if(newLeadLayout.getVisibility() == View.VISIBLE) {
-                        Lead lead = new Lead();
-                        lead.setStatus(spinnerStatus.getSelectedItem().toString());
-                        lead.setSource(spinnerSource.getSelectedItem().toString());
-                        lead.setDescription(editDescription.getText().toString());
-                        db.collection("cache").document(user.getUid()).collection("contacts")
-                                .document(documentReference.getId()).collection("leads").add(lead).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                            @Override
-                            public void onSuccess(DocumentReference documentReference) {
-                                progress.dismiss();
+                    // if(newLeadLayout.getVisibility() == View.VISIBLE) {
+                    Lead lead = new Lead();
+                    lead.setStatus(spinnerStatus.getSelectedItem().toString());
+                    lead.setSource(spinnerSource.getSelectedItem().toString());
+                    lead.setDescription(editDescription.getText().toString());
+                    db.collection("cache").document(user.getUid()).collection("contacts")
+                            .document(documentReference.getId()).collection("leads").add(lead).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                        @Override
+                        public void onSuccess(DocumentReference documentReference) {
+                            progress.dismiss();
 
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                progress.dismiss();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            progress.dismiss();
 
-                            }
-                        });
+                        }
+                    });
 
                   /*  } else {
                         progress.dismiss();

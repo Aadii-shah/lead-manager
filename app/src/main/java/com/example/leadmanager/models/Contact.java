@@ -4,7 +4,7 @@ public class Contact {
 
     @Override
     public boolean equals(Object obj) {
-        return this.uid.equals(((Contact) obj).getUid());
+        return this.uid.equals(((Contact) obj).getUid()) && this.name.equals(((Contact) obj).getName());
     }
 
     String name;
