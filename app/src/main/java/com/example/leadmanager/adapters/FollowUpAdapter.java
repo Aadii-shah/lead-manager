@@ -14,18 +14,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.leadmanager.R;
 import com.example.leadmanager.models.Lead;
+import com.example.leadmanager.models.LeadApp;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 public class FollowUpAdapter extends RecyclerView.Adapter<FollowUpAdapter.MyViewHolder> implements Filterable {
-    public List<Lead> itemsFiltered;
+    public List<LeadApp>  itemsFiltered;
     private Context context;
     private FollowUpAdapter.RecyclerViewAdapterListener listener;
-    public List<Lead> itemList;
+    public List<LeadApp>  itemList;
 
-    public FollowUpAdapter(Context context, List<Lead> itemList, FollowUpAdapter.RecyclerViewAdapterListener recyclerViewAdapterListener) {
+    public FollowUpAdapter(Context context, List<LeadApp>  itemList, FollowUpAdapter.RecyclerViewAdapterListener recyclerViewAdapterListener) {
         this.listener = recyclerViewAdapterListener;
         this.context = context;
         this.itemList = itemList;
@@ -42,7 +43,7 @@ public class FollowUpAdapter extends RecyclerView.Adapter<FollowUpAdapter.MyView
 
     @Override
     public void onBindViewHolder(FollowUpAdapter.MyViewHolder holder, final int position) {
-        final Lead item = itemsFiltered.get(itemsFiltered.size() - position - 1);
+        final LeadApp item = itemsFiltered.get(itemsFiltered.size() - position - 1);
 
         holder.description.setText(item.getDescription());
 
@@ -69,8 +70,8 @@ public class FollowUpAdapter extends RecyclerView.Adapter<FollowUpAdapter.MyView
                 if (charString.isEmpty()) {
                     itemsFiltered = itemList;
                 } else {
-                    List<Lead> filteredList = new ArrayList<>();
-                    for (Lead row : itemList) {
+                    List<LeadApp>  filteredList = new ArrayList<>();
+                    for (LeadApp row : itemList) {
 
                         if (row.getDescription().toLowerCase().contains(charString.toLowerCase())
                                 || row.getSource().contains(charSequence)) {
@@ -89,7 +90,7 @@ public class FollowUpAdapter extends RecyclerView.Adapter<FollowUpAdapter.MyView
 
             @Override
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-                itemsFiltered = (ArrayList<Lead>) filterResults.values;
+                itemsFiltered = (ArrayList<LeadApp> ) filterResults.values;
                 notifyDataSetChanged();
             }
         };
@@ -104,7 +105,7 @@ public class FollowUpAdapter extends RecyclerView.Adapter<FollowUpAdapter.MyView
     public interface RecyclerViewAdapterListener {
         void onValueChanged(float amount, String category);
 
-        void onItemRemoved(Lead item);
+        void onItemRemoved(LeadApp item);
 
         void onItemUpdated(float amount, int count);
 

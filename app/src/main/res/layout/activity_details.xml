@@ -10,17 +10,19 @@
     <!--Design the layout after on click on contacts layout starts here-->
     <!--we will remove this layout from here later-->
 
-    <ImageView
-        android:id="@+id/back"
-        android:layout_width="wrap_content"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:src="@drawable/ic_back_arrow" />
+        app:title="Details"
+        app:navigationIcon="@drawable/navigation_back"
+        app:layout_scrollFlags="scroll"
+        />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/back"
+        android:layout_below="@+id/toolbar"
         android:layout_marginTop="10dp"
         android:background="@drawable/custom_card_view">
 

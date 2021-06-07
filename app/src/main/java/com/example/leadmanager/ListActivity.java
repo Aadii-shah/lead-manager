@@ -1,17 +1,25 @@
 package com.example.leadmanager;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.animation.LayoutTransition;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 
@@ -21,6 +29,7 @@ import com.example.leadmanager.adapters.LeadAdapter;
 import com.example.leadmanager.adapters.RecyclerViewTouchListener;
 import com.example.leadmanager.models.Contact;
 import com.example.leadmanager.models.Lead;
+import com.example.leadmanager.models.LeadApp;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
@@ -49,15 +58,88 @@ public class ListActivity extends AppCompatActivity implements LeadAdapter.Recyc
     private RecyclerView recyclerView;
     private LeadAdapter leadAdapter;
     private FollowUpAdapter followUpAdapter;
-    private List<Lead> itemsList;
+    private List<LeadApp> itemsList;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseUser user;
     private String category;
+    private SearchView searchView;
+    private Toolbar toolbar;
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+        SearchManager searchManager = (SearchManager) this.getSystemService(Context.SEARCH_SERVICE);
+        searchView = (SearchView) menu.findItem(R.id.action_search)
+                .getActionView();
+        //searchView.startAnimation(fab_close);
+        //int searchBarId = searchView.getId();//getContext().getResources().getIdentifier("android:id/search_bar",null,null);
+        //LinearLayout searchBar = (SearchView) searchView.findViewById(searchBarId);
+        searchView.setLayoutTransition(new LayoutTransition());
+        searchView.setSearchableInfo(searchManager
+                .getSearchableInfo(this.getComponentName()));
+        searchView.setMaxWidth(Integer.MAX_VALUE);
+        // listening to search query text change
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                leadAdapter.getFilter().filter(s);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                if(category.equals("today_meetings")) {
+                    followUpAdapter.getFilter().filter(s);
+                } else {
+                    leadAdapter.getFilter().filter(s);
+                }
+                return false;
+            }
+        });
+
+
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                return false;
+            }
+        });
+
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_search) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
+
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         category = getIntent().getStringExtra("category");
         if (category == null) {
             category = "new_lead";
@@ -83,34 +165,42 @@ public class ListActivity extends AppCompatActivity implements LeadAdapter.Recyc
 
         switch (category) {
             case "new_lead":
+                toolbar.setTitle("New Leads");
                 getLeads("New Lead");
                 break;
 
             case "today_meetings":
+                toolbar.setTitle("Todays' Followups");
                 getLeadsWithFollowup();
                 break;
 
             case "unanswered":
+                toolbar.setTitle("Unanswered");
                 getLeads("Unanswered");
                 break;
 
             case "busy":
+                toolbar.setTitle("Busy");
                 getLeads("Busy");
                 break;
 
             case "interested":
+                toolbar.setTitle("Interested");
                 getLeads("Interested");
                 break;
 
             case "not_interested":
+                toolbar.setTitle("Not Interested");
                 getLeads("Not Interested");
                 break;
 
             case "converted":
+                toolbar.setTitle("Converted");
                 getLeads("Converted");
                 break;
 
             case "all_leads":
+                toolbar.setTitle("All Leads");
                 getAllLeads();
                 break;
         }
@@ -122,7 +212,7 @@ public class ListActivity extends AppCompatActivity implements LeadAdapter.Recyc
     }
 
     @Override
-    public void onItemRemoved(Lead item) {
+    public void onItemRemoved(LeadApp item) {
 
     }
 
@@ -146,7 +236,7 @@ public class ListActivity extends AppCompatActivity implements LeadAdapter.Recyc
                             Log.v("dipak1111", "" + document.getReference().getParent().getParent());
                             Gson gson = new Gson();
                             JsonElement jsonElement = gson.toJsonTree(document.getData());
-                            Lead lead = gson.fromJson(jsonElement, Lead.class);
+                            LeadApp lead = gson.fromJson(jsonElement, LeadApp.class);
                             //lead = (Lead) document.getData();
                             itemsList.add(lead);
                             leadAdapter.notifyDataSetChanged();
@@ -167,8 +257,9 @@ public class ListActivity extends AppCompatActivity implements LeadAdapter.Recyc
         recyclerView.addOnItemTouchListener(new RecyclerViewTouchListener(this, recyclerView, new RecyclerViewTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
+                LeadApp lead = leadAdapter.itemsFiltered.get(leadAdapter.itemsFiltered.size() - position - 1);
                 Intent intent = new Intent(ListActivity.this, LeadDetailsActivity.class);
-                intent.putExtra("contactUid", "new_lead");
+                intent.putExtra("lead", lead);
                 startActivity(intent);
             }
 
@@ -191,10 +282,9 @@ public class ListActivity extends AppCompatActivity implements LeadAdapter.Recyc
             if (task.isSuccessful() && !Objects.requireNonNull(task.getResult()).isEmpty()) {
 
                 for (DocumentSnapshot document : task.getResult().getDocuments()) {
-
                     Gson gson = new Gson();
                     JsonElement jsonElement = gson.toJsonTree(document.getData());
-                    Lead lead = gson.fromJson(jsonElement, Lead.class);
+                    LeadApp lead = gson.fromJson(jsonElement, LeadApp.class);
                     itemsList.add(lead);
                 }
                 leadAdapter.notifyDataSetChanged();
@@ -212,8 +302,9 @@ public class ListActivity extends AppCompatActivity implements LeadAdapter.Recyc
         recyclerView.addOnItemTouchListener(new RecyclerViewTouchListener(this, recyclerView, new RecyclerViewTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
+                LeadApp lead = leadAdapter.itemsFiltered.get(leadAdapter.itemsFiltered.size() - position - 1);
                 Intent intent = new Intent(ListActivity.this, LeadDetailsActivity.class);
-                intent.putExtra("contactUid", "new_lead");
+                intent.putExtra("lead", lead);
                 startActivity(intent);
             }
 
@@ -240,7 +331,7 @@ public class ListActivity extends AppCompatActivity implements LeadAdapter.Recyc
 
                     Gson gson = new Gson();
                     JsonElement jsonElement = gson.toJsonTree(document.getData());
-                    Lead lead = gson.fromJson(jsonElement, Lead.class);
+                    LeadApp lead = gson.fromJson(jsonElement, LeadApp.class);
                     itemsList.add(lead);
                 }
                 leadAdapter.notifyDataSetChanged();
@@ -259,8 +350,10 @@ public class ListActivity extends AppCompatActivity implements LeadAdapter.Recyc
         recyclerView.addOnItemTouchListener(new RecyclerViewTouchListener(this, recyclerView, new RecyclerViewTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
+                LeadApp lead = followUpAdapter.itemsFiltered.get(followUpAdapter.itemsFiltered.size() - position - 1);
                 Intent intent = new Intent(ListActivity.this, LeadDetailsActivity.class);
-                intent.putExtra("contactUid", "new_lead");
+                intent.putExtra("lead", lead);
+                intent.putExtra("lead", lead);
                 startActivity(intent);
             }
 
@@ -287,7 +380,7 @@ public class ListActivity extends AppCompatActivity implements LeadAdapter.Recyc
 
                     Gson gson = new Gson();
                     JsonElement jsonElement = gson.toJsonTree(document.getData());
-                    Lead lead = gson.fromJson(jsonElement, Lead.class);
+                    LeadApp lead = gson.fromJson(jsonElement, LeadApp.class);
                     itemsList.add(lead);
                 }
                 leadAdapter.notifyDataSetChanged();

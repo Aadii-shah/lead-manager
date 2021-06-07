@@ -2,10 +2,19 @@ package com.example.leadmanager.models;
 
 import java.io.Serializable;
 
-public class Lead implements Serializable {
+public class LeadApp implements Serializable {
     String status;
     String source;
     String description;
+    String uid;
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
 
     public String getContactUid() {
         return contactUid;
@@ -86,6 +95,5 @@ public class Lead implements Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
-
 
 }
