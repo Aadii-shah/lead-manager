@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginStart="10dp"
-            android:src="@drawable/ic_menu" />
+            android:src="@drawable/ic_profile_user" />
 
         <Spinner
             android:id="@+id/daySpinner"
@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_centerVertical="true"
-            android:backgroundTint="@color/blue" />
+            android:backgroundTint="#C03A2B" />
 
         <ImageView
             android:id="@+id/notification"
@@ -38,7 +38,7 @@
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="10dp"
-            android:src="@drawable/ic_notification" />
+            android:src="@drawable/ic_notification_1" />
 
         <ImageView
             android:layout_width="wrap_content"
@@ -406,7 +406,6 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
                         android:src="@drawable/ic_follow_up" />
 
                 </RelativeLayout>
@@ -419,7 +418,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginStart="10dp"
                     android:layout_toEndOf="@id/meetingDrawable"
-                    android:text="Today's Follow up"
+                    android:text="Today's Follow ups"
                     android:textSize="20sp" />
 
 
@@ -429,7 +428,7 @@
                     android:layout_centerVertical="true"
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="8dp"
-                    android:background="@drawable/text_drawable">
+                    android:background="@drawable/text_drawable_1">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -499,7 +498,7 @@
                     android:layout_centerVertical="true"
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="8dp"
-                    android:background="@drawable/text_drawable">
+                    android:background="@drawable/text_drawable_2">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -559,7 +558,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginStart="10dp"
                     android:layout_toEndOf="@id/busyDrawable"
-                    android:text="Busy"
+                    android:text="Pending"
                     android:textSize="20sp" />
 
 
@@ -569,7 +568,7 @@
                     android:layout_centerVertical="true"
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="8dp"
-                    android:background="@drawable/text_drawable">
+                    android:background="@drawable/text_drawable_3">
 
                     <TextView
                         android:layout_width="wrap_content"
