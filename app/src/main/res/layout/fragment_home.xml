@@ -100,7 +100,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="2dp"
-                        android:src="@drawable/ic_lead" />
+                        android:src="@drawable/ic_all_leads" />
 
 
                     <TextView
@@ -147,8 +147,9 @@
                         android:id="@+id/convertedImage"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
                         android:layout_margin="2dp"
-                        android:src="@drawable/ic_converted" />
+                        android:src="@drawable/ic_correct" />
 
 
                     <TextView
@@ -201,7 +202,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="2dp"
-                        android:src="@drawable/ic_notinterested" />
+                        android:src="@drawable/ic_not_interested_1" />
 
 
                     <TextView
@@ -406,7 +407,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
-                        android:src="@drawable/ic_meeting" />
+                        android:src="@drawable/ic_follow_up" />
 
                 </RelativeLayout>
 
@@ -418,7 +419,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginStart="10dp"
                     android:layout_toEndOf="@id/meetingDrawable"
-                    android:text="Today's Followups"
+                    android:text="Today's Follow up"
                     android:textSize="20sp" />
 
 
