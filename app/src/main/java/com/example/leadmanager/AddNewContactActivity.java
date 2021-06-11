@@ -15,12 +15,16 @@ import android.widget.TextView;
 
 import com.example.leadmanager.models.Contact;
 import com.example.leadmanager.models.ContactDetails;
+import com.example.leadmanager.models.HistoryItem;
 import com.example.leadmanager.models.Lead;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class AddNewContactActivity extends AppCompatActivity {
@@ -119,7 +123,25 @@ public class AddNewContactActivity extends AppCompatActivity {
                                         .add(lead).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                     @Override
                                     public void onSuccess(DocumentReference documentReference) {
-                                        progress.dismiss();
+                                        HistoryItem historyItem = new HistoryItem();
+                                        historyItem.setDescription("Created");
+                                        historyItem.setDate(Utility.getCurrentTime());
+
+                                        db.collection("cache").document(user.getUid())
+                                                //.collection("contacts").document(contact.getUid())
+                                                .collection("leads")
+                                                .document(documentReference.getId())
+                                                .update("history", FieldValue.arrayUnion(historyItem)).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                progress.dismiss();
+                                            }
+                                        }).addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                progress.dismiss();
+                                            }
+                                        });
 
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {

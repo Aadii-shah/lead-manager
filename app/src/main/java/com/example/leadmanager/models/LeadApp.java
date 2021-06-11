@@ -42,35 +42,35 @@ public class LeadApp implements Serializable {
         this.latestFollowup = latestFollowup;
     }
 
-    public String[] getNotes() {
+    public NoteItem[] getNotes() {
         return notes;
     }
 
-    public void setNotes(String[] notes) {
+    public void setNotes(NoteItem[] notes) {
         this.notes = notes;
     }
 
-    public String[] getDeals() {
+    public DealItem[] getDeals() {
         return deals;
     }
 
-    public void setDeals(String[] deals) {
+    public void setDeals(DealItem[] deals) {
         this.deals = deals;
     }
 
-    public String[] getHistory() {
+    public HistoryItem[] getHistory() {
         return history;
     }
 
-    public void setHistory(String[] history) {
+    public void setHistory(HistoryItem[] history) {
         this.history = history;
     }
 
     private long creationDate;
     private long latestFollowup;
-    private String[] notes;
-    private String[] deals;
-    private String[] history;
+    private NoteItem[] notes;
+    private DealItem[] deals;
+    private HistoryItem[] history;
 
     public String getStatus() {
         return status;

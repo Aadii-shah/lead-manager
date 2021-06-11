@@ -285,6 +285,7 @@ public class ListActivity extends AppCompatActivity implements LeadAdapter.Recyc
                     Gson gson = new Gson();
                     JsonElement jsonElement = gson.toJsonTree(document.getData());
                     LeadApp lead = gson.fromJson(jsonElement, LeadApp.class);
+                    lead.setUid(document.getId());
                     itemsList.add(lead);
                 }
                 leadAdapter.notifyDataSetChanged();
@@ -332,6 +333,7 @@ public class ListActivity extends AppCompatActivity implements LeadAdapter.Recyc
                     Gson gson = new Gson();
                     JsonElement jsonElement = gson.toJsonTree(document.getData());
                     LeadApp lead = gson.fromJson(jsonElement, LeadApp.class);
+                    lead.setUid(document.getId());
                     itemsList.add(lead);
                 }
                 leadAdapter.notifyDataSetChanged();
@@ -381,6 +383,7 @@ public class ListActivity extends AppCompatActivity implements LeadAdapter.Recyc
                     Gson gson = new Gson();
                     JsonElement jsonElement = gson.toJsonTree(document.getData());
                     LeadApp lead = gson.fromJson(jsonElement, LeadApp.class);
+                    lead.setUid(document.getId());
                     itemsList.add(lead);
                 }
                 leadAdapter.notifyDataSetChanged();

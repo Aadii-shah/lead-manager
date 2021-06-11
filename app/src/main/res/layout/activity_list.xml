@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ListActivity"
-    android:background="#1A1414BC">
+    android:background="@color/lightWhite">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBar"
@@ -31,10 +31,11 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:scrollbars="none"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:paddingTop="8dp"/>
+        android:paddingTop="8dp"
+        android:overScrollMode="never"/>
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/extended_fab"
@@ -45,8 +46,8 @@
         android:contentDescription="new Lead"
         android:text="new lead"
         app:icon="@drawable/ic_add_circle_outline_24px"
-        android:textColor="@color/blue"
-        app:iconTint="@color/blue"
+        android:textColor="@color/lightBlue"
+        app:iconTint="@color/lightBlue"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:backgroundTint="@color/white"/>
