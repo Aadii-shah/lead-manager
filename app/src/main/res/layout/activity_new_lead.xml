@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#1A1414BC"
+    android:background="@color/lightWhite"
     tools:context=".NewLeadActivity">
 
     <androidx.appcompat.widget.Toolbar
@@ -14,33 +14,14 @@
         app:navigationIcon="@drawable/navigation_back"
         android:background="@color/white"
         app:layout_scrollFlags="scroll"
+        app:title="Add New Lead"
         />
-
-    <TextView
-        android:id="@+id/lead"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/toolbar"
-        android:layout_marginStart="20dp"
-        android:text="Add New Lead"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/Information"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/lead"
-        android:layout_marginStart="20dp"
-        android:text="Please Fill In The Following Information" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/Information"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/custom_card_view">
+        android:layout_below="@+id/toolbar"
+        android:background="#ffffff">
 
 
 
