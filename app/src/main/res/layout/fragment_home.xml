@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#1A1414BC"
+    android:background="@color/lightWhite"
     tools:context=".HomeFragment">
 
     <!--Custom Tool bar starts here-->
@@ -418,7 +418,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginStart="10dp"
                     android:layout_toEndOf="@id/meetingDrawable"
-                    android:text="Today's Follow ups"
+                    android:text="Today's Followups"
                     android:textSize="20sp" />
 
 

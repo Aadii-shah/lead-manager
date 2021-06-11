@@ -13,20 +13,20 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.leadmanager.R;
-import com.example.leadmanager.models.Lead;
+import com.example.leadmanager.models.HistoryItem;
 import com.example.leadmanager.models.LeadApp;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FollowUpAdapter extends RecyclerView.Adapter<FollowUpAdapter.MyViewHolder> implements Filterable {
-    public List<LeadApp>  itemsFiltered;
+public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHolder> implements Filterable {
+    public List<HistoryItem> itemsFiltered;
     private Context context;
-    private FollowUpAdapter.RecyclerViewAdapterListener listener;
-    public List<LeadApp>  itemList;
+    private HistoryAdapter.RecyclerViewAdapterListener listener;
+    public List<HistoryItem> itemList;
 
-    public FollowUpAdapter(Context context, List<LeadApp>  itemList, FollowUpAdapter.RecyclerViewAdapterListener recyclerViewAdapterListener) {
+    public HistoryAdapter(Context context, List<HistoryItem> itemList, HistoryAdapter.RecyclerViewAdapterListener recyclerViewAdapterListener) {
         this.listener = recyclerViewAdapterListener;
         this.context = context;
         this.itemList = itemList;
@@ -34,24 +34,21 @@ public class FollowUpAdapter extends RecyclerView.Adapter<FollowUpAdapter.MyView
     }
 
     @Override
-    public FollowUpAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public HistoryAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.followup_item, parent, false);
+                .inflate(R.layout.history_item, parent, false);
 
-        return new FollowUpAdapter.MyViewHolder(itemView);
+        return new HistoryAdapter.MyViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(FollowUpAdapter.MyViewHolder holder, final int position) {
-        final LeadApp item = itemsFiltered.get(itemsFiltered.size() - position - 1);
+    public void onBindViewHolder(HistoryAdapter.MyViewHolder holder, final int position) {
+        final HistoryItem item = itemsFiltered.get(itemsFiltered.size() - position - 1);
 
         holder.description.setText(item.getDescription());
-
-        if(item.getNotes() !=null )
-        holder.note.setText(item.getNotes()[item.getNotes().length - 1].getDescription());
-        else holder.note.setText("NA");
-        java.util.Date d = new java.util.Date(item.getCreationDate()*1000L);
-        String itemDateStr = new SimpleDateFormat("HH:mm").format(d);
+        //holder.source.setText(item.getDescription());
+        java.util.Date d = new java.util.Date(item.getDate()*1000L);
+        String itemDateStr = new SimpleDateFormat("dd-MMM-YYYY HH:mm").format(d);
         holder.time.setText(itemDateStr);
 
     }
@@ -70,12 +67,10 @@ public class FollowUpAdapter extends RecyclerView.Adapter<FollowUpAdapter.MyView
                 if (charString.isEmpty()) {
                     itemsFiltered = itemList;
                 } else {
-                    List<LeadApp>  filteredList = new ArrayList<>();
-                    for (LeadApp row : itemList) {
+                    List<HistoryItem> filteredList = new ArrayList<>();
+                    for (HistoryItem row : itemList) {
 
-                        if (row.getDescription().toLowerCase().contains(charString.toLowerCase())
-                                || row.getSource().contains(charSequence)) {
-
+                        if (row.getDescription().toLowerCase().contains(charString.toLowerCase())) {
                             filteredList.add(row);
                         }
                     }
@@ -90,7 +85,7 @@ public class FollowUpAdapter extends RecyclerView.Adapter<FollowUpAdapter.MyView
 
             @Override
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-                itemsFiltered = (ArrayList<LeadApp> ) filterResults.values;
+                itemsFiltered = (ArrayList<HistoryItem>) filterResults.values;
                 notifyDataSetChanged();
             }
         };
@@ -105,7 +100,7 @@ public class FollowUpAdapter extends RecyclerView.Adapter<FollowUpAdapter.MyView
     public interface RecyclerViewAdapterListener {
         void onValueChanged(float amount, String category);
 
-        void onItemRemoved(LeadApp item);
+        void onItemRemoved(HistoryItem item);
 
         void onItemUpdated(float amount, int count);
 
@@ -114,15 +109,14 @@ public class FollowUpAdapter extends RecyclerView.Adapter<FollowUpAdapter.MyView
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView description, note, time;
+        public TextView description, source, time;
         public ImageView imageUrl, plus, minus, remove;
 
         public MyViewHolder(View view) {
             super(view);
 
-            description = view.findViewById(R.id.leadInfo);
-            note = view.findViewById(R.id.note);
-            time = view.findViewById(R.id.creationDate);
+            description = view.findViewById(R.id.description);
+            time = view.findViewById(R.id.timeStamp);
 
 
         }

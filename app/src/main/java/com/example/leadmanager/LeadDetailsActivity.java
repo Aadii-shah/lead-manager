@@ -64,9 +64,9 @@ public class LeadDetailsActivity extends AppCompatActivity {
         String itemDateStr = new SimpleDateFormat("dd-MMM-YYYY HH:mm").format(d);
         followUpText.setText(itemDateStr);
         if(lead.getNotes()!=null)
-        notesText.setText(lead.getNotes()[lead.getNotes().length - 1]);
+        notesText.setText(lead.getNotes()[lead.getNotes().length - 1].getDescription());
         if(lead.getDeals()!=null)
-        notesText.setText(lead.getDeals()[lead.getDeals().length - 1]);
+        notesText.setText(lead.getDeals()[lead.getDeals().length - 1].getDescription());
 
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -94,7 +94,7 @@ public class LeadDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(LeadDetailsActivity.this, StatusActivity.class);
-                intent.putExtra("category", "new_lead");
+                intent.putExtra("lead_uid", lead.getUid());
                 startActivity(intent);
             }
         });
@@ -102,17 +102,18 @@ public class LeadDetailsActivity extends AppCompatActivity {
         followUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(LeadDetailsActivity.this, ListActivity.class);
-                intent.putExtra("category", "new_lead");
-                startActivity(intent);
+                //Intent intent = new Intent(LeadDetailsActivity.this, ListActivity.class);
+                //intent.putExtra("category", "new_lead");
+                //startActivity(intent);
             }
         });
 
         deals.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(LeadDetailsActivity.this, ListActivity.class);
-                intent.putExtra("category", "new_lead");
+                Intent intent = new Intent(LeadDetailsActivity.this, HistoryActivity.class);
+                intent.putExtra("lead_uid", lead.getUid());
+                intent.putExtra("category", "deals");
                 startActivity(intent);
             }
         });
@@ -120,8 +121,9 @@ public class LeadDetailsActivity extends AppCompatActivity {
         notes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(LeadDetailsActivity.this, ListActivity.class);
-                intent.putExtra("category", "new_lead");
+                Intent intent = new Intent(LeadDetailsActivity.this, HistoryActivity.class);
+                intent.putExtra("lead_uid", lead.getUid());
+                intent.putExtra("category", "notes");
                 startActivity(intent);
             }
         });
@@ -129,8 +131,9 @@ public class LeadDetailsActivity extends AppCompatActivity {
         history.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(LeadDetailsActivity.this, ListActivity.class);
-                intent.putExtra("category", "new_lead");
+                Intent intent = new Intent(LeadDetailsActivity.this, HistoryActivity.class);
+                intent.putExtra("lead_uid", lead.getUid());
+                intent.putExtra("category", "history");
                 startActivity(intent);
             }
         });

@@ -2,6 +2,7 @@ package com.example.leadmanager;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -20,14 +21,18 @@ import android.widget.Toast;
 import com.example.leadmanager.adapters.AutoCompleteAdapterContact;
 import com.example.leadmanager.models.Contact;
 import com.example.leadmanager.models.ContactDetails;
+import com.example.leadmanager.models.HistoryItem;
 import com.example.leadmanager.models.Lead;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.Source;
@@ -43,6 +48,7 @@ import java.util.Objects;
 import java.util.TimeZone;
 
 import static android.view.View.GONE;
+import static com.example.leadmanager.Utility.getCurrentTime;
 
 public class NewLeadActivity extends AppCompatActivity {
 
@@ -71,6 +77,16 @@ public class NewLeadActivity extends AppCompatActivity {
         } else {
             //syncData();
         }
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         //spinner for status
         spinnerStatus = findViewById(R.id.spinnerStatus);
@@ -240,8 +256,28 @@ public class NewLeadActivity extends AppCompatActivity {
                     .collection("leads").add(lead).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                 @Override
                 public void onSuccess(DocumentReference documentReference) {
-                    progress.dismiss();
-                    finish();
+
+                    HistoryItem historyItem = new HistoryItem();
+                    historyItem.setDescription("Created");
+                    historyItem.setDate(getCurrentTime());
+
+                    db.collection("cache").document(user.getUid())
+                            //.collection("contacts").document(contact.getUid())
+                            .collection("leads")
+                            .document(documentReference.getId())
+                            .update("history", FieldValue.arrayUnion(historyItem)).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            progress.dismiss();
+                            finish();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            progress.dismiss();
+                            finish();
+                        }
+                    });
 
                 }
             }).addOnFailureListener(new OnFailureListener() {
@@ -273,8 +309,27 @@ public class NewLeadActivity extends AppCompatActivity {
                             .collection("leads").add(lead).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                         @Override
                         public void onSuccess(DocumentReference documentReference) {
-                            progress.dismiss();
-                            finish();
+                            HistoryItem historyItem = new HistoryItem();
+                            historyItem.setDescription("Created");
+                            historyItem.setDate(Utility.getCurrentTime());
+
+                            db.collection("cache").document(user.getUid())
+                                    //.collection("contacts").document(contact.getUid())
+                                    .collection("leads")
+                                    .document(documentReference.getId())
+                                    .update("history", FieldValue.arrayUnion(historyItem)).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    progress.dismiss();
+                                    finish();
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    progress.dismiss();
+                                    finish();
+                                }
+                            });
 
                         }
                     }).addOnFailureListener(new OnFailureListener() {
@@ -300,13 +355,5 @@ public class NewLeadActivity extends AppCompatActivity {
             });
 
         }
-    }
-
-    private Long getCurrentTime() {
-        Calendar c = Calendar.getInstance();
-        c.setTimeZone(TimeZone.getDefault());
-        //Log.v("dipak", TimeZone.getDefault() + "");
-        Log.v("dipak", "" + c.getTimeInMillis());
-        return c.getTimeInMillis() / 1000;
     }
 }
