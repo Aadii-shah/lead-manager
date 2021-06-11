@@ -102,17 +102,18 @@ public class LeadDetailsActivity extends AppCompatActivity {
         followUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(LeadDetailsActivity.this, ListActivity.class);
-                intent.putExtra("category", "new_lead");
-                startActivity(intent);
+                //Intent intent = new Intent(LeadDetailsActivity.this, ListActivity.class);
+                //intent.putExtra("category", "new_lead");
+                //startActivity(intent);
             }
         });
 
         deals.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(LeadDetailsActivity.this, ListActivity.class);
-                intent.putExtra("category", "new_lead");
+                Intent intent = new Intent(LeadDetailsActivity.this, HistoryActivity.class);
+                intent.putExtra("lead_uid", lead.getUid());
+                intent.putExtra("category", "deals");
                 startActivity(intent);
             }
         });
@@ -120,8 +121,9 @@ public class LeadDetailsActivity extends AppCompatActivity {
         notes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(LeadDetailsActivity.this, ListActivity.class);
-                intent.putExtra("category", "new_lead");
+                Intent intent = new Intent(LeadDetailsActivity.this, HistoryActivity.class);
+                intent.putExtra("lead_uid", lead.getUid());
+                intent.putExtra("category", "notes");
                 startActivity(intent);
             }
         });
@@ -131,6 +133,7 @@ public class LeadDetailsActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(LeadDetailsActivity.this, HistoryActivity.class);
                 intent.putExtra("lead_uid", lead.getUid());
+                intent.putExtra("category", "history");
                 startActivity(intent);
             }
         });
