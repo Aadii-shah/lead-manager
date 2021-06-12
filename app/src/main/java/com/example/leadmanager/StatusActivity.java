@@ -69,7 +69,7 @@ public class StatusActivity extends AppCompatActivity {
         statusesLayout.getChildAt(3).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                changeStatus(leadUid, "Busy");
+                changeStatus(leadUid, "Pending");
             }
         });
 

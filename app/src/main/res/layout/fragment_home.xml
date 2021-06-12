@@ -21,7 +21,10 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginStart="10dp"
-            android:src="@drawable/ic_profile_user" />
+            android:src="@drawable/ic_profile_user"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?selectableItemBackgroundBorderless"/>
 
         <Spinner
             android:id="@+id/daySpinner"
@@ -38,7 +41,10 @@
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="10dp"
-            android:src="@drawable/ic_notification_1" />
+            android:src="@drawable/ic_notification_1"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?selectableItemBackgroundBorderless"/>
 
         <ImageView
             android:layout_width="wrap_content"
@@ -46,7 +52,10 @@
             android:layout_centerVertical="true"
             android:layout_marginEnd="30dp"
             android:layout_toStartOf="@+id/notification"
-            android:src="@drawable/ic_search" />
+            android:src="@drawable/ic_search"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?selectableItemBackgroundBorderless"/>
     </RelativeLayout>
 
     <!--Custom Tool bar ends here-->
@@ -85,7 +94,10 @@
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:backgroundTint="@color/white"
-                app:cardCornerRadius="5dp">
+                app:cardCornerRadius="5dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -104,11 +116,11 @@
 
 
                     <TextView
-                        android:id="@+id/leadCount"
+                        android:id="@+id/allLeadCount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="2dp"
-                        android:text="150"
+                        android:text="0"
                         android:textSize="20sp" />
 
 
@@ -133,7 +145,10 @@
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:backgroundTint="@color/white"
-                app:cardCornerRadius="5dp">
+                app:cardCornerRadius="5dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -157,7 +172,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="2dp"
-                        android:text="20"
+                        android:text="0"
                         android:textSize="20sp" />
 
 
@@ -187,7 +202,10 @@
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:backgroundTint="@color/white"
-                app:cardCornerRadius="5dp">
+                app:cardCornerRadius="5dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -206,11 +224,11 @@
 
 
                     <TextView
-                        android:id="@+id/followCount"
+                        android:id="@+id/notInterestedCount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="2dp"
-                        android:text="80"
+                        android:text="0"
                         android:textSize="20sp" />
 
 
@@ -232,7 +250,10 @@
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:backgroundTint="@color/white"
-                app:cardCornerRadius="5dp">
+                app:cardCornerRadius="5dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -251,11 +272,11 @@
 
 
                     <TextView
-                        android:id="@+id/interestedCount"
+                        android:id="@+id/unansweredCount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="2dp"
-                        android:text="100"
+                        android:text="0"
                         android:textSize="20sp" />
 
 
@@ -318,7 +339,10 @@
             android:layout_height="0dp"
             android:layout_margin="5dp"
             android:layout_weight="1"
-            app:cardCornerRadius="5dp">
+            app:cardCornerRadius="5dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -362,11 +386,12 @@
                     android:background="@drawable/text_drawable">
 
                 <TextView
+                    android:id="@+id/newLeadCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:layout_marginEnd="10dp"
-                    android:text="5"
+                    android:text="0"
                     android:textColor="#FFFFFF"
                     android:textSize="20sp"
                     android:textStyle="bold"/>
@@ -387,7 +412,10 @@
             android:layout_height="0dp"
             android:layout_margin="5dp"
             android:layout_weight="1"
-            app:cardCornerRadius="5dp">
+            app:cardCornerRadius="5dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -431,11 +459,12 @@
                     android:background="@drawable/text_drawable_1">
 
                     <TextView
+                        android:id="@+id/todayFollowupsCount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
                         android:layout_marginEnd="10dp"
-                        android:text="5"
+                        android:text="0"
                         android:textColor="#FFFFFF"
                         android:textSize="20sp"
                         android:textStyle="bold"/>
@@ -456,7 +485,10 @@
             android:layout_height="0dp"
             android:layout_margin="5dp"
             android:layout_weight="1"
-            app:cardCornerRadius="5dp">
+            app:cardCornerRadius="5dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -501,11 +533,12 @@
                     android:background="@drawable/text_drawable_2">
 
                     <TextView
+                        android:id="@+id/interestedCount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
                         android:layout_marginEnd="10dp"
-                        android:text="5"
+                        android:text="0"
                         android:textColor="#FFFFFF"
                         android:textSize="20sp"
                         android:textStyle="bold"/>
@@ -521,12 +554,15 @@
         <!--cardView holding relative layout with Busy starts here-->
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/busy"
+            android:id="@+id/pending"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_margin="5dp"
             android:layout_weight="1"
-            app:cardCornerRadius="5dp">
+            app:cardCornerRadius="5dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -571,11 +607,12 @@
                     android:background="@drawable/text_drawable_3">
 
                     <TextView
+                        android:id="@+id/pendingCount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
                         android:layout_marginEnd="10dp"
-                        android:text="5"
+                        android:text="0"
                         android:textColor="#FFFFFF"
                         android:textSize="20sp"
                         android:textStyle="bold"/>

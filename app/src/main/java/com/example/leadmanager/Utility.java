@@ -25,4 +25,15 @@ public class Utility {
         return c.getTimeInMillis() / 1000;
     }
 
+    public static Long getMidNightTimeStamp() {
+        Calendar c = Calendar.getInstance();
+        c.setTimeZone(TimeZone.getDefault());
+        //Log.v("dipak", TimeZone.getDefault() + "");
+        c.set(Calendar.HOUR_OF_DAY, 0);
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.SECOND, 0);
+        c.set(Calendar.MILLISECOND, 0);
+        return c.getTimeInMillis() / 1000;
+    }
+
 }

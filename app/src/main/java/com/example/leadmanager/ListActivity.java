@@ -54,6 +54,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.TimeZone;
 
+import static com.example.leadmanager.Utility.getMidNightTimeStamp;
+
 public class ListActivity extends AppCompatActivity implements LeadAdapter.RecyclerViewAdapterListener, FollowUpAdapter.RecyclerViewAdapterListener {
     private RecyclerView recyclerView;
     private LeadAdapter leadAdapter;
@@ -179,9 +181,9 @@ public class ListActivity extends AppCompatActivity implements LeadAdapter.Recyc
                 getLeads("Unanswered");
                 break;
 
-            case "busy":
-                toolbar.setTitle("Busy");
-                getLeads("Busy");
+            case "pending":
+                toolbar.setTitle("Pending");
+                getLeads("Pending");
                 break;
 
             case "interested":
@@ -392,17 +394,6 @@ public class ListActivity extends AppCompatActivity implements LeadAdapter.Recyc
                 leadAdapter.notifyDataSetChanged();
             }
         });
-    }
-
-    private Long getMidNightTimeStamp() {
-        Calendar c = Calendar.getInstance();
-        c.setTimeZone(TimeZone.getDefault());
-        //Log.v("dipak", TimeZone.getDefault() + "");
-        c.set(Calendar.HOUR_OF_DAY, 0);
-        c.set(Calendar.MINUTE, 0);
-        c.set(Calendar.SECOND, 0);
-        c.set(Calendar.MILLISECOND, 0);
-        return c.getTimeInMillis() / 1000;
     }
 
 }
