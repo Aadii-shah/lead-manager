@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class DealItem implements Serializable {
 
     private String description;
-    private long Date;
+    private long date;
 
     public String getDescription() {
         return description;
@@ -16,10 +16,10 @@ public class DealItem implements Serializable {
     }
 
     public long getDate() {
-        return Date;
+        return date;
     }
 
     public void setDate(long date) {
-        Date = date;
+        this.date = date;
     }
 }

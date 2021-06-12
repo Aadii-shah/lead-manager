@@ -8,20 +8,22 @@
     tools:context=".AddNewContactActivity">
 
 
-    <ImageView
-        android:id="@+id/back"
-        android:layout_width="wrap_content"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:src="@drawable/ic_back_arrow" />
+        app:navigationIcon="@drawable/navigation_back"
+        app:title="dsvfdvfdv"
+        app:layout_scrollFlags="scroll"
+        />
 
     <TextView
         android:id="@+id/addContacts"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/back"
+        android:layout_below="@+id/toolbar"
         android:layout_marginStart="20dp"
-        android:text="Add Contacts"
+        android:text="Add New Contact"
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold" />
@@ -34,12 +36,17 @@
         android:layout_marginStart="20dp"
         android:text="Please Fill In The Following Information" />
 
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/Information"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/custom_card_view">
+        android:background="@drawable/custom_card_view"
+        android:layout_marginTop="10dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
 
 
         <RelativeLayout
@@ -307,6 +314,8 @@
 
 
     </RelativeLayout>
+
+    </ScrollView>
 
 </RelativeLayout>
 

@@ -18,16 +18,16 @@
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
         </activity>
-        <activity android:name=".HistoryActivity"></activity>
+        <activity android:name=".HistoryActivity" />
         <activity android:name=".NotesActivity" />
         <activity android:name=".DealsActivity" />
         <activity android:name=".FollowupActivity" />
         <activity android:name=".StatusActivity" />
         <activity android:name=".LeadDetailsActivity" />
-        <activity android:name=".NewLeadActivity" />
+        <activity android:name=".NewLeadActivity" android:windowSoftInputMode="adjustResize"/>
         <activity android:name=".Login" />
         <activity android:name=".DetailsActivity" />
-        <activity android:name=".AddNewContactActivity" />
+        <activity android:name=".AddNewContactActivity" android:windowSoftInputMode="adjustResize"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

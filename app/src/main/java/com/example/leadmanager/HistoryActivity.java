@@ -21,8 +21,10 @@ import com.example.leadmanager.adapters.FollowUpAdapter;
 import com.example.leadmanager.adapters.HistoryAdapter;
 import com.example.leadmanager.adapters.LeadAdapter;
 import com.example.leadmanager.adapters.RecyclerViewTouchListener;
+import com.example.leadmanager.leads.DescriptionBottomSheet;
 import com.example.leadmanager.models.HistoryItem;
 import com.example.leadmanager.models.LeadApp;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -36,12 +38,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-public class HistoryActivity extends AppCompatActivity implements HistoryAdapter.RecyclerViewAdapterListener{
+public class HistoryActivity extends AppCompatActivity implements HistoryAdapter.RecyclerViewAdapterListener, DescriptionBottomSheet.NotifyParent {
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private SearchView searchView;
     private HistoryAdapter historyAdapter;
+    private String leadUid, category;
+    List<HistoryItem> itemsList;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -104,16 +108,21 @@ public class HistoryActivity extends AppCompatActivity implements HistoryAdapter
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
 
-        String leadUid = getIntent().getStringExtra("lead_uid");
-        String category = getIntent().getStringExtra("category");
+        itemsList = new ArrayList<>();
+
+        leadUid = getIntent().getStringExtra("lead_uid");
+        category = getIntent().getStringExtra("category");
 
 
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        FloatingActionButton fab = findViewById(R.id.fab);
+
         switch (category) {
             case "history":
+                fab.setVisibility(View.GONE);
                 toolbar.setTitle("History");
                 break;
 
@@ -133,9 +142,39 @@ public class HistoryActivity extends AppCompatActivity implements HistoryAdapter
             }
         });
 
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putString("lead_uid", leadUid);
+                bundle.putString("category", category);
+                DescriptionBottomSheet descriptionBottomSheet = new DescriptionBottomSheet();
+                descriptionBottomSheet.setArguments(bundle);
+                descriptionBottomSheet.show(getSupportFragmentManager(), DescriptionBottomSheet.TAG);
+            }
+        });
+
+    }
+
+    @Override
+    public void onValueChanged(float amount, String category) {
+
+    }
+
+    @Override
+    public void onItemRemoved(HistoryItem item) {
+
+    }
+
+    @Override
+    public void onItemUpdated(float amount, int count) {
+
+    }
+
+    @Override
+    protected void onResume() {
         RecyclerView recyclerView;
-        List<HistoryItem> itemsList;
-        itemsList = new ArrayList<>();
         recyclerView = findViewById(R.id.recyclerView);
 
         historyAdapter = new HistoryAdapter(this, itemsList, this);
@@ -166,13 +205,14 @@ public class HistoryActivity extends AppCompatActivity implements HistoryAdapter
 
             if (task.isSuccessful() && task.getResult()!=null) {
 
-                Log.v("dipppppp", "kkk" + task.getResult().getData());
+                //Log.v("dipppppp", "kkk" + task.getResult().getData());
 
                 ArrayList<HistoryItem> historyItems = (ArrayList<HistoryItem>) task.getResult().get(category);
 
+
                 if(historyItems!=null) {
                     for(int i = 0; i<historyItems.size(); i++) {
-                    Gson gson = new Gson();
+                        Gson gson = new Gson();
                         JsonElement jsonElement = gson.toJsonTree(historyItems.get(i));
                         HistoryItem historyItem1 = gson.fromJson(jsonElement, HistoryItem.class);
                         //lead.setUid(document.getId());
@@ -184,21 +224,45 @@ public class HistoryActivity extends AppCompatActivity implements HistoryAdapter
                 }
             }
         });
-
+        super.onResume();
     }
 
     @Override
-    public void onValueChanged(float amount, String category) {
+    public void notifyAdded() {
 
-    }
+        Log.v("jhgfff", "called1");
 
-    @Override
-    public void onItemRemoved(HistoryItem item) {
+        itemsList.clear();
+        Source CACHE = Source.CACHE;
 
-    }
+        Log.v("dipppppp",  leadUid);
+        assert leadUid != null;
+        db.collection("cache").document(user.getUid()).collection("leads")
+                .document(leadUid).get(CACHE).addOnCompleteListener(task -> {
 
-    @Override
-    public void onItemUpdated(float amount, int count) {
 
+            if (task.isSuccessful() && task.getResult()!=null) {
+
+
+
+                ArrayList<HistoryItem> historyItems = (ArrayList<HistoryItem>) task.getResult().get(category);
+
+                Log.v("dipppppjjjp", "kkk" + task.getResult().get("history"));
+
+                if(historyItems!=null) {
+                    for(int i = 0; i<historyItems.size(); i++) {
+                        Gson gson = new Gson();
+                        JsonElement jsonElement = gson.toJsonTree(historyItems.get(i));
+                        HistoryItem historyItem1 = gson.fromJson(jsonElement, HistoryItem.class);
+                        Log.v("sgfgdsfgyhj", historyItem1 + "");
+                        //lead.setUid(document.getId());
+                        itemsList.add(historyItem1);
+
+                    }
+                    //itemsList.add(historyItem1);
+                    historyAdapter.notifyDataSetChanged();
+                }
+            }
+        });
     }
 }

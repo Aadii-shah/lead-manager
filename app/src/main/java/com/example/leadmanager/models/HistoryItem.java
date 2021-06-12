@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class HistoryItem implements Serializable {
     private String description;
-    private long Date;
+    private Long date;
 
     public String getDescription() {
         return description;
@@ -14,11 +14,11 @@ public class HistoryItem implements Serializable {
         this.description = description;
     }
 
-    public long getDate() {
-        return Date;
+    public Long getDate() {
+        return date;
     }
 
-    public void setDate(long date) {
-        Date = date;
+    public void setDate(Long date) {
+        this.date = date;
     }
 }

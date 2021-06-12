@@ -12,22 +12,40 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:navigationIcon="@drawable/navigation_back"
-        android:background="@color/white"
         app:layout_scrollFlags="scroll"
         app:title="Add New Lead"
         />
 
-    <RelativeLayout
+    <TextView
+        android:id="@+id/addLeads"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar"
+        android:layout_marginStart="20dp"
+        android:text="Add New Lead"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/Information"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/addLeads"
+        android:layout_marginStart="20dp"
+        android:text="Please Fill In The Following Information" />
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar"
-        android:background="#ffffff">
-
+        android:layout_below="@+id/Information"
+        android:background="@drawable/custom_card_view"
+        android:layout_marginTop="10dp">
 
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_margin="10dp">
 
             <!--Linear layout for spinner status and lead source starts here-->
@@ -292,24 +310,26 @@
                     android:singleLine="true" />
                 <!--Edit Layout for Number ends here-->
 
-
+                <Button
+                    android:id="@+id/submitButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="28dp"
+                    android:layout_marginBottom="4dp"
+                    android:text="Done" />
 
             </LinearLayout>
             <!--Layout for number ends here-->
 
 
             <!--Submit button starts here-->
-            <Button
-                android:id="@+id/submitButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:text="Done"/>
+
             <!--Submit button ends here-->
 
 
         </RelativeLayout>
 
-    </RelativeLayout>
+
+    </ScrollView>
 
 </RelativeLayout>

@@ -2,6 +2,7 @@ package com.example.leadmanager.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,6 +48,8 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
 
         holder.description.setText(item.getDescription());
         //holder.source.setText(item.getDescription());
+
+        Log.v("sgfgdsfgyh", item.getDate() + "");
         java.util.Date d = new java.util.Date(item.getDate()*1000L);
         String itemDateStr = new SimpleDateFormat("dd-MMM-YYYY HH:mm").format(d);
         holder.time.setText(itemDateStr);
