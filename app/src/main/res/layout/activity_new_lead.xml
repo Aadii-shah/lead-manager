@@ -297,17 +297,33 @@
                     android:textSize="18sp" />
 
 
-                <EditText
-                    android:id="@+id/editNumber"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    android:layout_marginTop="5dp"
-                    android:background="@drawable/edit_background"
-                    android:hint="Enter Mobile Number"
-                    android:inputType="number"
-                    android:maxLines="1"
-                    android:paddingStart="10dp"
-                    android:singleLine="true" />
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_vertical">
+
+                    <com.rilixtech.widget.countrycodepicker.CountryCodePicker
+                        android:id="@+id/ccp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="45dp"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:background="@drawable/edit_background"/>
+
+                    <EditText
+                        android:id="@+id/editNumber"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:background="@drawable/edit_background"
+                        android:hint="Enter Mobile Number"
+                        android:inputType="number"
+                        android:maxLines="1"
+                        android:paddingStart="10dp"
+                        android:singleLine="true"
+                        android:layout_gravity="center_vertical" />
+
+                </LinearLayout>
                 <!--Edit Layout for Number ends here-->
 
                 <Button

@@ -66,6 +66,7 @@ public class ListActivity extends AppCompatActivity implements LeadAdapter.Recyc
     private String category;
     private SearchView searchView;
     private Toolbar toolbar;
+    private boolean isToday = true;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -146,6 +147,8 @@ public class ListActivity extends AppCompatActivity implements LeadAdapter.Recyc
         if (category == null) {
             category = "new_lead";
         }
+
+        isToday = getIntent().getBooleanExtra("isToday", true);
 
         user = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -272,6 +275,8 @@ public class ListActivity extends AppCompatActivity implements LeadAdapter.Recyc
         }));
 
         long time = getMidNightTimeStamp();
+        if(!isToday)
+            time = 0;
 
         CollectionReference dataRef = db.collection("cache")
                 .document(user.getUid())
@@ -322,6 +327,8 @@ public class ListActivity extends AppCompatActivity implements LeadAdapter.Recyc
 
 
         long time = getMidNightTimeStamp();
+        if(!isToday)
+            time = 0;
 
         CollectionReference dataRef = db.collection("cache")
                 .document(user.getUid())
@@ -353,13 +360,12 @@ public class ListActivity extends AppCompatActivity implements LeadAdapter.Recyc
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         //recyclerView.addItemDecoration(new DividerItemDecoration(this, 1));
-        recyclerView.setAdapter(leadAdapter);
+        recyclerView.setAdapter(followUpAdapter);
         recyclerView.addOnItemTouchListener(new RecyclerViewTouchListener(this, recyclerView, new RecyclerViewTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
                 LeadApp lead = followUpAdapter.itemsFiltered.get(followUpAdapter.itemsFiltered.size() - position - 1);
                 Intent intent = new Intent(ListActivity.this, LeadDetailsActivity.class);
-                intent.putExtra("lead", lead);
                 intent.putExtra("lead", lead);
                 startActivity(intent);
             }
@@ -372,6 +378,8 @@ public class ListActivity extends AppCompatActivity implements LeadAdapter.Recyc
 
 
         long time = getMidNightTimeStamp();
+        if(!isToday)
+            time = 0;
 
         CollectionReference dataRef = db.collection("cache")
                 .document(user.getUid())
@@ -389,9 +397,10 @@ public class ListActivity extends AppCompatActivity implements LeadAdapter.Recyc
                     JsonElement jsonElement = gson.toJsonTree(document.getData());
                     LeadApp lead = gson.fromJson(jsonElement, LeadApp.class);
                     lead.setUid(document.getId());
+                    Log.v("jhfgtfvtf", lead.getLatestFollowup() + "");
                     itemsList.add(lead);
                 }
-                leadAdapter.notifyDataSetChanged();
+                followUpAdapter.notifyDataSetChanged();
             }
         });
     }

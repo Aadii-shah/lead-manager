@@ -38,6 +38,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.Source;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
+import com.rilixtech.widget.countrycodepicker.CountryCodePicker;
 
 import org.json.JSONObject;
 
@@ -63,6 +64,7 @@ public class NewLeadActivity extends AppCompatActivity {
     private FirebaseUser user;
     private ProgressDialog progress;
     private Contact contactGlobal;
+    private CountryCodePicker ccp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +84,8 @@ public class NewLeadActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         toolbar.setTitle("");
+
+        ccp = findViewById(R.id.ccp);
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -242,7 +246,7 @@ public class NewLeadActivity extends AppCompatActivity {
 
         contact.setName(contactName.getText().toString());
         contact.setAddress(editAddress.getText().toString());
-        contact.setPhone(editNumber.getText().toString());
+        contact.setPhone(ccp.getSelectedCountryCode() + editNumber.getText().toString());
         contact.setEmail(editEmail.getText().toString());
 
         Lead lead = new Lead();

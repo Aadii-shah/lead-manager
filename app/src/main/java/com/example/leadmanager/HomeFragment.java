@@ -59,20 +59,6 @@ public class HomeFragment extends Fragment {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 
-        spinner. setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if(i == 1)
-                    getCount(false);
-                else getCount(true);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-
         newLead = view.findViewById(R.id.newLead);
         todayMeeting = view.findViewById(R.id.todayMeeting);
         unAnswered = view.findViewById(R.id.unAnswered);
@@ -99,6 +85,8 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), ListActivity.class);
                 intent.putExtra("category", "new_lead");
+                if (spinner.getSelectedItem().toString().equals("Overall"))
+                    intent.putExtra("isToday", false);
                 startActivity(intent);
             }
         });
@@ -108,6 +96,8 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), ListActivity.class);
                 intent.putExtra("category", "today_meetings");
+                if (spinner.getSelectedItem().toString().equals("Overall"))
+                    intent.putExtra("isToday", false);
                 startActivity(intent);
             }
         });
@@ -117,6 +107,8 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), ListActivity.class);
                 intent.putExtra("category", "unanswered");
+                if (spinner.getSelectedItem().toString().equals("Overall"))
+                    intent.putExtra("isToday", false);
                 startActivity(intent);
             }
         });
@@ -126,6 +118,8 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), ListActivity.class);
                 intent.putExtra("category", "pending");
+                if (spinner.getSelectedItem().toString().equals("Overall"))
+                    intent.putExtra("isToday", false);
                 startActivity(intent);
             }
         });
@@ -135,6 +129,8 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), ListActivity.class);
                 intent.putExtra("category", "new_lead");
+                if (spinner.getSelectedItem().toString().equals("Overall"))
+                    intent.putExtra("isToday", false);
                 startActivity(intent);
             }
         });
@@ -144,6 +140,8 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), ListActivity.class);
                 intent.putExtra("category", "all_leads");
+                if (spinner.getSelectedItem().toString().equals("Overall"))
+                    intent.putExtra("isToday", false);
                 startActivity(intent);
             }
         });
@@ -153,6 +151,8 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), ListActivity.class);
                 intent.putExtra("category", "converted");
+                if (spinner.getSelectedItem().toString().equals("Overall"))
+                    intent.putExtra("isToday", false);
                 startActivity(intent);
             }
         });
@@ -162,6 +162,8 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), ListActivity.class);
                 intent.putExtra("category", "not_interested");
+                if (spinner.getSelectedItem().toString().equals("Overall"))
+                    intent.putExtra("isToday", false);
                 startActivity(intent);
             }
         });
@@ -171,7 +173,23 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), ListActivity.class);
                 intent.putExtra("category", "interested");
+                if (spinner.getSelectedItem().toString().equals("Overall"))
+                    intent.putExtra("isToday", false);
                 startActivity(intent);
+            }
+        });
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (i == 1)
+                    getCount(false);
+                else getCount(true);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
             }
         });
 
@@ -180,9 +198,11 @@ public class HomeFragment extends Fragment {
     }
 
     private void getCount(boolean isToday) {
+
+        Log.v("htjfhgt", "called");
         time = getMidNightTimeStamp();
 
-        if(!isToday)
+        if (!isToday)
             time = 0;
 
         CollectionReference dataRef = db.collection("cache")
@@ -194,7 +214,6 @@ public class HomeFragment extends Fragment {
         dataRef.whereGreaterThan("creationDate", time).whereEqualTo("status", "New Lead").get(CACHE).addOnCompleteListener(task -> {
 
             if (task.isSuccessful() && !Objects.requireNonNull(task.getResult()).isEmpty()) {
-                Log.v("fdfdfdf", task.getResult().size() + "");
                 newLeadCount.setText(task.getResult().size() + "");
             }
 
@@ -256,7 +275,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onResume() {
 
-        getCount(true);
+        //getCount(true);
         super.onResume();
     }
 }

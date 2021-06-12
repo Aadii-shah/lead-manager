@@ -27,6 +27,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.rilixtech.widget.countrycodepicker.CountryCodePicker;
 
 public class AddNewContactActivity extends AppCompatActivity {
 
@@ -45,6 +46,8 @@ public class AddNewContactActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         toolbar.setTitle("");
+
+        CountryCodePicker ccp = findViewById(R.id.ccp);
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,7 +117,7 @@ public class AddNewContactActivity extends AppCompatActivity {
                     contact.setName(name);
                     contact.setAddress(editAddress.getText().toString());
                     contact.setEmail(email);
-                    contact.setPhone(number);
+                    contact.setPhone(ccp.getSelectedCountryCode() + number);
 
                     FirebaseFirestore db = FirebaseFirestore.getInstance();
                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
