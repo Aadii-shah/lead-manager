@@ -22,5 +22,9 @@
     <color name="orange">#FF9408</color>
     <color name="Red">#FE1F2A</color>
     <color name="lightYellow">#CDDC39</color>
+    <color name="leadColor">#0cf143</color>
+    <color name="followUpcolor">#00B5E2</color>
+    <color name="interestedColor">#4267b2</color>
+    <color name="pendingColor">#d9575b6d</color>
 
 </resources>

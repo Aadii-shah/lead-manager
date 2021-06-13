@@ -194,11 +194,11 @@ public class ScheduleFragment extends Fragment implements WeekView.EventClickLis
 
                             switch (leadApp.getStatus()) {
                                 case "New Lead":
-                                    toAdd.setColor(ContextCompat.getColor(getContext(), R.color.lightYellow));
+                                    toAdd.setColor(ContextCompat.getColor(getContext(), R.color.leadColor));
                                     break;
 
                                 case "Interested":
-                                    toAdd.setColor(ContextCompat.getColor(getContext(), R.color.lightRed));
+                                    toAdd.setColor(ContextCompat.getColor(getContext(), R.color.interestedColor));
                                     break;
 
                                 case "Unanswered":
@@ -206,7 +206,7 @@ public class ScheduleFragment extends Fragment implements WeekView.EventClickLis
                                     break;
 
                                 case "Pending":
-                                    toAdd.setColor(ContextCompat.getColor(getContext(), R.color.purple_200));
+                                    toAdd.setColor(ContextCompat.getColor(getContext(), R.color.pendingColor));
                                     break;
 
                                 default:
