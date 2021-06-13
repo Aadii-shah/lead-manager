@@ -38,7 +38,7 @@
             android:drawablePadding="5dp"
             android:text="Simara Bara, Nepal"
             android:textSize="12sp"
-            app:drawableStartCompat="@drawable/ic_address" />
+            app:drawableStartCompat="@drawable/ic_placeholder" />
 
         <!--TextView for next address ends here-->
 
