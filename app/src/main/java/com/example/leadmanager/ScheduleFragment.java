@@ -21,6 +21,8 @@ import com.alamkanak.weekview.WeekView;
 import com.alamkanak.weekview.WeekViewEvent;
 import com.example.leadmanager.models.Contact;
 import com.example.leadmanager.models.LeadApp;
+import com.github.jhonnyx2012.horizontalpicker.DatePickerListener;
+import com.github.jhonnyx2012.horizontalpicker.HorizontalPicker;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -36,6 +38,8 @@ import com.google.firebase.firestore.Source;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 
+import org.joda.time.DateTime;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -47,7 +51,9 @@ import java.util.concurrent.Semaphore;
 
 import static com.example.leadmanager.Utility.getMidNightTimeStampByMonth;
 
-public class ScheduleFragment extends Fragment implements WeekView.EventClickListener, WeekView.EventLongPressListener, WeekView.EmptyViewLongPressListener {
+public class ScheduleFragment extends Fragment implements WeekView.EventClickListener, WeekView.EventLongPressListener
+        , WeekView.EmptyViewLongPressListener
+, DatePickerListener {
 
     private static ArrayList<WeekViewEvent> mNewEvents;
     //private List<WeekViewEvent> events;
@@ -83,6 +89,18 @@ public class ScheduleFragment extends Fragment implements WeekView.EventClickLis
         mWeekView = view.findViewById(R.id.weekView);
 
         events = new ArrayList<WeekViewEvent>();
+
+
+
+        HorizontalPicker picker = (HorizontalPicker) view.findViewById(R.id.datePicker);
+        //DateTime dateTime= new DateTime();
+
+        // initialize it and attach a listener
+        picker
+                .setListener(this)
+                .init();
+
+        picker.setDate(new DateTime());
 
         // Get a reference for the week view in the layout.
         //mWeekView = view.findViewById(R.id.weekView);
@@ -248,16 +266,75 @@ public class ScheduleFragment extends Fragment implements WeekView.EventClickLis
 
     public static boolean containsLocation(List<WeekViewEvent> c, Calendar calendar) {
 
-
         for (WeekViewEvent o : c) {
             Calendar calendar1 = o.getStartTime();
             calendar1.get(Calendar.MONTH);
-            Log.v("humnan1", "" + calendar.get(Calendar.MONTH));
-            Log.v("humnan", "" + calendar1.get(Calendar.MONTH));
             if (calendar1.get(Calendar.MONTH) == calendar.get(Calendar.MONTH)) {
                 return true;
             }
         }
         return false;
     }
+
+    @Override
+    public void onDateSelected(DateTime dateSelected) {
+
+        dateSelected.toDate();
+
+        Log.v("hbchbch", "called" + dateSelected.toDate());
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(dateSelected.toDate());
+        mWeekView.goToDate(calendar);
+
+    }
+
+
+    /*
+    Calendar calendar = Calendar.getInstance();
+Calendar calendarMy = Calendar.getInstance();
+
+nextMonth.setOnClickListener(new View.OnClickListener() {
+ @Override
+  public void onClick(View v) {
+
+   if (month > 11) {//checking the month
+     month = 1;
+     year++;
+   } else {
+   month++;
+   }
+
+   //update current time
+    calendarMy.set(Calendar.MONTH,month);
+    calendarMy.set(Calendar.YEAR,year);
+
+    disableButton();
+
+   setGridCellAdapterToDate(month, year);
+   }
+   });
+
+//prev arrow click to show prev month
+    prevMonth.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+
+    if (month <= 1) {//checking the month
+        month = 12;
+        year--;
+    } else {
+    month--;
+    }
+
+    //update current time
+     calendarMy.set(Calendar.MONTH,month);
+    calendarMy.set(Calendar.YEAR,year);
+
+    disableButton();
+
+
+    setGridCellAdapterToDate(month, year);
+                        }
+   });
+     */
 }

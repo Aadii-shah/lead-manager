@@ -23,6 +23,8 @@ import com.example.leadmanager.models.Contact;
 import com.example.leadmanager.models.HistoryItem;
 import com.example.leadmanager.models.Lead;
 import com.example.leadmanager.models.LeadApp;
+import com.example.leadmanager.templates.ChooseTemplateBottomSheet;
+import com.example.leadmanager.templates.TemplateBottomSheet;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -243,14 +245,28 @@ public class LeadDetailsActivity extends AppCompatActivity {
         sms.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", contactGlobal.getPhone(), null)));
+                ChooseTemplateBottomSheet templateBottomSheet = new ChooseTemplateBottomSheet();
+                Bundle bundle = new Bundle();
+                bundle.putString("contact", contactGlobal.getPhone());
+                bundle.putString("category", "sms");
+                templateBottomSheet.setArguments(bundle);
+                templateBottomSheet.show(getSupportFragmentManager(), TemplateBottomSheet.TAG);
+                //startActivity(new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", contactGlobal.getPhone(), null)));
             }
         });
 
         whatsApp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent whatsappIntent = new Intent(Intent.ACTION_SEND);
+
+                ChooseTemplateBottomSheet templateBottomSheet = new ChooseTemplateBottomSheet();
+                Bundle bundle = new Bundle();
+                bundle.putString("contact", contactGlobal.getPhone());
+                bundle.putString("category", "whatsapp");
+                templateBottomSheet.setArguments(bundle);
+                templateBottomSheet.show(getSupportFragmentManager(), TemplateBottomSheet.TAG);
+
+                /*Intent whatsappIntent = new Intent(Intent.ACTION_SEND);
                 //whatsappIntent.putExtra(Intent.EXTRA_STREAM, generateBill(getContext(), billingDetails));
                 whatsappIntent.setType("text/plain");
                 whatsappIntent.putExtra(Intent.EXTRA_TEXT, "Hi *" + contactGlobal.getName() + "*");
@@ -263,20 +279,26 @@ public class LeadDetailsActivity extends AppCompatActivity {
                     //startActivity(Intent.createChooser(whatsappIntent, ""));
                 } catch (android.content.ActivityNotFoundException ex) {
                     // ToastHelper.MakeShortText("Whatsapp have not been installed.");
-                }
+                }*/
             }
         });
 
         email.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_SENDTO);
+                /*Intent intent = new Intent(Intent.ACTION_SENDTO);
                 intent.setData(Uri.parse("mailto:")); // only email apps should handle this
                 intent.putExtra(Intent.EXTRA_EMAIL, contactGlobal.getEmail());
                 //intent.putExtra(Intent.EXTRA_SUBJECT, subject);
                 if (intent.resolveActivity(getPackageManager()) != null) {
                     startActivity(intent);
-                }
+                }*/
+                ChooseTemplateBottomSheet templateBottomSheet = new ChooseTemplateBottomSheet();
+                Bundle bundle = new Bundle();
+                bundle.putString("contact", contactGlobal.getEmail());
+                bundle.putString("category", "email");
+                templateBottomSheet.setArguments(bundle);
+                templateBottomSheet.show(getSupportFragmentManager(), TemplateBottomSheet.TAG);
             }
         });
 

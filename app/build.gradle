@@ -48,5 +48,7 @@ dependencies {
     implementation 'com.github.Kunzisoft:Android-SwitchDateTimePicker:2.0'
     implementation 'com.github.joielechong:countrycodepicker:2.4.2'
     implementation 'com.github.marcoscgdev:Android-Week-View:1.2.7'
+    implementation 'com.github.jhonnyx2012:horizontal-picker:1.0.6'
+    implementation 'com.github.gastricspark:scrolldatepicker:0.0.1'
 
 }
