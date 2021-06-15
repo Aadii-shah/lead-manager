@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -18,14 +19,22 @@ import androidx.annotation.Nullable;
 import com.example.leadmanager.R;
 import com.example.leadmanager.Utility;
 import com.example.leadmanager.models.HistoryItem;
+import com.example.leadmanager.templates.TemplateBottomSheet;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.kunzisoft.switchdatetime.SwitchDateTimeDialogFragment;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class FollowUpBottomSheet extends BottomSheetDialogFragment {
 
@@ -36,9 +45,11 @@ public class FollowUpBottomSheet extends BottomSheetDialogFragment {
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private ProgressDialog progress;
     private FollowUpBottomSheet.NotifyParent notifyParent;
+    private TextView time;
+    private Date date;
 
-    public FollowUpBottomSheet newInstance() {
-        return new FollowUpBottomSheet();
+    public FollowUpBottomSheet(FollowUpBottomSheet.NotifyParent notifyParent) {
+        this.notifyParent = notifyParent;
     }
 
     @Override
@@ -62,34 +73,83 @@ public class FollowUpBottomSheet extends BottomSheetDialogFragment {
 
         Bundle mArgs = getArguments();
         String leadUid = mArgs.getString("lead_uid");
-        String category = mArgs.getString("category");
+        long latestFollowUp = mArgs.getLong("latestFollowUp");
+        String lfd = mArgs.getString("lfd");
         progress = new ProgressDialog(getContext());
         description = view.findViewById(R.id.description);
+        description.setText(lfd);
+        time = view.findViewById(R.id.timeStamp);
+
+        java.util.Date d = new java.util.Date(latestFollowUp*1000L);
+        date = d;
+        String itemDateStr = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss a zzzz").format(d);
+        time.setText(itemDateStr);
+
+        time.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SwitchDateTimeDialogFragment dateTimeDialogFragment = SwitchDateTimeDialogFragment.newInstance(
+                        "Follow-up time",
+                        "OK",
+                        "Cancel"
+                );
+
+                dateTimeDialogFragment.startAtCalendarView();
+                dateTimeDialogFragment.set24HoursMode(false);
+                dateTimeDialogFragment.setMinimumDateTime(new GregorianCalendar(2015, Calendar.JANUARY, 1).getTime());
+                dateTimeDialogFragment.setMaximumDateTime(new GregorianCalendar(2080, Calendar.DECEMBER, 31).getTime());
+
+                if (latestFollowUp > 0)
+                    dateTimeDialogFragment.setDefaultDateTime(new java.util.Date(latestFollowUp * 1000L)/*new GregorianCalendar(2021, 6, 12, 6, 20).getTime()*/);
+                else
+                    dateTimeDialogFragment.setDefaultDateTime(new java.util.Date(Utility.getCurrentTime() * 1000L)/*new GregorianCalendar(2021, 6, 12, 6, 20).getTime()*/);
+
+
+                dateTimeDialogFragment.setOnButtonClickListener(new SwitchDateTimeDialogFragment.OnButtonClickListener() {
+                    @Override
+                    public void onPositiveButtonClick(Date date1) {
+                        date = date1;
+                    }
+
+                    @Override
+                    public void onNegativeButtonClick(Date date) {
+                        // Date is get on negative button click
+                    }
+                });
+
+                dateTimeDialogFragment.show(getChildFragmentManager(), "dialog_time");
+
+            }
+        });
 
         Button proceed = view.findViewById(R.id.proceed);
         proceed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view1) {
 
-                progress.setMessage("adding new " + category);
-                progress.setCancelable(false); // disable dismiss by tapping outside of the dialog
-                progress.show();
+                if (!description.getText().toString().equals("")) {
 
-                HistoryItem historyItem = new HistoryItem();
-
-                if(!description.getText().toString().equals("")) {
-                    historyItem.setDescription(description.getText().toString());
-                    historyItem.setDate(Utility.getCurrentTime());
-
-                    db.collection("cache").document(user.getUid())
-                            //.collection("contacts").document(contact.getUid())
-                            .collection("leads")
+                    progress.setMessage("scheduling followup");
+                    progress.setCancelable(false); // disable dismiss by tapping outside of the dialog
+                    progress.show();
+                    /*progress.setMessage("updating followup");
+                    progress.setCancelable(false); // disable dismiss by tapping outside of the dialog
+                    progress.show();*/
+                    // Date is get on positive button click
+                    // Do something
+                    Log.v("dddddddd", date.toString() + "");
+                    //SimpleDateFormat df = new SimpleDateFormat("MMM dd yyyy HH:mm:ss.SSS zzz");
+                    //Date date1 = df.parse(date);
+                    long epoch = date.getTime() / 1000;
+                    db.collection("cache").document(user.getUid()).collection("leads")
                             .document(leadUid)
-                            .update(category, FieldValue.arrayUnion(historyItem)).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            .update("latestFollowup", epoch, "lfd", description.getText().toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            Log.v("ttttttt", historyItem.getDate() + "");
-                            historyItem.setDescription("Added " + category);
+                        public void onSuccess(Void aVoid) {
+                            HistoryItem historyItem = new HistoryItem();
+                            historyItem.setDescription("Follow-up updated to: " + date);
+                            historyItem.setDate(Utility.getCurrentTime());
+
                             db.collection("cache").document(user.getUid())
                                     //.collection("contacts").document(contact.getUid())
                                     .collection("leads")
@@ -97,7 +157,12 @@ public class FollowUpBottomSheet extends BottomSheetDialogFragment {
                                     .update("history", FieldValue.arrayUnion(historyItem)).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
-                                    notifyParent.notifyAdded();
+                                    java.util.Date d = new java.util.Date(epoch * 1000L);
+                                    String itemDateStr = new SimpleDateFormat("dd-MMM-YYYY HH:mm").format(d);
+                                    if (notifyParent != null)
+                                        notifyParent.notifyAdded(itemDateStr, description.getText().toString());
+
+                                    //followUpText.setText(itemDateStr);
                                     progress.dismiss();
                                     dismiss();
                                 }
@@ -107,17 +172,15 @@ public class FollowUpBottomSheet extends BottomSheetDialogFragment {
 
                                 }
                             });
-
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            progress.dismiss();
-                            notifyParent.notifyAdded();
-                            dismiss();
+
                         }
                     });
 
+                    Log.v("dddddddd", epoch + "");
                 } else {
                     Toast.makeText(getContext(), "Please fill the form", Toast.LENGTH_SHORT).show();
                 }
@@ -156,7 +219,7 @@ public class FollowUpBottomSheet extends BottomSheetDialogFragment {
     }
 
     public interface NotifyParent {
-        void notifyAdded();
+        void notifyAdded(String itemDateStr, String lfd);
     }
-    
+
 }

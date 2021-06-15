@@ -6,6 +6,15 @@ public class Lead implements Serializable {
     String status;
     String source;
     String description;
+    String lfd;
+
+    public String getLfd() {
+        return lfd;
+    }
+
+    public void setLfd(String lfd) {
+        this.lfd = lfd;
+    }
 
     public String getContactUid() {
         return contactUid;

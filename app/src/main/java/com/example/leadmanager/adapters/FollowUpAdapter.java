@@ -48,10 +48,10 @@ public class FollowUpAdapter extends RecyclerView.Adapter<FollowUpAdapter.MyView
         holder.description.setText(item.getDescription());
 
         if(item.getNotes() !=null )
-        holder.note.setText(item.getNotes()[item.getNotes().length - 1].getDescription());
+        holder.note.setText(item.getLfd());
         else holder.note.setText("NA");
         java.util.Date d = new java.util.Date(item.getLatestFollowup()*1000L);
-        String itemDateStr = new SimpleDateFormat("HH:mm").format(d);
+        String itemDateStr = new SimpleDateFormat("E, dd MMM hh:mm a").format(d);
         holder.time.setText(itemDateStr);
 
     }

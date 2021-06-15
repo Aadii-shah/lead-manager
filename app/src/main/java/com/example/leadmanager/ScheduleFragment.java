@@ -19,6 +19,9 @@ import android.widget.Spinner;
 import com.alamkanak.weekview.MonthLoader;
 import com.alamkanak.weekview.WeekView;
 import com.alamkanak.weekview.WeekViewEvent;
+import com.example.leadmanager.calendar.CalendarBottomSheet;
+import com.example.leadmanager.leads.DescriptionBottomSheet;
+import com.example.leadmanager.leads.FollowUpBottomSheet;
 import com.example.leadmanager.models.Contact;
 import com.example.leadmanager.models.LeadApp;
 import com.github.jhonnyx2012.horizontalpicker.DatePickerListener;
@@ -153,7 +156,14 @@ public class ScheduleFragment extends Fragment implements WeekView.EventClickLis
 
     @Override
     public void onEventClick(WeekViewEvent event, RectF eventRect) {
+        Bundle bundle = new Bundle();
+        bundle.putString("lead_uid", event.getUid());
+        bundle.putLong("startTime", event.getStartTime().getTimeInMillis());
+        bundle.putString("description", event.getDescription());
 
+        CalendarBottomSheet calendarBottomSheet = new CalendarBottomSheet();
+        calendarBottomSheet.setArguments(bundle);
+        calendarBottomSheet.show(getChildFragmentManager(), DescriptionBottomSheet.TAG);
     }
 
     @Override
@@ -208,7 +218,9 @@ public class ScheduleFragment extends Fragment implements WeekView.EventClickLis
                             //calendar1.set(2021, 5, 14, 5, 50);
                             calendar1.setTimeInMillis((leadApp.getLatestFollowup()*1000L) + 1800000);
                             WeekViewEvent toAdd = new WeekViewEvent(i, leadApp.getStatus(), calendar, calendar1);
-                            toAdd.setLocation("ooooooooooooo");
+                            toAdd.setDescription(leadApp.getLfd());
+                            //toAdd.setLocation("ooooooooooooo");
+                            toAdd.setUid(leadApp.getUid());
 
 
                             switch (leadApp.getStatus()) {
@@ -286,6 +298,7 @@ public class ScheduleFragment extends Fragment implements WeekView.EventClickLis
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(dateSelected.toDate());
         mWeekView.goToDate(calendar);
+        mWeekView.goToHour(10);
 
     }
 

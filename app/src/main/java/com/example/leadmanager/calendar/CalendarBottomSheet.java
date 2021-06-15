@@ -3,7 +3,9 @@ package com.example.leadmanager.calendar;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +17,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.leadmanager.LeadDetailsActivity;
+import com.example.leadmanager.ListActivity;
 import com.example.leadmanager.R;
+import com.example.leadmanager.models.LeadApp;
 import com.example.leadmanager.models.Template;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -23,22 +28,28 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Source;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+
+import java.text.SimpleDateFormat;
+import java.util.Objects;
 
 public class CalendarBottomSheet extends BottomSheetDialogFragment {
 
     public static final String TAG = "ActionBottomDialogTemplate";
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private EditText description, time;
+    private TextView description, time;
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private ProgressDialog progress;
     private CalendarBottomSheet.NotifyParent notifyParent;
 
 
-
-    public CalendarBottomSheet(CalendarBottomSheet.NotifyParent notifyParent) {
-        this.notifyParent = notifyParent;
+    public CalendarBottomSheet newInstance() {
+        return new CalendarBottomSheet();
     }
 
     @Override
@@ -61,17 +72,45 @@ public class CalendarBottomSheet extends BottomSheetDialogFragment {
         super.onViewCreated(view, savedInstanceState);
 
         Bundle mArgs = getArguments();
-//        String leadUid = mArgs.getString("lead_uid");
-        //      String category = mArgs.getString("category");
+        String leadUid = mArgs.getString("lead_uid");
+        String descriptionText = mArgs.getString("description");
+        Long startTime = mArgs.getLong("startTime");
         progress = new ProgressDialog(getContext());
         description = view.findViewById(R.id.description);
+        description.setText(descriptionText);
         time = view.findViewById(R.id.time);
+
+        java.util.Date d = new java.util.Date(startTime);
+        String itemDateStr = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss a zzzz").format(d);
+        time.setText(itemDateStr);
 
         Button proceed = view.findViewById(R.id.open);
         proceed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view1) {
+                db.collection("cache").document(user.getUid())
+                        .collection("leads").document(leadUid)
+                        .get(Source.CACHE)
+                        .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                            @Override
+                            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                Gson gson = new Gson();
+                                JsonElement jsonElement = gson.toJsonTree(documentSnapshot.getData());
+                                LeadApp lead = gson.fromJson(jsonElement, LeadApp.class);
 
+                                lead.setUid(documentSnapshot.getReference().getId());
+
+                                Intent intent = new Intent(getContext(), LeadDetailsActivity.class);
+                                intent.putExtra("lead", lead);
+                                startActivity(intent);
+                                //requireActivity().finish();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
             }
         });
 
