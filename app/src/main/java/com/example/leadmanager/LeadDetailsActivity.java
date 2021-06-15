@@ -1,5 +1,9 @@
 package com.example.leadmanager;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -72,6 +76,18 @@ public class LeadDetailsActivity extends AppCompatActivity implements FollowUpBo
         setContentView(R.layout.activity_lead_details);
 
 
+        ActivityResultLauncher<Intent> mLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        if(result.getResultCode() == 20) {
+                            statusText.setText(result.getData().getStringExtra("status"));
+                        }
+                        // Do your code from onActivityResult
+                    }
+                });
+
         progress = new ProgressDialog(this);
 
         user = FirebaseAuth.getInstance().getCurrentUser();
@@ -120,7 +136,11 @@ public class LeadDetailsActivity extends AppCompatActivity implements FollowUpBo
             public void onClick(View view) {
                 Intent intent = new Intent(LeadDetailsActivity.this, StatusActivity.class);
                 intent.putExtra("lead_uid", lead.getUid());
-                startActivity(intent);
+                intent.putExtra("status", lead.getStatus());
+
+                mLauncher.launch(intent);
+
+                //startActivity(intent);
             }
         });
 
