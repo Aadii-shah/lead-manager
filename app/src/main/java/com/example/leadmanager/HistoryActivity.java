@@ -118,6 +118,17 @@ public class HistoryActivity extends AppCompatActivity implements HistoryAdapter
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        FloatingActionButton fabHome = findViewById(R.id.fabHome);
+        fabHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.v("test", "called");
+                Intent home = new Intent(HistoryActivity.this, MainActivity.class);
+                startActivity(home);
+                finish();
+            }
+        });
+
         FloatingActionButton fab = findViewById(R.id.fab);
 
         switch (category) {
