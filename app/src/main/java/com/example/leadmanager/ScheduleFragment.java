@@ -56,7 +56,7 @@ import static com.example.leadmanager.Utility.getMidNightTimeStampByMonth;
 
 public class ScheduleFragment extends Fragment implements WeekView.EventClickListener, WeekView.EventLongPressListener
         , WeekView.EmptyViewLongPressListener
-, DatePickerListener {
+        , DatePickerListener {
 
     private static ArrayList<WeekViewEvent> mNewEvents;
     //private List<WeekViewEvent> events;
@@ -92,7 +92,6 @@ public class ScheduleFragment extends Fragment implements WeekView.EventClickLis
         mWeekView = view.findViewById(R.id.weekView);
 
         events = new ArrayList<WeekViewEvent>();
-
 
 
         HorizontalPicker picker = (HorizontalPicker) view.findViewById(R.id.datePicker);
@@ -213,10 +212,10 @@ public class ScheduleFragment extends Fragment implements WeekView.EventClickLis
                             leadApp.setUid(document.getReference().getId());
                             Calendar calendar = Calendar.getInstance();
                             calendar.set(2021, 5, 14, 5, 10);
-                            calendar.setTimeInMillis(leadApp.getLatestFollowup()*1000L);
+                            calendar.setTimeInMillis(leadApp.getLatestFollowup() * 1000L);
                             Calendar calendar1 = Calendar.getInstance();
                             //calendar1.set(2021, 5, 14, 5, 50);
-                            calendar1.setTimeInMillis((leadApp.getLatestFollowup()*1000L) + 1800000);
+                            calendar1.setTimeInMillis((leadApp.getLatestFollowup() * 1000L) + 1800000);
                             WeekViewEvent toAdd = new WeekViewEvent(i, leadApp.getStatus(), calendar, calendar1);
                             toAdd.setDescription(leadApp.getLfd());
                             //toAdd.setLocation("ooooooooooooo");

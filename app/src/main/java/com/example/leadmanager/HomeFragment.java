@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -58,6 +59,15 @@ public class HomeFragment extends Fragment {
                 R.array.day_array, R.layout.color_spinner_layout);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+
+        ImageView profile = view.findViewById(R.id.profile);
+        profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ProfileBottomSheet profileSheet = ProfileBottomSheet.newInstance();
+                profileSheet.show(getChildFragmentManager(), ProfileBottomSheet.TAG);
+            }
+        });
 
         newLead = view.findViewById(R.id.newLead);
         todayMeeting = view.findViewById(R.id.todayMeeting);

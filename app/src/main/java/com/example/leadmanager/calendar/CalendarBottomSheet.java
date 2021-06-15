@@ -81,7 +81,7 @@ public class CalendarBottomSheet extends BottomSheetDialogFragment {
         time = view.findViewById(R.id.time);
 
         java.util.Date d = new java.util.Date(startTime);
-        String itemDateStr = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss a zzzz").format(d);
+        String itemDateStr = new SimpleDateFormat("E, dd MMM yyyy hh:mm a zzzz").format(d);
         time.setText(itemDateStr);
 
         Button proceed = view.findViewById(R.id.open);
