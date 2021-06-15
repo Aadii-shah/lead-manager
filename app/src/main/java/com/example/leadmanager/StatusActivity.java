@@ -1,11 +1,16 @@
 package com.example.leadmanager;
 
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,8 +30,13 @@ public class StatusActivity extends AppCompatActivity {
     LinearLayout statusesLayout;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseUser user;
+    private boolean flag;
+
+    private ProgressDialog progress;
 
     private RadioButton radio_newLead, radio_interested, radio_notInterested, radio_unanswered, radio_busy, radio_converted;
+    private RadioGroup radioGroup;
+    private String status;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +44,7 @@ public class StatusActivity extends AppCompatActivity {
         setContentView(R.layout.activity_status);
 
         String leadUid = getIntent().getStringExtra("lead_uid");
+        status = getIntent().getStringExtra("status");
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -44,6 +55,39 @@ public class StatusActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        progress = new ProgressDialog(this);
+
+        radioGroup = findViewById(R.id.statusesLayout);
+
+        switch (status) {
+            case "New Lead":
+                ((RadioButton) radioGroup.getChildAt(0)).setChecked(true);
+                break;
+
+            case "Interested":
+                ((RadioButton) radioGroup.getChildAt(1)).setChecked(true);
+                break;
+
+            case "Not Interested":
+                ((RadioButton) radioGroup.getChildAt(2)).setChecked(true);
+                break;
+
+            case "Unanswered":
+                ((RadioButton) radioGroup.getChildAt(3)).setChecked(true);
+                break;
+
+            case "Busy":
+                ((RadioButton) radioGroup.getChildAt(4)).setChecked(true);
+                break;
+
+            case "Converted":
+                ((RadioButton) radioGroup.getChildAt(5)).setChecked(true);
+                break;
+        }
+        flag = false;
+
+
 
 
         /*radio_newLead = findViewById(R.id.radio_newLead);
@@ -59,7 +103,7 @@ public class StatusActivity extends AppCompatActivity {
         radio_notInterested.setChecked(Update("radio_notInterested"));
         radio_busy.setChecked(Update("radio_busy"));
         radio_unanswered.setChecked(Update("radio_unanswered"));
-        radio_converted.setChecked(Update("radio_converted"));*/
+        radio_converted.setChecked(Update("radio_converted"));
 
 
         radio_newLead.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -121,11 +165,28 @@ public class StatusActivity extends AppCompatActivity {
                 radioSharedPrefs("radio_converted", converted_isChecked);
 
             }
-        });
+        });*/
 
 
         user = FirebaseAuth.getInstance().getCurrentUser();
-        statusesLayout = findViewById(R.id.statusesLayout);
+        //statusesLayout = findViewById(R.id.statusesLayout);
+
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                progress.setMessage("changing status");
+                progress.setCancelable(false); // disable dismiss by tapping outside of the dialog
+                progress.show();
+                //if(flag) {
+                Log.v("kjdgf6f", "called");
+                RadioButton radioButton = (RadioButton) findViewById(radioGroup.getCheckedRadioButtonId());
+                status = radioButton.getText().toString();
+                changeStatus(leadUid, status);
+                //} else {
+                //flag = true;
+                //}
+            }
+        });
 
        /* statusesLayout.getChildAt(0).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -204,7 +265,13 @@ public class StatusActivity extends AppCompatActivity {
                                 .update("history", FieldValue.arrayUnion(historyItem)).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
-                                //TODO Update UI
+                                progress.dismiss();
+                                Intent intent = new Intent();
+                                intent.putExtra("status", status);
+                                //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                //intent.setData(Uri.parse(status));
+                                setResult(20, intent);
+                                finish();
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
