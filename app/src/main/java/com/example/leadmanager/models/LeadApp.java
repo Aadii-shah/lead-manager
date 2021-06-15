@@ -8,6 +8,16 @@ public class LeadApp implements Serializable {
     String description;
     String uid;
 
+    public String getLfd() {
+        return lfd;
+    }
+
+    public void setLfd(String lfd) {
+        this.lfd = lfd;
+    }
+
+    String lfd;
+
     public String getUid() {
         return uid;
     }

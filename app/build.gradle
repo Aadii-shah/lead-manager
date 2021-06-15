@@ -36,6 +36,7 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.getbase:floatingactionbutton:1.10.1'
+    implementation project(path: ':weekview')
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
@@ -47,7 +48,7 @@ dependencies {
     implementation 'com.shobhitpuri.custombuttons:google-signin:1.1.0'
     implementation 'com.github.Kunzisoft:Android-SwitchDateTimePicker:2.0'
     implementation 'com.github.joielechong:countrycodepicker:2.4.2'
-    implementation 'com.github.marcoscgdev:Android-Week-View:1.2.7'
+    //implementation 'com.github.marcoscgdev:Android-Week-View:1.2.7'
     implementation 'com.github.jhonnyx2012:horizontal-picker:1.0.6'
     implementation 'com.github.gastricspark:scrolldatepicker:0.0.1'
 

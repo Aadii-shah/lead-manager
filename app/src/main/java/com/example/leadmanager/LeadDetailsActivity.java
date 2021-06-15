@@ -7,6 +7,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -19,6 +20,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.leadmanager.adapters.AutoCompleteAdapterContact;
+import com.example.leadmanager.adapters.FollowUpAdapter;
+import com.example.leadmanager.leads.DescriptionBottomSheet;
+import com.example.leadmanager.leads.FollowUpBottomSheet;
 import com.example.leadmanager.models.Contact;
 import com.example.leadmanager.models.HistoryItem;
 import com.example.leadmanager.models.Lead;
@@ -49,7 +53,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Objects;
 
-public class LeadDetailsActivity extends AppCompatActivity {
+public class LeadDetailsActivity extends AppCompatActivity implements FollowUpBottomSheet.NotifyParent {
 
     private CardView status, followUp, deals, notes, history;
     private RelativeLayout call, sms, whatsApp, email;
@@ -57,6 +61,8 @@ public class LeadDetailsActivity extends AppCompatActivity {
     private FirebaseUser user;
     private Contact contactGlobal;
     private ProgressDialog progress;
+    private FollowUpBottomSheet.NotifyParent context = this;
+    private LeadApp lead;
 
     private TextView statusText, followUpText, dealsText, notesText;
 
@@ -70,7 +76,7 @@ public class LeadDetailsActivity extends AppCompatActivity {
 
         user = FirebaseAuth.getInstance().getCurrentUser();
 
-        LeadApp lead = (LeadApp) getIntent().getSerializableExtra("lead");
+        lead = (LeadApp) getIntent().getSerializableExtra("lead");
         getContact(lead.getContactUid());
 
         statusText = findViewById(R.id.tvStatus);
@@ -122,83 +128,14 @@ public class LeadDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-
-                SwitchDateTimeDialogFragment dateTimeDialogFragment = SwitchDateTimeDialogFragment.newInstance(
-                        "Follow-up time",
-                        "OK",
-                        "Cancel"
-                );
-
-                dateTimeDialogFragment.startAtCalendarView();
-                dateTimeDialogFragment.set24HoursMode(false);
-                dateTimeDialogFragment.setMinimumDateTime(new GregorianCalendar(2015, Calendar.JANUARY, 1).getTime());
-                dateTimeDialogFragment.setMaximumDateTime(new GregorianCalendar(2080, Calendar.DECEMBER, 31).getTime());
-
-                Log.v("jhfggffd", lead.getLatestFollowup() + "");
-                if (lead.getLatestFollowup() > 0)
-                    dateTimeDialogFragment.setDefaultDateTime(new java.util.Date(lead.getLatestFollowup() * 1000L)/*new GregorianCalendar(2021, 6, 12, 6, 20).getTime()*/);
-                else
-                    dateTimeDialogFragment.setDefaultDateTime(new java.util.Date(Utility.getCurrentTime() * 1000L)/*new GregorianCalendar(2021, 6, 12, 6, 20).getTime()*/);
-
-
-                dateTimeDialogFragment.setOnButtonClickListener(new SwitchDateTimeDialogFragment.OnButtonClickListener() {
-                    @Override
-                    public void onPositiveButtonClick(Date date) {
-
-                        progress.setMessage("updating followup");
-                        progress.setCancelable(false); // disable dismiss by tapping outside of the dialog
-                        progress.show();
-                        // Date is get on positive button click
-                        // Do something
-                        Log.v("dddddddd", date.toString() + "");
-                        //SimpleDateFormat df = new SimpleDateFormat("MMM dd yyyy HH:mm:ss.SSS zzz");
-                        //Date date1 = df.parse(date);
-                        long epoch = date.getTime() / 1000;
-                        db.collection("cache").document(user.getUid()).collection("leads")
-                                .document(lead.getUid())
-                                .update("latestFollowup", epoch).addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                HistoryItem historyItem = new HistoryItem();
-                                historyItem.setDescription("Follow-up updated to: " +  date);
-                                historyItem.setDate(Utility.getCurrentTime());
-
-                                db.collection("cache").document(user.getUid())
-                                        //.collection("contacts").document(contact.getUid())
-                                        .collection("leads")
-                                        .document(lead.getUid())
-                                        .update("history", FieldValue.arrayUnion(historyItem)).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        java.util.Date d = new java.util.Date(epoch * 1000L);
-                                        String itemDateStr = new SimpleDateFormat("dd-MMM-YYYY HH:mm").format(d);
-                                        followUpText.setText(itemDateStr);
-                                        progress.dismiss();
-                                    }
-                                }).addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-
-                                    }
-                                });
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-
-                            }
-                        });
-
-                        Log.v("dddddddd", epoch + "");
-                    }
-
-                    @Override
-                    public void onNegativeButtonClick(Date date) {
-                        // Date is get on negative button click
-                    }
-                });
-
-                dateTimeDialogFragment.show(getSupportFragmentManager(), "dialog_time");
+                Bundle bundle = new Bundle();
+                bundle.putString("lead_uid", lead.getUid());
+                bundle.putLong("latestFollowUp", lead.getLatestFollowup());
+                //Log.v("ifhrgbuergv", lead.getLfd());
+                bundle.putString("lfd", lead.getLfd());
+                FollowUpBottomSheet followUpBottomSheet = new FollowUpBottomSheet(context);
+                followUpBottomSheet.setArguments(bundle);
+                followUpBottomSheet.show(getSupportFragmentManager(), DescriptionBottomSheet.TAG);
 
                 //Intent intent = new Intent(LeadDetailsActivity.this, ListActivity.class);
                 //intent.putExtra("category", "new_lead");
@@ -334,5 +271,11 @@ public class LeadDetailsActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public void notifyAdded(String itemDateStr, String lfd) {
+        followUpText.setText(itemDateStr);
+        lead.setLfd(lfd);
     }
 }

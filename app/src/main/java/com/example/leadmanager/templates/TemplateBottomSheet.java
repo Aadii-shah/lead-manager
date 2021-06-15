@@ -42,7 +42,6 @@ public class TemplateBottomSheet extends BottomSheetDialogFragment {
     private TemplateBottomSheet.NotifyParent notifyParent;
 
 
-
     public TemplateBottomSheet(NotifyParent notifyParent) {
         this.notifyParent = notifyParent;
     }
@@ -68,7 +67,7 @@ public class TemplateBottomSheet extends BottomSheetDialogFragment {
 
         Bundle mArgs = getArguments();
 //        String leadUid = mArgs.getString("lead_uid");
-  //      String category = mArgs.getString("category");
+        //      String category = mArgs.getString("category");
         progress = new ProgressDialog(getContext());
         description = view.findViewById(R.id.description);
         name = view.findViewById(R.id.name);
@@ -97,7 +96,7 @@ public class TemplateBottomSheet extends BottomSheetDialogFragment {
                             progress.dismiss();
                             description.setText("");
                             name.setText("");
-                            if(notifyParent!=null)
+                            if (notifyParent != null)
                                 notifyParent.notifyAdded();
                             dismiss();
                         }
@@ -105,7 +104,8 @@ public class TemplateBottomSheet extends BottomSheetDialogFragment {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             progress.dismiss();
-                            notifyParent.notifyAdded();
+                            if (notifyParent != null)
+                                notifyParent.notifyAdded();
                             dismiss();
                         }
                     });

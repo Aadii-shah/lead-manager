@@ -23,14 +23,12 @@
         android:layout_height="wrap_content">
 
         <RadioButton
-            android:id="@+id/radio_newLead"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="New lead"
             android:textSize="20sp"
             android:padding="20dp"/>
         <RadioButton
-            android:id="@+id/radio_interested"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Interested"
@@ -38,7 +36,6 @@
             android:padding="20dp"/>
 
         <RadioButton
-            android:id="@+id/radio_notInterested"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Not Interested"
@@ -46,14 +43,12 @@
             android:padding="20dp"/>
 
         <RadioButton
-            android:id="@+id/radio_unanswered"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Unanswered"
             android:textSize="20sp"
             android:padding="20dp"/>
         <RadioButton
-            android:id="@+id/radio_busy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Busy"
@@ -62,7 +57,6 @@
 
 
         <RadioButton
-            android:id="@+id/radio_converted"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Converted"

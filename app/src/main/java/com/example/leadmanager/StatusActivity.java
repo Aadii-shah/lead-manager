@@ -46,7 +46,7 @@ public class StatusActivity extends AppCompatActivity {
         });
 
 
-        radio_newLead = findViewById(R.id.radio_newLead);
+        /*radio_newLead = findViewById(R.id.radio_newLead);
         radio_interested = findViewById(R.id.radio_interested);
         radio_notInterested = findViewById(R.id.radio_notInterested);
         radio_busy = findViewById(R.id.radio_busy);
@@ -59,7 +59,7 @@ public class StatusActivity extends AppCompatActivity {
         radio_notInterested.setChecked(Update("radio_notInterested"));
         radio_busy.setChecked(Update("radio_busy"));
         radio_unanswered.setChecked(Update("radio_unanswered"));
-        radio_converted.setChecked(Update("radio_converted"));
+        radio_converted.setChecked(Update("radio_converted"));*/
 
 
         radio_newLead.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
