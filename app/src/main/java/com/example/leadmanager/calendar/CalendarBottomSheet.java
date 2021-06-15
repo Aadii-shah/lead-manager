@@ -114,7 +114,7 @@ public class CalendarBottomSheet extends BottomSheetDialogFragment {
             }
         });
 
-        TextView cancel = view.findViewById(R.id.cancel);
+        Button cancel = view.findViewById(R.id.cancel);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
