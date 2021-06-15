@@ -214,8 +214,8 @@ public class HomeFragment extends Fragment {
         dataRef.whereGreaterThan("creationDate", time).whereEqualTo("status", "New Lead").get(CACHE).addOnCompleteListener(task -> {
 
             if (task.isSuccessful() && !Objects.requireNonNull(task.getResult()).isEmpty()) {
-               // newLeadCount.setText(task.getResult().size() + "");
-                newLeadCount.setText(100 + "");
+                newLeadCount.setText(task.getResult().size() + "");
+
             }
 
             dataRef.whereGreaterThan("creationDate", time).whereEqualTo("status", "Interested").get(CACHE).addOnCompleteListener(task1 -> {

@@ -387,14 +387,18 @@
 
                 <TextView
                     android:id="@+id/newLeadCount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_centerInParent="true"
-                    android:layout_marginEnd="10dp"
+                    android:gravity="center"
                     android:text="0"
                     android:textColor="#FFFFFF"
-                    android:textSize="20sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold"
+                    app:autoSizeTextType="uniform"
+                    app:autoSizeMinTextSize="12sp"
+                    app:autoSizeMaxTextSize="20sp"
+                    app:autoSizeStepGranularity="1sp"
+                    />
                 </RelativeLayout>
 
             </RelativeLayout>
