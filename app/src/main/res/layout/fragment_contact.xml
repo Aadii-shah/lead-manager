@@ -68,7 +68,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:layout_below="@id/importContact"
-            android:src="@drawable/ic_new_contact"
+            android:src="@drawable/ic_add_user"
             app:fabSize="normal"
             app:tint="@color/blue"
             app:backgroundTint="@color/white"
