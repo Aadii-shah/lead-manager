@@ -83,6 +83,7 @@ public class LeadDetailsActivity extends AppCompatActivity implements FollowUpBo
                     public void onActivityResult(ActivityResult result) {
                         if(result.getResultCode() == 20) {
                             statusText.setText(result.getData().getStringExtra("status"));
+                            lead.setStatus(result.getData().getStringExtra("status"));
                         }
                         // Do your code from onActivityResult
                     }
