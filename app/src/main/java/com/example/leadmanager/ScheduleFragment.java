@@ -208,6 +208,7 @@ public class ScheduleFragment extends Fragment implements WeekView.EventClickLis
                             //calendar1.set(2021, 5, 14, 5, 50);
                             calendar1.setTimeInMillis((leadApp.getLatestFollowup()*1000L) + 1800000);
                             WeekViewEvent toAdd = new WeekViewEvent(i, leadApp.getStatus(), calendar, calendar1);
+                            toAdd.setLocation("ooooooooooooo");
 
 
                             switch (leadApp.getStatus()) {
