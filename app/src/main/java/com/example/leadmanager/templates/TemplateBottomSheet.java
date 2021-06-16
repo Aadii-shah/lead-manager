@@ -82,17 +82,6 @@ public class TemplateBottomSheet extends BottomSheetDialogFragment {
 
         proceed = view.findViewById(R.id.proceed);
 
-        emoji = view.findViewById(R.id.emoji);
-
-        EmojiPopup popup = EmojiPopup.Builder.fromRootView(view.getRootView()).build(description);
-
-        emoji.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popup.toggle();
-            }
-        });
-
         if (mArgs != null) {
             Log.v("jgfds", "called1");
             String descriptionText = mArgs.getString("description");
