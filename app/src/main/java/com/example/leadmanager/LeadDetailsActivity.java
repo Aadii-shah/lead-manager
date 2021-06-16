@@ -111,7 +111,7 @@ public class LeadDetailsActivity extends AppCompatActivity implements FollowUpBo
         if (lead.getNotes() != null)
             notesText.setText(lead.getNotes()[lead.getNotes().length - 1].getDescription());
         if (lead.getDeals() != null)
-            notesText.setText(lead.getDeals()[lead.getDeals().length - 1].getDescription());
+            dealsText.setText(lead.getDeals()[lead.getDeals().length - 1].getDescription());
 
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -301,4 +301,5 @@ public class LeadDetailsActivity extends AppCompatActivity implements FollowUpBo
         followUpText.setText(itemDateStr);
         lead.setLfd(lfd);
     }
+
 }
