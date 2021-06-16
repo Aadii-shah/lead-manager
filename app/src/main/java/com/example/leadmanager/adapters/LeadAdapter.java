@@ -51,7 +51,7 @@ public class LeadAdapter extends RecyclerView.Adapter<LeadAdapter.MyViewHolder> 
         holder.description.setText(item.getDescription());
         holder.source.setText(item.getSource());
         java.util.Date d = new java.util.Date(item.getCreationDate()*1000L);
-        String itemDateStr = new SimpleDateFormat("dd-MMM-YYYY HH:mm").format(d);
+        String itemDateStr = new SimpleDateFormat("E, dd MMM hh:mm a").format(d);
         holder.time.setText(itemDateStr);
 
         /*holder.name.setText(item.getName());

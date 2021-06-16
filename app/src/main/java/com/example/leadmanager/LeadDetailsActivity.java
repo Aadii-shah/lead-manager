@@ -103,7 +103,7 @@ public class LeadDetailsActivity extends AppCompatActivity implements FollowUpBo
 
         statusText.setText(lead.getStatus());
         java.util.Date d = new java.util.Date(lead.getLatestFollowup() * 1000L);
-        String itemDateStr = new SimpleDateFormat("dd-MMM-YYYY HH:mm").format(d);
+        String itemDateStr = new SimpleDateFormat("E, dd MMM hh:mm a").format(d);
         followUpText.setText(itemDateStr);
         if (lead.getNotes() != null)
             notesText.setText(lead.getNotes()[lead.getNotes().length - 1].getDescription());

@@ -158,7 +158,7 @@ public class FollowUpBottomSheet extends BottomSheetDialogFragment {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     java.util.Date d = new java.util.Date(epoch * 1000L);
-                                    String itemDateStr = new SimpleDateFormat("dd-MMM-YYYY HH:mm").format(d);
+                                    String itemDateStr = new SimpleDateFormat("E, dd MMM hh:mm a").format(d);
                                     if (notifyParent != null)
                                         notifyParent.notifyAdded(itemDateStr, description.getText().toString());
 
