@@ -135,7 +135,6 @@ public class TemplateBottomSheet extends BottomSheetDialogFragment {
                                 progress.dismiss();
                                 description.setText("");
                                 name.setText("");
-                                mArgs = null;
                                 if (notifyParent != null)
                                     notifyParent.notifyAdded();
                                 dismiss();
@@ -210,7 +209,7 @@ public class TemplateBottomSheet extends BottomSheetDialogFragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        notifyParent = null;
+        //notifyParent = null;
     }
 
     /**

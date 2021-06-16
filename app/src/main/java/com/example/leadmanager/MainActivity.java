@@ -38,17 +38,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        FirebaseFirestore.getInstance().setFirestoreSettings(settings);;
+        FirebaseFirestore.getInstance().setFirestoreSettings(settings);
+        ;
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) {
             signIn();
         } else {
-          //  syncData();
+            //  syncData();
         }
-
-
-
 
 
 //        spinner = findViewById(R.id.daySpinner);
@@ -68,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                switch (item.getItemId()){
+                switch (item.getItemId()) {
                     case R.id.home:
                         transaction.replace(R.id.content, new HomeFragment());
                         break;
@@ -120,12 +118,16 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     public void onBackPressed() {
-        new AlertDialog.Builder(this)
+
+        //bottomNavigationView.setSelectedItemId(R.id.);
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.content, new HomeFragment());
+
+        /*new AlertDialog.Builder(this)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setTitle("Closing App")
                 .setMessage("Are you sure you want to close this app?")
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener()
-                {
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         finish();
@@ -133,6 +135,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
                 })
                 .setNegativeButton("No", null)
-                .show();
+                .show();*/
     }
 }
