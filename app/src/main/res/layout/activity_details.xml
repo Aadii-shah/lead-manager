@@ -77,6 +77,7 @@
             android:layout_below="@id/contactName">
 
             <RelativeLayout
+                android:id="@+id/call"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="60dp"
@@ -87,11 +88,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/ic_phone_call" />
+                    android:src="@drawable/ic_mobile"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?selectableItemBackgroundBorderless"/>
 
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/sms"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="60dp"
@@ -102,11 +107,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/ic_sms" />
+                    android:src="@drawable/ic_sms"
+                    android:background="?selectableItemBackgroundBorderless"/>
 
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/whatsApp"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="60dp"
@@ -117,11 +124,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/ic_whatsapp" />
+                    android:src="@drawable/ic_whatsapp"
+                    android:background="?selectableItemBackgroundBorderless"/>
 
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/email"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="60dp"
@@ -132,7 +141,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/ic_email" />
+                    android:src="@drawable/ic_email"
+                    android:background="?selectableItemBackgroundBorderless"/>
 
             </RelativeLayout>
 
@@ -151,13 +161,32 @@
 
         <!--Linear layout to show dashboard ends here -->
 
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:queryHint="search name, number or email"
+            app:searchHintIcon="@drawable/ic_search"
+            app:iconifiedByDefault="false"
+            android:layout_marginBottom="14dp"
+            android:layout_below="@+id/contactMode"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/search"
+            android:layout_marginBottom="60dp"/>
+
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="see all leads"
             android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"/>
+            android:layout_centerVertical="true"
+            android:visibility="gone"/>
 
 
 

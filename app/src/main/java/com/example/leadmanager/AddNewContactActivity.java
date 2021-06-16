@@ -152,11 +152,13 @@ public class AddNewContactActivity extends AppCompatActivity {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
                                                 progress.dismiss();
+                                                finish();
                                             }
                                         }).addOnFailureListener(new OnFailureListener() {
                                             @Override
                                             public void onFailure(@NonNull Exception e) {
                                                 progress.dismiss();
+                                                finish();
                                             }
                                         });
 
@@ -170,6 +172,7 @@ public class AddNewContactActivity extends AppCompatActivity {
 
                             } else {
                                 progress.dismiss();
+                                finish();
                             }
 
 

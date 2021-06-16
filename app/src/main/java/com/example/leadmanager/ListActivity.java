@@ -397,7 +397,6 @@ public class ListActivity extends AppCompatActivity implements LeadAdapter.Recyc
                     JsonElement jsonElement = gson.toJsonTree(document.getData());
                     LeadApp lead = gson.fromJson(jsonElement, LeadApp.class);
                     lead.setUid(document.getId());
-                    Log.v("jhfgtfvtf", lead.getLatestFollowup() + "");
                     itemsList.add(lead);
                 }
                 followUpAdapter.notifyDataSetChanged();

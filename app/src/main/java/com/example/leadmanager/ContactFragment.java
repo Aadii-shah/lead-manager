@@ -75,6 +75,14 @@ public class ContactFragment extends Fragment implements ContactsAdapter.Recycle
     }
 
     @Override
+    public void onResume() {
+        Log.v("juswcre3 ", "called");
+        itemsList.clear();
+        getContacts();
+        super.onResume();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
@@ -94,11 +102,12 @@ public class ContactFragment extends Fragment implements ContactsAdapter.Recycle
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         //recyclerView.addItemDecoration(new DividerItemDecoration(this, 1));
         recyclerView.setAdapter(contactsAdapter);
-        getContacts();
         recyclerView.addOnItemTouchListener(new RecyclerViewTouchListener(requireContext(), recyclerView, new RecyclerViewTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
-
+                Intent intent = new Intent(getActivity(), DetailsActivity.class);
+                intent.putExtra("contact", contactsAdapter.itemsFiltered.get(contactsAdapter.itemsFiltered.size() - 1 - position));
+                startActivity(intent);
             }
 
             @Override
@@ -180,7 +189,7 @@ public class ContactFragment extends Fragment implements ContactsAdapter.Recycle
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent intent = new Intent(getContext(), DealsActivity.class);
+                        Intent intent = new Intent(getContext(), ImportCSV.class);
                         startActivity(intent);
                     }
                 });
@@ -280,7 +289,7 @@ public class ContactFragment extends Fragment implements ContactsAdapter.Recycle
                     Gson gson = new Gson();
                     JsonElement jsonElement = gson.toJsonTree(document.getData());
                     Contact contact = gson.fromJson(jsonElement, Contact.class);
-                    contact.setUid(document.getId());
+                    contact.setUid(document.getReference().getId());
 
 
                     Log.v("dipak", contact.getName() + "");
