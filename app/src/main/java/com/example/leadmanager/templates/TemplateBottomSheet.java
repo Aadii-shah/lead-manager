@@ -80,6 +80,16 @@ public class TemplateBottomSheet extends BottomSheetDialogFragment {
         progress = new ProgressDialog(getContext());
         description = view.findViewById(R.id.description);
         name = view.findViewById(R.id.name);
+        ImageView emoji = view.findViewById(R.id.emoji);
+
+        EmojiPopup emojiPopup = EmojiPopup.Builder.fromRootView(view).build(description);
+        emojiPopup.toggle();
+        emoji.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                emojiPopup.toggle();
+            }
+        });
 
         //EmojiPopup emojiPopup = EmojiPopup.Builder.fromRootView(view).build(description);
 
