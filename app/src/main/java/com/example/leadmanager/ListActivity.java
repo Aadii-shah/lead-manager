@@ -387,7 +387,7 @@ public class ListActivity extends AppCompatActivity implements LeadAdapter.Recyc
 
         Source CACHE = Source.CACHE;
 
-        dataRef.whereGreaterThan("latestFollowup", time).get(CACHE).addOnCompleteListener(task -> {
+        dataRef.whereGreaterThan("latestFollowup", time).whereLessThan("latestFollowup", time + 86400).get(CACHE).addOnCompleteListener(task -> {
 
             if (task.isSuccessful() && !Objects.requireNonNull(task.getResult()).isEmpty()) {
 

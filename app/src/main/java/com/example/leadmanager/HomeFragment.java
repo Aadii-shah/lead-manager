@@ -262,7 +262,7 @@ public class HomeFragment extends Fragment {
                                         allLeadCount.setText(task6.getResult().size() + "");
                                     }
 
-                                    dataRef.whereGreaterThan("latestFollowup", time).get(CACHE).addOnCompleteListener(task7 -> {
+                                    dataRef.whereGreaterThan("latestFollowup", time).whereLessThan("latestFollowup", time + 86400).get(CACHE).addOnCompleteListener(task7 -> {
 
                                         if (task7.isSuccessful() && !Objects.requireNonNull(task7.getResult()).isEmpty()) {
                                             todayFollowupsCount.setText(task7.getResult().size() + "");
