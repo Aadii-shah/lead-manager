@@ -40,13 +40,14 @@
   <RelativeLayout
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_gravity="bottom|end">
+      android:layout_gravity="bottom|end"
+      android:layout_marginEnd="16dp"
+      android:layout_marginBottom="10dp">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
         android:layout_gravity="bottom|end"
         android:src="@drawable/ic_add"
         app:fabSize="normal"
@@ -54,19 +55,20 @@
         app:backgroundTint="@color/white"
         android:visibility="visible"
         android:layout_below="@+id/fabHome"
+        android:layout_marginBottom="16dp"
         />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabHome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
         android:layout_gravity="end"
         android:src="@drawable/ic_home"
         app:fabSize="normal"
         app:tint="@color/blue"
         app:backgroundTint="@color/white"
         android:visibility="visible"
+        android:layout_marginBottom="16dp"
         />
 
 

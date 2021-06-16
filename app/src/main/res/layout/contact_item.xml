@@ -64,7 +64,7 @@
                 android:gravity="center"
                 android:includeFontPadding="false"
                 android:text="98000000"
-                android:textSize="12sp" />
+                android:textSize="12sp"/>
 
             <!--TextView for next address ends here-->
 

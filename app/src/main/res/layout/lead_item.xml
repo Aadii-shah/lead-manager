@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardCornerRadius="5dp"
-    android:layout_marginBottom="8dp"
     android:layout_marginStart="8dp"
     android:layout_marginEnd="8dp"
+    android:layout_marginBottom="8dp"
     android:clickable="true"
     android:focusable="true"
-    android:foreground="?android:attr/selectableItemBackground">
+    android:foreground="?android:attr/selectableItemBackground"
+    app:cardCornerRadius="5dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -23,10 +23,10 @@
             android:layout_marginStart="5dp"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="5dp"
+            android:maxLines="1"
             android:text="Sale of Panasonic tv"
             android:textColor="@color/black"
-            android:textSize="22sp"
-            android:maxLines="1"/>
+            android:textSize="22sp" />
 
         <!--TextView for name starts here-->
 
@@ -34,31 +34,31 @@
             android:id="@+id/contactDetails"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_below="@+id/leadInfo"
+            android:orientation="horizontal"
             android:visibility="gone">
 
-        <TextView
-            android:id="@+id/contactName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="5dp"
-            android:text="Aaditya Shah"
-            android:textColor="#575454" />
+            <TextView
+                android:id="@+id/contactName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
+                android:text="Aaditya Shah"
+                android:textColor="#575454" />
 
 
-        <TextView
-            android:id="@+id/contactAddress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="5dp"
-            android:drawablePadding="5dp"
-            android:text="Simara Bara, Nepal"
-            android:textSize="12sp"
-            app:drawableStartCompat="@drawable/ic_location" />
+            <TextView
+                android:id="@+id/contactAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:drawablePadding="5dp"
+                android:text="Simara Bara, Nepal"
+                android:textSize="12sp"
+                app:drawableStartCompat="@drawable/ic_location" />
         </LinearLayout>
 
         <!--TextView for next address ends here-->
@@ -93,19 +93,22 @@
 
             <!--TextView for next followups starts here-->
 
+         <View
+             android:layout_width="0dip"
+             android:layout_height="0dip"
+             android:layout_weight="1"/>
+
+
+
+
             <TextView
-                android:id="@+id/sources"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="14dp"
+                android:text="Not Interested"
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="5dp"
-                android:drawableStart="@drawable/ic_sources"
-                android:drawablePadding="5dp"
-                android:gravity="center"
-                android:includeFontPadding="false"
-                android:maxLines="1"
-                android:text="Friends" />
+                android:textColor="@color/lightBlue"/>
+
 
         </LinearLayout>
 
@@ -113,6 +116,22 @@
 
 
         <!--TextView for notes starts here-->
+
+        <TextView
+            android:id="@+id/sources"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/contact"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:drawableStart="@drawable/ic_sources"
+            android:drawablePadding="5dp"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:maxLines="1"
+            android:text="Friends" />
+
+
 
 
     </RelativeLayout>

@@ -189,15 +189,32 @@
                 <!--Edit Layout for Number ends here-->
 
 
-                <TextView
-                    android:id="@+id/newLeadText"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:drawableStart="@drawable/ic_add_circle_outline_24px"
-                    android:drawablePadding="4dp"
-                    android:gravity="center"
-                    android:text="Add new lead" />
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/newLeadText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_add_contact"
+                        android:gravity="center"
+                        android:layout_marginTop="16dp"/>
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginStart="4dp"
+                        android:gravity="center"
+                        android:text="Add New Lead"/>
+
+                </LinearLayout>
+
+
+
 
             </LinearLayout>
             <!--New Lead Layout starts here-->

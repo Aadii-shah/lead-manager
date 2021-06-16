@@ -5,11 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.app.ProgressDialog;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -60,14 +62,20 @@ public class AddNewContactActivity extends AppCompatActivity {
 
 
         newLeadLayout = findViewById(R.id.newLeadLayout);
-        TextView newLeadText = findViewById(R.id.newLeadText);
+        ImageView newLeadText = findViewById(R.id.newLeadText);
         newLeadText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(newLeadLayout.getVisibility() == View.VISIBLE) {
                     newLeadLayout.setVisibility(View.GONE);
+                    newLeadText.setImageResource(R.drawable.ic_add_contact);
+
                 } else {
                     newLeadLayout.setVisibility(View.VISIBLE);
+                    newLeadText.setImageResource(R.drawable.ic_up_arrow);
+
+
+
                 }
             }
         });

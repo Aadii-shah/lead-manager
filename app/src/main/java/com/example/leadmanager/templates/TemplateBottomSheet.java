@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -30,6 +31,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.vanniktech.emoji.EmojiPopup;
+import com.vanniktech.emoji.EmojiTextView;
 
 public class TemplateBottomSheet extends BottomSheetDialogFragment {
 
@@ -44,6 +47,8 @@ public class TemplateBottomSheet extends BottomSheetDialogFragment {
     private String uid = "";
     private Bundle mArgs;
     private Button proceed;
+
+    private ImageView emoji;
 
 
     public TemplateBottomSheet(NotifyParent notifyParent) {
@@ -77,6 +82,17 @@ public class TemplateBottomSheet extends BottomSheetDialogFragment {
 
         proceed = view.findViewById(R.id.proceed);
 
+        emoji = view.findViewById(R.id.emoji);
+
+        EmojiPopup popup = EmojiPopup.Builder.fromRootView(view.getRootView()).build(description);
+
+        emoji.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popup.toggle();
+            }
+        });
+
         if (mArgs != null) {
             Log.v("jgfds", "called1");
             String descriptionText = mArgs.getString("description");
@@ -96,6 +112,7 @@ public class TemplateBottomSheet extends BottomSheetDialogFragment {
             @Override
             public void onClick(View view1) {
 
+
                 if (!description.getText().toString().equals("") && !name.getText().toString().equals("")) {
 
                     if (isNew) {
@@ -105,6 +122,13 @@ public class TemplateBottomSheet extends BottomSheetDialogFragment {
                         Template template = new Template();
                         template.setDescription(description.getText().toString());
                         template.setName(name.getText().toString());
+
+
+                        EmojiTextView emojiTextView = (EmojiTextView)LayoutInflater.from(view.getContext())
+                                .inflate(R.layout.emoji_textview, (ViewGroup) notifyParent, false);
+                        emojiTextView.setText(description.getText().toString());
+                        ((ViewGroup) notifyParent).addView(emojiTextView);
+                        description.getText().clear();
 
                         db.collection("cache").document(user.getUid())
                                 //.collection("contacts").document(contact.getUid())
@@ -169,6 +193,8 @@ public class TemplateBottomSheet extends BottomSheetDialogFragment {
 
             }
         });
+
+
 
     }
 
