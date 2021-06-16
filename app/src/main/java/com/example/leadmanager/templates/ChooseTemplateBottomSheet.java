@@ -25,6 +25,7 @@ import com.example.leadmanager.R;
 import com.example.leadmanager.adapters.RecyclerViewTouchListener;
 import com.example.leadmanager.adapters.TemplatesAdapter;
 import com.example.leadmanager.models.Template;
+import com.example.leadmanager.models.TemplateApp;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -53,7 +54,7 @@ public class ChooseTemplateBottomSheet extends BottomSheetDialogFragment impleme
     private RecyclerView recyclerView;
     private TemplatesAdapter templatesAdapter;
     private SearchView searchView;
-    List<Template> itemsList;
+    List<TemplateApp> itemsList;
     private String contact, category;
 
     public ChooseTemplateBottomSheet newInstance() {
@@ -145,12 +146,12 @@ public class ChooseTemplateBottomSheet extends BottomSheetDialogFragment impleme
                 for(DocumentSnapshot documentSnapshot : task.getResult().getDocuments()) {
                     Gson gson = new Gson();
                     JsonElement jsonElement = gson.toJsonTree(documentSnapshot.getData());
-                    Template template = gson.fromJson(jsonElement, Template.class);
+                    TemplateApp template = gson.fromJson(jsonElement, TemplateApp.class);
                     //lead.setUid(document.getId());
                     itemsList.add(template);
 
                 }
-                Template template1 = new Template();
+                TemplateApp template1 = new TemplateApp();
                 template1.setName("Default");
                 template1.setDescription("Hi");
                 itemsList.add(template1);
@@ -203,9 +204,10 @@ public class ChooseTemplateBottomSheet extends BottomSheetDialogFragment impleme
     }
 
     @Override
-    public void onItemRemoved(Template item) {
+    public void onItemRemoved(TemplateApp item) {
 
     }
+
 
     @Override
     public void onItemUpdated(float amount, int count) {
@@ -214,7 +216,7 @@ public class ChooseTemplateBottomSheet extends BottomSheetDialogFragment impleme
 
     @Override
     public void onSendClicked(int position) {
-        Template template = templatesAdapter.itemsFiltered.get(position);
+        TemplateApp template = templatesAdapter.itemsFiltered.get(position);
 
         switch (category) {
 
@@ -252,7 +254,7 @@ public class ChooseTemplateBottomSheet extends BottomSheetDialogFragment impleme
 
     @Override
     public void onSendSmsClicked(int position) {
-        Template template = templatesAdapter.itemsFiltered.get(position);
+        TemplateApp template = templatesAdapter.itemsFiltered.get(position);
 
         switch (category) {
 
@@ -290,7 +292,7 @@ public class ChooseTemplateBottomSheet extends BottomSheetDialogFragment impleme
 
     @Override
     public void onSendWhatsAppClicked(int position) {
-        Template template = templatesAdapter.itemsFiltered.get(position);
+        TemplateApp template = templatesAdapter.itemsFiltered.get(position);
 
         switch (category) {
 
@@ -328,7 +330,7 @@ public class ChooseTemplateBottomSheet extends BottomSheetDialogFragment impleme
 
     @Override
     public void onSendEmailClicked(int position) {
-        Template template = templatesAdapter.itemsFiltered.get(position);
+        TemplateApp template = templatesAdapter.itemsFiltered.get(position);
 
         switch (category) {
 
@@ -362,6 +364,11 @@ public class ChooseTemplateBottomSheet extends BottomSheetDialogFragment impleme
                 startActivity(intent);
                 //}
         }
+    }
+
+    @Override
+    public void onItemClick(int position) {
+
     }
 
     public interface NotifyParent {

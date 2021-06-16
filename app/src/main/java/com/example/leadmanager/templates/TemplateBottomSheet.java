@@ -40,6 +40,10 @@ public class TemplateBottomSheet extends BottomSheetDialogFragment {
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private ProgressDialog progress;
     private TemplateBottomSheet.NotifyParent notifyParent;
+    private boolean isNew = true;
+    private String uid = "";
+    private Bundle mArgs;
+    private Button proceed;
 
 
     public TemplateBottomSheet(NotifyParent notifyParent) {
@@ -65,50 +69,99 @@ public class TemplateBottomSheet extends BottomSheetDialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Bundle mArgs = getArguments();
-//        String leadUid = mArgs.getString("lead_uid");
-        //      String category = mArgs.getString("category");
+        mArgs = getArguments();
+
         progress = new ProgressDialog(getContext());
         description = view.findViewById(R.id.description);
         name = view.findViewById(R.id.name);
 
-        Button proceed = view.findViewById(R.id.proceed);
+        proceed = view.findViewById(R.id.proceed);
+
+        if (mArgs != null) {
+            Log.v("jgfds", "called1");
+            String descriptionText = mArgs.getString("description");
+            description.setText(descriptionText);
+            String nameText = mArgs.getString("name");
+            name.setText(nameText);
+            isNew = false;
+            proceed.setText("update");
+            uid = mArgs.getString("uid");
+
+        } else {
+            description.setText("");
+            name.setText("");
+        }
+
         proceed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view1) {
 
-                progress.setMessage("adding new  template");
-                progress.setCancelable(false); // disable dismiss by tapping outside of the dialog
-                progress.show();
-
-                Template template = new Template();
-
                 if (!description.getText().toString().equals("") && !name.getText().toString().equals("")) {
-                    template.setDescription(description.getText().toString());
-                    template.setName(name.getText().toString());
 
-                    db.collection("cache").document(user.getUid())
-                            //.collection("contacts").document(contact.getUid())
-                            .collection("templates")
-                            .add(template).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                        @Override
-                        public void onSuccess(DocumentReference documentReference) {
-                            progress.dismiss();
-                            description.setText("");
-                            name.setText("");
-                            if (notifyParent != null)
-                                notifyParent.notifyAdded();
-                            dismiss();
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            progress.dismiss();
-                            if (notifyParent != null)
-                                notifyParent.notifyAdded();
-                            dismiss();
-                        }
-                    });
+                    if (isNew) {
+                        progress.setMessage("adding new template");
+                        progress.setCancelable(false); // disable dismiss by tapping outside of the dialog
+                        progress.show();
+                        Template template = new Template();
+                        template.setDescription(description.getText().toString());
+                        template.setName(name.getText().toString());
+
+                        db.collection("cache").document(user.getUid())
+                                //.collection("contacts").document(contact.getUid())
+                                .collection("templates")
+                                .add(template).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                            @Override
+                            public void onSuccess(DocumentReference documentReference) {
+                                progress.dismiss();
+                                description.setText("");
+                                name.setText("");
+                                mArgs = null;
+                                if (notifyParent != null)
+                                    notifyParent.notifyAdded();
+                                dismiss();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                progress.dismiss();
+                                if (notifyParent != null)
+                                    notifyParent.notifyAdded();
+                                mArgs = null;
+                                dismiss();
+                            }
+                        });
+
+                    } else {
+
+                        progress.setMessage("updating template");
+                        progress.setCancelable(false); // disable dismiss by tapping outside of the dialog
+                        progress.show();
+
+                        db.collection("cache").document(user.getUid())
+                                //.collection("contacts").document(contact.getUid())
+                                .collection("templates").document(uid)
+                                .update("description", description.getText().toString(), "name", name.getText().toString())
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        progress.dismiss();
+                                        description.setText("");
+                                        name.setText("");
+                                        if (notifyParent != null)
+                                            notifyParent.notifyAdded();
+                                        dismiss();
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                progress.dismiss();
+                                if (notifyParent != null)
+                                    notifyParent.notifyAdded();
+                                dismiss();
+                            }
+                        });
+
+                    }
 
                 } else {
                     Toast.makeText(getContext(), "Please fill the form", Toast.LENGTH_SHORT).show();

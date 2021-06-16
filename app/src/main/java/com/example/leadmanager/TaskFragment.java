@@ -28,6 +28,9 @@ import com.example.leadmanager.adapters.TemplatesAdapter;
 import com.example.leadmanager.leads.DescriptionBottomSheet;
 import com.example.leadmanager.models.HistoryItem;
 import com.example.leadmanager.models.Template;
+import com.example.leadmanager.models.TemplateApp;
+import com.example.leadmanager.templates.ChooseContactBottomSheet;
+import com.example.leadmanager.templates.ChooseTemplateBottomSheet;
 import com.example.leadmanager.templates.TemplateBottomSheet;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -48,7 +51,8 @@ public class TaskFragment extends Fragment implements TemplateBottomSheet.Notify
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private SearchView searchView;
-    List<Template> itemsList;
+    List<TemplateApp> itemsList;
+    private TemplateBottomSheet templateBottomSheet, templateBottomSheetTwo;
 
     public TaskFragment() {
         // Required empty public constructor
@@ -73,7 +77,8 @@ public class TaskFragment extends Fragment implements TemplateBottomSheet.Notify
         Toolbar toolbar = view.findViewById(R.id.toolbar);
         ((AppCompatActivity) requireActivity()).setSupportActionBar( toolbar );
 
-        TemplateBottomSheet templateBottomSheet = new TemplateBottomSheet(this);
+        templateBottomSheet = new TemplateBottomSheet(this);
+        templateBottomSheetTwo = new TemplateBottomSheet(this);
         recyclerView = view.findViewById(R.id.recyclerView);
         itemsList = new ArrayList<>();
         templatesAdapter = new TemplatesAdapter(getContext(), itemsList, this, "task");
@@ -88,7 +93,8 @@ public class TaskFragment extends Fragment implements TemplateBottomSheet.Notify
                 //bundle.putString("category", category);
 
                 //descriptionBottomSheet.setArguments(bundle);
-                templateBottomSheet.show(getChildFragmentManager(), TemplateBottomSheet.TAG);
+                templateBottomSheetTwo.setArguments(null);
+                templateBottomSheetTwo.show(getChildFragmentManager(), TemplateBottomSheet.TAG);
             }
         });
 
@@ -192,8 +198,9 @@ public class TaskFragment extends Fragment implements TemplateBottomSheet.Notify
                     for(DocumentSnapshot documentSnapshot : task.getResult().getDocuments()) {
                         Gson gson = new Gson();
                         JsonElement jsonElement = gson.toJsonTree(documentSnapshot.getData());
-                        Template template = gson.fromJson(jsonElement, Template.class);
+                        TemplateApp template = gson.fromJson(jsonElement, TemplateApp.class);
                         //lead.setUid(document.getId());
+                        template.setUid(documentSnapshot.getReference().getId());
                         itemsList.add(template);
 
                     }
@@ -210,7 +217,7 @@ public class TaskFragment extends Fragment implements TemplateBottomSheet.Notify
     }
 
     @Override
-    public void onItemRemoved(Template item) {
+    public void onItemRemoved(TemplateApp item) {
 
     }
 
@@ -226,17 +233,44 @@ public class TaskFragment extends Fragment implements TemplateBottomSheet.Notify
 
     @Override
     public void onSendSmsClicked(int position) {
-
+        ChooseContactBottomSheet chooseContactBottomSheet = new ChooseContactBottomSheet();
+        Bundle bundle = new Bundle();
+        bundle.putString("description", templatesAdapter.itemsFiltered.get(templatesAdapter.itemsFiltered.size() -1 -position).getDescription());
+        bundle.putString("category", "sms");
+        chooseContactBottomSheet.setArguments(bundle);
+        chooseContactBottomSheet.show(getChildFragmentManager(), ChooseContactBottomSheet.TAG);
     }
 
     @Override
     public void onSendWhatsAppClicked(int position) {
-
+        ChooseContactBottomSheet chooseContactBottomSheet = new ChooseContactBottomSheet();
+        Bundle bundle = new Bundle();
+        bundle.putString("description", templatesAdapter.itemsFiltered.get(templatesAdapter.itemsFiltered.size() -1 -position).getDescription());
+        bundle.putString("category", "whatsapp");
+        chooseContactBottomSheet.setArguments(bundle);
+        chooseContactBottomSheet.show(getChildFragmentManager(), ChooseContactBottomSheet.TAG);
     }
 
     @Override
     public void onSendEmailClicked(int position) {
+        ChooseContactBottomSheet chooseContactBottomSheet = new ChooseContactBottomSheet();
+        Bundle bundle = new Bundle();
+        bundle.putString("description", templatesAdapter.itemsFiltered.get(templatesAdapter.itemsFiltered.size() -1 -position).getDescription());
+        bundle.putString("category", "email");
+        chooseContactBottomSheet.setArguments(bundle);
+        chooseContactBottomSheet.show(getChildFragmentManager(), ChooseContactBottomSheet.TAG);
+    }
 
+    @Override
+    public void onItemClick(int position) {
+        TemplateApp template = templatesAdapter.itemsFiltered.get(templatesAdapter.itemsFiltered.size() - 1 - position);
+        Bundle bundle = new Bundle();
+        bundle.putString("uid", template.getUid());
+        bundle.putString("name", template.getName());
+        bundle.putString("description", template.getDescription());
+        //TemplateBottomSheet templateBottomSheet = new TemplateBottomSheet(this);
+        templateBottomSheet.setArguments(bundle);
+        templateBottomSheet.show(getChildFragmentManager(), TemplateBottomSheet.TAG);
     }
 
 }

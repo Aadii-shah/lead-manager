@@ -17,20 +17,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.leadmanager.R;
 import com.example.leadmanager.models.LeadApp;
 import com.example.leadmanager.models.Template;
+import com.example.leadmanager.models.TemplateApp;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 public class TemplatesAdapter extends RecyclerView.Adapter<TemplatesAdapter.MyViewHolder> implements Filterable {
-    public List<Template> itemsFiltered;
+    public List<TemplateApp> itemsFiltered;
     private Context context;
     private TemplatesAdapter.RecyclerViewAdapterListener listener;
-    public List<Template>  itemList;
+    public List<TemplateApp>  itemList;
     private int row_index = -1;
     private String category = "details";
 
-    public TemplatesAdapter(Context context, List<Template>  itemList, TemplatesAdapter.RecyclerViewAdapterListener recyclerViewAdapterListener, String category) {
+    public TemplatesAdapter(Context context, List<TemplateApp>  itemList, TemplatesAdapter.RecyclerViewAdapterListener recyclerViewAdapterListener, String category) {
         this.listener = recyclerViewAdapterListener;
         this.context = context;
         this.itemList = itemList;
@@ -48,7 +49,7 @@ public class TemplatesAdapter extends RecyclerView.Adapter<TemplatesAdapter.MyVi
 
     @Override
     public void onBindViewHolder(TemplatesAdapter.MyViewHolder holder, final int position) {
-        final Template item = itemsFiltered.get(itemsFiltered.size() - position - 1);
+        final TemplateApp item = itemsFiltered.get(itemsFiltered.size() - position - 1);
 
         holder.description.setText(item.getDescription());
         holder.name.setText(item.getName());
@@ -83,6 +84,13 @@ public class TemplatesAdapter extends RecyclerView.Adapter<TemplatesAdapter.MyVi
                 @Override
                 public void onClick(View view) {
                     listener.onSendEmailClicked(itemsFiltered.size() - position - 1);
+                }
+            });
+
+            holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.onItemClick(position);
                 }
             });
         }
@@ -120,8 +128,8 @@ public class TemplatesAdapter extends RecyclerView.Adapter<TemplatesAdapter.MyVi
                 if (charString.isEmpty()) {
                     itemsFiltered = itemList;
                 } else {
-                    List<Template>  filteredList = new ArrayList<>();
-                    for (Template row : itemList) {
+                    List<TemplateApp>  filteredList = new ArrayList<>();
+                    for (TemplateApp row : itemList) {
 
                         if (row.getDescription().toLowerCase().contains(charString.toLowerCase())
                                 || row.getName().contains(charString)) {
@@ -140,7 +148,7 @@ public class TemplatesAdapter extends RecyclerView.Adapter<TemplatesAdapter.MyVi
 
             @Override
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-                itemsFiltered = (ArrayList<Template> ) filterResults.values;
+                itemsFiltered = (ArrayList<TemplateApp> ) filterResults.values;
                 notifyDataSetChanged();
             }
         };
@@ -155,7 +163,7 @@ public class TemplatesAdapter extends RecyclerView.Adapter<TemplatesAdapter.MyVi
     public interface RecyclerViewAdapterListener {
         void onValueChanged(float amount, String category);
 
-        void onItemRemoved(Template item);
+        void onItemRemoved(TemplateApp item);
 
         void onItemUpdated(float amount, int count);
 
@@ -166,6 +174,8 @@ public class TemplatesAdapter extends RecyclerView.Adapter<TemplatesAdapter.MyVi
         void onSendWhatsAppClicked(int position);
 
         void onSendEmailClicked(int position);
+
+        void onItemClick(int position);
 
     }
 
