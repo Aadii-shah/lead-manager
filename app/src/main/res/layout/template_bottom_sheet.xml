@@ -17,16 +17,18 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/name"
         android:src="@drawable/ic_smile"
-        android:layout_centerVertical="true"/>
+        android:layout_centerVertical="true"
+        android:visibility="visible"/>
 
 
-    <EditText
+    <com.vanniktech.emoji.EmojiEditText
         android:id="@+id/description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/name"
-        android:layout_toEndOf="@+id/emoji"
-        android:hint="Description" />
+        android:imeOptions="actionSend"
+        android:inputType="textCapSentences|textMultiLine"
+        android:maxLines="3"
+        android:layout_below="@+id/emoji"/>
 
 
 
