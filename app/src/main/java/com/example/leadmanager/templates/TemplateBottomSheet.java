@@ -18,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.leadmanager.R;
+import com.example.leadmanager.TaskFragment;
 import com.example.leadmanager.Utility;
 import com.example.leadmanager.models.HistoryItem;
 import com.example.leadmanager.models.Template;
@@ -80,6 +81,8 @@ public class TemplateBottomSheet extends BottomSheetDialogFragment {
         description = view.findViewById(R.id.description);
         name = view.findViewById(R.id.name);
 
+        //EmojiPopup emojiPopup = EmojiPopup.Builder.fromRootView(view).build(description);
+
         proceed = view.findViewById(R.id.proceed);
 
         emoji = view.findViewById(R.id.emoji);
@@ -122,13 +125,6 @@ public class TemplateBottomSheet extends BottomSheetDialogFragment {
                         Template template = new Template();
                         template.setDescription(description.getText().toString());
                         template.setName(name.getText().toString());
-
-
-                        EmojiTextView emojiTextView = (EmojiTextView)LayoutInflater.from(view.getContext())
-                                .inflate(R.layout.emoji_textview, (ViewGroup) notifyParent, false);
-                        emojiTextView.setText(description.getText().toString());
-                        ((ViewGroup) notifyParent).addView(emojiTextView);
-                        description.getText().clear();
 
                         db.collection("cache").document(user.getUid())
                                 //.collection("contacts").document(contact.getUid())
