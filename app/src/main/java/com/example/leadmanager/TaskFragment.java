@@ -235,7 +235,7 @@ public class TaskFragment extends Fragment implements TemplateBottomSheet.Notify
     public void onSendSmsClicked(int position) {
         ChooseContactBottomSheet chooseContactBottomSheet = new ChooseContactBottomSheet();
         Bundle bundle = new Bundle();
-        bundle.putString("description", templatesAdapter.itemsFiltered.get(templatesAdapter.itemsFiltered.size() -1 -position).getDescription());
+        bundle.putString("description", templatesAdapter.itemsFiltered.get(position).getDescription());
         bundle.putString("category", "sms");
         chooseContactBottomSheet.setArguments(bundle);
         chooseContactBottomSheet.show(getChildFragmentManager(), ChooseContactBottomSheet.TAG);
@@ -245,7 +245,7 @@ public class TaskFragment extends Fragment implements TemplateBottomSheet.Notify
     public void onSendWhatsAppClicked(int position) {
         ChooseContactBottomSheet chooseContactBottomSheet = new ChooseContactBottomSheet();
         Bundle bundle = new Bundle();
-        bundle.putString("description", templatesAdapter.itemsFiltered.get(templatesAdapter.itemsFiltered.size() -1 -position).getDescription());
+        bundle.putString("description", templatesAdapter.itemsFiltered.get(position).getDescription());
         bundle.putString("category", "whatsapp");
         chooseContactBottomSheet.setArguments(bundle);
         chooseContactBottomSheet.show(getChildFragmentManager(), ChooseContactBottomSheet.TAG);
@@ -255,7 +255,7 @@ public class TaskFragment extends Fragment implements TemplateBottomSheet.Notify
     public void onSendEmailClicked(int position) {
         ChooseContactBottomSheet chooseContactBottomSheet = new ChooseContactBottomSheet();
         Bundle bundle = new Bundle();
-        bundle.putString("description", templatesAdapter.itemsFiltered.get(templatesAdapter.itemsFiltered.size() -1 -position).getDescription());
+        bundle.putString("description", templatesAdapter.itemsFiltered.get(position).getDescription());
         bundle.putString("category", "email");
         chooseContactBottomSheet.setArguments(bundle);
         chooseContactBottomSheet.show(getChildFragmentManager(), ChooseContactBottomSheet.TAG);
@@ -263,7 +263,7 @@ public class TaskFragment extends Fragment implements TemplateBottomSheet.Notify
 
     @Override
     public void onItemClick(int position) {
-        TemplateApp template = templatesAdapter.itemsFiltered.get(templatesAdapter.itemsFiltered.size() - 1 - position);
+        TemplateApp template = templatesAdapter.itemsFiltered.get(position);
         Bundle bundle = new Bundle();
         bundle.putString("uid", template.getUid());
         bundle.putString("name", template.getName());
