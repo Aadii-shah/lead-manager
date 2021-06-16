@@ -187,7 +187,7 @@ public class NewLeadActivity extends AppCompatActivity {
 
                 contactName.setAdapter(contactAdapter);
 
-                contactName.addTextChangedListener(new TextWatcher() {
+                /*contactName.addTextChangedListener(new TextWatcher() {
                     @Override
                     public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -210,11 +210,14 @@ public class NewLeadActivity extends AppCompatActivity {
                     public void afterTextChanged(Editable editable) {
 
                     }
-                });
+                });*/
+
 
                 contactName.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                        Log.v("hsgftsfts", "tsds");
                         //isSupplierAvailable = true;
                         availableContact = contactAdapter.getItem(i);
                         editAddress.setText(availableContact.getAddress());

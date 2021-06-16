@@ -53,6 +53,7 @@ public class LeadAdapter extends RecyclerView.Adapter<LeadAdapter.MyViewHolder> 
         java.util.Date d = new java.util.Date(item.getCreationDate()*1000L);
         String itemDateStr = new SimpleDateFormat("E, dd MMM hh:mm a").format(d);
         holder.time.setText(itemDateStr);
+        holder.status.setText(item.getStatus());
 
         /*holder.name.setText(item.getName());
         holder.sellingPrice.setText(String.format("%.02f", item.getPrice()));
@@ -161,7 +162,7 @@ public class LeadAdapter extends RecyclerView.Adapter<LeadAdapter.MyViewHolder> 
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView description, source, time;
+        public TextView description, source, time, status;
         public ImageView imageUrl, plus, minus, remove;
 
         public MyViewHolder(View view) {
@@ -170,6 +171,7 @@ public class LeadAdapter extends RecyclerView.Adapter<LeadAdapter.MyViewHolder> 
             description = view.findViewById(R.id.leadInfo);
             source = view.findViewById(R.id.sources);
             time = view.findViewById(R.id.creationDate);
+            status = view.findViewById(R.id.status);
 
 
         }

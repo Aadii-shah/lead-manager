@@ -119,22 +119,21 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public void onBackPressed() {
 
-        //bottomNavigationView.setSelectedItemId(R.id.);
+        if (bottomNavigationView.getSelectedItemId() == R.id.home) {
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.content, new HomeFragment());
+            new AlertDialog.Builder(this)
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setTitle("Closing App")
+                    .setMessage("Are you sure you want to close this app?")
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
 
-        /*new AlertDialog.Builder(this)
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .setTitle("Closing App")
-                .setMessage("Are you sure you want to close this app?")
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        finish();
-                    }
-
-                })
-                .setNegativeButton("No", null)
-                .show();*/
+                    })
+                    .setNegativeButton("No", null)
+                    .show();
+        } else bottomNavigationView.setSelectedItemId(R.id.home);
     }
 }

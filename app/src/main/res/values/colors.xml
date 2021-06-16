@@ -8,6 +8,8 @@
     <color name="black">#000000</color>
     <color name="white">#FFFFFFFF</color>
 
+    <color name="ripple">#40000000</color>
+
 
     <!--Customize color-->
 
