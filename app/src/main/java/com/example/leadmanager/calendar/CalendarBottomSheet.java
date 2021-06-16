@@ -20,6 +20,7 @@ import androidx.annotation.Nullable;
 import com.example.leadmanager.LeadDetailsActivity;
 import com.example.leadmanager.ListActivity;
 import com.example.leadmanager.R;
+import com.example.leadmanager.models.Contact;
 import com.example.leadmanager.models.LeadApp;
 import com.example.leadmanager.models.Template;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -74,9 +75,33 @@ public class CalendarBottomSheet extends BottomSheetDialogFragment {
         Bundle mArgs = getArguments();
         String leadUid = mArgs.getString("lead_uid");
         String descriptionText = mArgs.getString("description");
+        String contactUid = mArgs.getString("contactUid");
         Long startTime = mArgs.getLong("startTime");
         progress = new ProgressDialog(getContext());
         description = view.findViewById(R.id.description);
+        TextView name = view.findViewById(R.id.name);
+
+        db.collection("cache").document(user.getUid())
+                .collection("contacts").document(contactUid)
+                .get(Source.CACHE)
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        Gson gson = new Gson();
+                        JsonElement jsonElement = gson.toJsonTree(documentSnapshot.getData());
+                        Contact contact = gson.fromJson(jsonElement, Contact.class);
+                        name.setText(contact.getName());
+
+                        //lead.setUid(documentSnapshot.getReference().getId());
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });
+
         description.setText(descriptionText);
         time = view.findViewById(R.id.time);
 

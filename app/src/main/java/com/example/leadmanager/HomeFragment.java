@@ -39,6 +39,8 @@ public class HomeFragment extends Fragment {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private long time;
+    private Spinner spinner;
+    private boolean flag = true;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -54,7 +56,7 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        Spinner spinner = view.findViewById(R.id.daySpinner);
+        spinner = view.findViewById(R.id.daySpinner);
         ArrayAdapter adapter = ArrayAdapter.createFromResource(getContext(),
                 R.array.day_array, R.layout.color_spinner_layout);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -195,6 +197,7 @@ public class HomeFragment extends Fragment {
                 if (i == 1)
                     getCount(false);
                 else getCount(true);
+                flag = true;
             }
 
             @Override
@@ -286,6 +289,11 @@ public class HomeFragment extends Fragment {
     @Override
     public void onResume() {
 
+        if (flag) {
+            if (spinner.getSelectedItem().toString().equals("Overall"))
+                getCount(false);
+            else getCount(true);
+        }
         //getCount(true);
         super.onResume();
     }

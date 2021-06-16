@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.example.leadmanager.adapters.LeadAdapter;
 import com.example.leadmanager.adapters.RecyclerViewTouchListener;
@@ -69,7 +70,14 @@ public class DetailsActivity extends AppCompatActivity implements LeadAdapter.Re
         whatsApp = findViewById(R.id.whatsApp);
         email = findViewById(R.id.email);
 
+        TextView contactName = findViewById(R.id.contactName);
+        TextView contactImage = findViewById(R.id.contactImage);
+
         Contact contact = (Contact) getIntent().getSerializableExtra("contact");
+
+        contactName.setText(contact.getName());
+        contactImage.setText(contact.getName().substring(0,1).toUpperCase());
+
         contactUid = contact.getUid();
 
         recyclerView = findViewById(R.id.recyclerView);

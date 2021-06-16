@@ -130,6 +130,8 @@ public class ScheduleFragment extends Fragment implements WeekView.EventClickLis
         mWeekView.setEventPadding((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 0, getResources().getDisplayMetrics()));
 */
 
+        //mWeekView.setShowDistinctPastFutureColor(true);
+
         mWeekView.setMonthChangeListener(new MonthLoader.MonthChangeListener() {
             @Override
             public List<WeekViewEvent> onMonthChange(int newYear, int newMonth) {
@@ -159,6 +161,7 @@ public class ScheduleFragment extends Fragment implements WeekView.EventClickLis
         bundle.putString("lead_uid", event.getUid());
         bundle.putLong("startTime", event.getStartTime().getTimeInMillis());
         bundle.putString("description", event.getDescription());
+        bundle.putString("contactUid", event.getContactUid());
 
         CalendarBottomSheet calendarBottomSheet = new CalendarBottomSheet();
         calendarBottomSheet.setArguments(bundle);
@@ -244,6 +247,7 @@ public class ScheduleFragment extends Fragment implements WeekView.EventClickLis
 
                             }
 
+                            toAdd.setContactUid(leadApp.getContactUid());
                             eventsNew.add(toAdd);
                             weekViewEvent = toAdd;
                             Log.v("kjfhruygfru", "" + eventsNew.get(0).getName());
@@ -293,11 +297,52 @@ public class ScheduleFragment extends Fragment implements WeekView.EventClickLis
 
         dateSelected.toDate();
 
-        Log.v("hbchbch", "called" + dateSelected.toDate());
+
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(dateSelected.toDate());
         mWeekView.goToDate(calendar);
-        mWeekView.goToHour(10);
+
+        CollectionReference dataRef = db.collection("cache")
+                .document(user.getUid())
+                .collection("leads");
+
+        dataRef.whereGreaterThan("latestFollowup", dateSelected.toDate().getTime() / 1000)
+                .whereLessThan("latestFollowup", dateSelected.toDate().getTime() / 1000 + 86399)
+                .get(Source.CACHE).addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                Log.v("hbchbch", "called");
+                if (task.isSuccessful() && !Objects.requireNonNull(task.getResult()).isEmpty()) {
+
+                    long i = Long.MAX_VALUE;
+                    for (DocumentSnapshot document : task.getResult().getDocuments()) {
+                        Gson gson = new Gson();
+                        JsonElement jsonElement = gson.toJsonTree(document.getData());
+                        LeadApp leadApp = gson.fromJson(jsonElement, LeadApp.class);
+                        if (leadApp.getLatestFollowup()!=0 && i > leadApp.getLatestFollowup()) {
+                            i = leadApp.getLatestFollowup();
+                        }
+                    }
+
+                    Calendar calendar1 = Calendar.getInstance();
+                    calendar1.setTimeInMillis(i * 1000);
+
+                    Log.v("fetrfdgvHour", "" + calendar1.getTime());
+                    mWeekView.goToHour(calendar1.get(Calendar.HOUR_OF_DAY));
+
+                }
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.v("gggg:", "enterederror");
+            }
+        });
+
+
+        //mWeekView.goToHour(10);
 
     }
 

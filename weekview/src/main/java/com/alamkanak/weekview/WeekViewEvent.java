@@ -39,6 +39,16 @@ public class WeekViewEvent {
 
     private String description;
 
+    private String contactUid;
+
+    public String getContactUid() {
+        return contactUid;
+    }
+
+    public void setContactUid(String contactUid) {
+        this.contactUid = contactUid;
+    }
+
     public WeekViewEvent(){
 
     }

@@ -68,7 +68,7 @@ public class LeadDetailsActivity extends AppCompatActivity implements FollowUpBo
     private FollowUpBottomSheet.NotifyParent context = this;
     private LeadApp lead;
 
-    private TextView statusText, followUpText, dealsText, notesText;
+    private TextView statusText, followUpText, dealsText, notesText, contactName, contactImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +100,9 @@ public class LeadDetailsActivity extends AppCompatActivity implements FollowUpBo
         followUpText = findViewById(R.id.tvFollowup);
         dealsText = findViewById(R.id.tvDeals);
         notesText = findViewById(R.id.tvNotes);
+
+        contactName = findViewById(R.id.contactName);
+        contactImage = findViewById(R.id.contactImage);
 
         statusText.setText(lead.getStatus());
         java.util.Date d = new java.util.Date(lead.getLatestFollowup() * 1000L);
@@ -266,7 +269,6 @@ public class LeadDetailsActivity extends AppCompatActivity implements FollowUpBo
 
     private void getContact(String uid) {
 
-        Log.v("dipakUID", "uid:" + uid);
 
         DocumentReference dataRef = db.collection("cache")
                 .document(user.getUid())
@@ -286,8 +288,8 @@ public class LeadDetailsActivity extends AppCompatActivity implements FollowUpBo
                 JsonElement jsonElement = gson.toJsonTree(task.getResult().getData());
                 Contact contact = gson.fromJson(jsonElement, Contact.class);
                 contactGlobal = contact;
-                Log.v("dipak23", contact.getEmail());
-                Log.v("dipak23", contact.getPhone());
+                contactName.setText(contact.getName());
+                contactImage.setText(contact.getName().substring(0,1).toUpperCase());
 
             }
         });
