@@ -229,47 +229,47 @@ public class HomeFragment extends Fragment {
             if (task.isSuccessful() && !Objects.requireNonNull(task.getResult()).isEmpty()) {
                 newLeadCount.setText(task.getResult().size() + "");
 
-            }
+            } else newLeadCount.setText("0");
 
             dataRef.whereGreaterThan("creationDate", time).whereEqualTo("status", "Interested").get(CACHE).addOnCompleteListener(task1 -> {
 
                 if (task1.isSuccessful() && !Objects.requireNonNull(task1.getResult()).isEmpty()) {
                     interestedCount.setText(task1.getResult().size() + "");
-                }
+                } else interestedCount.setText("0");
 
                 dataRef.whereGreaterThan("creationDate", time).whereEqualTo("status", "Pending").get(CACHE).addOnCompleteListener(task2 -> {
 
                     if (task2.isSuccessful() && !Objects.requireNonNull(task2.getResult()).isEmpty()) {
                         pendingCount.setText(task2.getResult().size() + "");
-                    }
+                    } else pendingCount.setText("0");
                     dataRef.whereGreaterThan("creationDate", time).whereEqualTo("status", "Unanswered").get(CACHE).addOnCompleteListener(task3 -> {
 
                         if (task3.isSuccessful() && !Objects.requireNonNull(task3.getResult()).isEmpty()) {
                             unansweredCount.setText(task3.getResult().size() + "");
-                        }
+                        } else unansweredCount.setText("0");
                         dataRef.whereGreaterThan("creationDate", time).whereEqualTo("status", "Not Interested").get(CACHE).addOnCompleteListener(task4 -> {
 
                             if (task4.isSuccessful() && !Objects.requireNonNull(task4.getResult()).isEmpty()) {
                                 notInterestedCount.setText(task4.getResult().size() + "");
-                            }
+                            } else notInterestedCount.setText("0");
 
                             dataRef.whereGreaterThan("creationDate", time).whereEqualTo("status", "Converted").get(CACHE).addOnCompleteListener(task5 -> {
 
                                 if (task5.isSuccessful() && !Objects.requireNonNull(task5.getResult()).isEmpty()) {
                                     convertedCount.setText(task5.getResult().size() + "");
-                                }
+                                } else convertedCount.setText("0");
 
                                 dataRef.whereGreaterThan("creationDate", time).get(CACHE).addOnCompleteListener(task6 -> {
 
                                     if (task6.isSuccessful() && !Objects.requireNonNull(task6.getResult()).isEmpty()) {
                                         allLeadCount.setText(task6.getResult().size() + "");
-                                    }
+                                    } else allLeadCount.setText("0");
 
                                     dataRef.whereGreaterThan("latestFollowup", time).whereLessThan("latestFollowup", time + 86400).get(CACHE).addOnCompleteListener(task7 -> {
 
                                         if (task7.isSuccessful() && !Objects.requireNonNull(task7.getResult()).isEmpty()) {
                                             todayFollowupsCount.setText(task7.getResult().size() + "");
-                                        }
+                                        } else todayFollowupsCount.setText("0");
 
                                     });
 
@@ -288,6 +288,8 @@ public class HomeFragment extends Fragment {
 
     @Override
     public void onResume() {
+
+        Log.v("hfgytfyshfy", "called");
 
         if (flag) {
             if (spinner.getSelectedItem().toString().equals("Overall"))
