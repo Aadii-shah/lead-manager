@@ -3,6 +3,7 @@ package com.example.leadmanager;
 import android.animation.LayoutTransition;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,6 +33,7 @@ import com.example.leadmanager.models.TemplateApp;
 import com.example.leadmanager.templates.ChooseContactBottomSheet;
 import com.example.leadmanager.templates.ChooseTemplateBottomSheet;
 import com.example.leadmanager.templates.TemplateBottomSheet;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -84,8 +86,27 @@ public class TaskFragment extends Fragment implements TemplateBottomSheet.Notify
         templatesAdapter = new TemplatesAdapter(getContext(), itemsList, this, "task");
         getTemplates();
 
-        FloatingActionButton fab = view.findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        ExtendedFloatingActionButton floatingActionButton = view.findViewById(R.id.fab);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+
+                //Bundle bundle = new Bundle();
+                //bundle.putString("lead_uid", leadUid);
+                //bundle.putString("category", category);
+
+                //descriptionBottomSheet.setArguments(bundle);
+                templateBottomSheetTwo.setArguments(null);
+                templateBottomSheetTwo.show(getChildFragmentManager(), TemplateBottomSheet.TAG);
+
+            }
+        });
+
+        return view;
+
+       // FloatingActionButton fab = view.findViewById(R.id.fab);
+        /*fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Bundle bundle = new Bundle();
@@ -96,9 +117,9 @@ public class TaskFragment extends Fragment implements TemplateBottomSheet.Notify
                 templateBottomSheetTwo.setArguments(null);
                 templateBottomSheetTwo.show(getChildFragmentManager(), TemplateBottomSheet.TAG);
             }
-        });
+        });*/
 
-        return view;
+
     }
 
     @Override

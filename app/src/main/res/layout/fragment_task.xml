@@ -36,17 +36,19 @@
         android:paddingTop="8dp"
         android:overScrollMode="never"/>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:layout_gravity="bottom|end"
-        android:src="@drawable/ic_add"
-        app:fabSize="normal"
-        app:tint="@color/blue"
-        app:backgroundTint="@color/white"
-        android:visibility="visible"
-        />
+        android:layout_margin="8dp"
+        android:layout_gravity="bottom|right"
+        android:contentDescription="new Lead"
+        android:text="add"
+        app:icon="@drawable/ic_add_circle_outline_24px"
+        android:textColor="@color/lightBlue"
+        app:iconTint="@color/lightBlue"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:backgroundTint="@color/white"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

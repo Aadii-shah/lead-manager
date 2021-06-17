@@ -85,9 +85,9 @@
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_add"
+        app:srcCompat="@drawable/ic_add_user"
         app:layout_anchor="@id/bottomAppBar"
-        app:tint="@color/lightBlue"
+        app:tint="#757575"
         />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
