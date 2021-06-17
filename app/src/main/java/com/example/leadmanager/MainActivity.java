@@ -10,13 +10,17 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
@@ -39,6 +43,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private BottomAppBar bottomAppBar;
     private boolean isHome = true;
     private FragmentTransaction homeTransaction;
+    private LinearLayout bottomLayout;
+    private ImageView home, contact, task, calendar;
 
 
     @Override
@@ -56,12 +62,66 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             //  syncData();
         }
 
+        home = findViewById(R.id.home);
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                home.getDrawable().setTint(ContextCompat.getColor(getApplicationContext(), R.color.lightBlue));
+                contact.getDrawable().setTint(ContextCompat.getColor(getApplicationContext(), R.color.lightGrey));
+                task.getDrawable().setTint(ContextCompat.getColor(getApplicationContext(), R.color.lightGrey));
+                calendar.getDrawable().setTint(ContextCompat.getColor(getApplicationContext(), R.color.lightGrey));
+                getSupportFragmentManager().beginTransaction().replace(R.id.content, new HomeFragment()).commit();
+                isHome = true;
+            }
+        });
+
+        contact = findViewById(R.id.contact);
+        contact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                contact.getDrawable().setTint(ContextCompat.getColor(getApplicationContext(), R.color.lightBlue));
+                home.getDrawable().setTint(ContextCompat.getColor(getApplicationContext(), R.color.lightGrey));
+                task.getDrawable().setTint(ContextCompat.getColor(getApplicationContext(), R.color.lightGrey));
+                calendar.getDrawable().setTint(ContextCompat.getColor(getApplicationContext(), R.color.lightGrey));
+                getSupportFragmentManager().beginTransaction().replace(R.id.content, new ContactFragment()).commit();
+                isHome = false;
+            }
+        });
+
+        task = findViewById(R.id.task);
+        task.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                task.getDrawable().setTint(ContextCompat.getColor(getApplicationContext(), R.color.lightBlue));
+                home.getDrawable().setTint(ContextCompat.getColor(getApplicationContext(), R.color.lightGrey));
+                contact.getDrawable().setTint(ContextCompat.getColor(getApplicationContext(), R.color.lightGrey));
+                calendar.getDrawable().setTint(ContextCompat.getColor(getApplicationContext(), R.color.lightGrey));
+                getSupportFragmentManager().beginTransaction().replace(R.id.content, new TaskFragment()).commit();
+                isHome = false;
+            }
+        });
+
+        calendar = findViewById(R.id.calendar);
+        calendar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                calendar.getDrawable().setTint(ContextCompat.getColor(getApplicationContext(), R.color.lightBlue));
+                contact.getDrawable().setTint(ContextCompat.getColor(getApplicationContext(), R.color.lightGrey));
+                task.getDrawable().setTint(ContextCompat.getColor(getApplicationContext(), R.color.lightGrey));
+                calendar.getDrawable().setTint(ContextCompat.getColor(getApplicationContext(), R.color.lightGrey));
+                getSupportFragmentManager().beginTransaction().replace(R.id.content, new ScheduleFragment()).commit();
+                isHome = false;
+            }
+        });
+
         bottomAppBar = findViewById(R.id.bottomAppBar);
         homeTransaction = getSupportFragmentManager().beginTransaction();
         homeTransaction.replace(R.id.content, new HomeFragment());
         homeTransaction.commit();
 
-        bottomAppBar.getMenu().getItem(0).getIcon().setTint(ContextCompat.getColor(getApplicationContext(), R.color.lightBlue));
+
+
+//        bottomAppBar.getMenu().getItem(0).getIcon().setTint(ContextCompat.getColor(getApplicationContext(), R.color.lightBlue));
 
         bottomAppBar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
@@ -213,10 +273,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     .show();
         } else {
             getSupportFragmentManager().beginTransaction().replace(R.id.content, new HomeFragment()).commit();
-            bottomAppBar.getMenu().getItem(0).getIcon().setTint(ContextCompat.getColor(getApplicationContext(), R.color.lightBlue));
-            for(int i = 1; i<4; i++) {
-                bottomAppBar.getMenu().getItem(i).getIcon().setTint(ContextCompat.getColor(getApplicationContext(), R.color.lightGrey));
-            }
+            home.getDrawable().setTint(ContextCompat.getColor(getApplicationContext(), R.color.lightBlue));
+            contact.getDrawable().setTint(ContextCompat.getColor(getApplicationContext(), R.color.lightGrey));
+            task.getDrawable().setTint(ContextCompat.getColor(getApplicationContext(), R.color.lightGrey));
+            calendar.getDrawable().setTint(ContextCompat.getColor(getApplicationContext(), R.color.lightGrey));
         }
     }
 

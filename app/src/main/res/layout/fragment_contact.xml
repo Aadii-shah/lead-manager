@@ -61,7 +61,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_gravity="bottom|end"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/addContact"
