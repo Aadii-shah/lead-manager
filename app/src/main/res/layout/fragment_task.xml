@@ -46,7 +46,7 @@
         app:fabSize="normal"
         app:tint="@color/blue"
         app:backgroundTint="@color/white"
-        android:visibility="visible"
+        android:visibility="gone"
         />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

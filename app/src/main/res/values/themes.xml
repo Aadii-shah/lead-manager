@@ -21,8 +21,8 @@
 
     <style name="ActionButtonStyle" parent="Widget.AppCompat.ActionButton">
         <item name="android:minWidth">0dip</item>
-        <item name="android:paddingStart">25dip</item>
-        <item name="android:paddingEnd">25dip</item>
+        <item name="android:paddingStart">24dip</item>
+        <item name="android:paddingEnd">24dip</item>
     </style>
 
     <style name="AppBottomSheetDialogTheme"
