@@ -22,11 +22,6 @@
         android:title="Contact"
         android:icon="@drawable/ic_calendar"
         app:showAsAction="always|collapseActionView"/>
-
-    <item
-        android:id="@+id/schedulem"
-        android:title="Contact"
-        android:icon="@drawable/ic_calendar"
-        app:showAsAction="ifRoom"/>
+    
 
 </menu>

@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 Log.v("fjgeryfgyer", "eyfet");
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 MenuItem item1;
-                for(int i = 0; i<5; i++) {
+                for(int i = 0; i<4; i++) {
                     item1 = bottomAppBar.getMenu().getItem(i);
                     if(item.getItemId() != item1.getItemId()) {
 
@@ -214,7 +214,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         } else {
             getSupportFragmentManager().beginTransaction().replace(R.id.content, new HomeFragment()).commit();
             bottomAppBar.getMenu().getItem(0).getIcon().setTint(ContextCompat.getColor(getApplicationContext(), R.color.lightBlue));
-            for(int i = 1; i<5; i++) {
+            for(int i = 1; i<4; i++) {
                 bottomAppBar.getMenu().getItem(i).getIcon().setTint(ContextCompat.getColor(getApplicationContext(), R.color.lightGrey));
             }
         }
