@@ -107,13 +107,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             @Override
             public void onClick(View view) {
                 calendar.getDrawable().setTint(ContextCompat.getColor(getApplicationContext(), R.color.lightBlue));
+                home.getDrawable().setTint(ContextCompat.getColor(getApplicationContext(), R.color.lightGrey));
                 contact.getDrawable().setTint(ContextCompat.getColor(getApplicationContext(), R.color.lightGrey));
                 task.getDrawable().setTint(ContextCompat.getColor(getApplicationContext(), R.color.lightGrey));
-                calendar.getDrawable().setTint(ContextCompat.getColor(getApplicationContext(), R.color.lightGrey));
                 getSupportFragmentManager().beginTransaction().replace(R.id.content, new ScheduleFragment()).commit();
                 isHome = false;
             }
         });
+
+        home.getDrawable().setTint(ContextCompat.getColor(getApplicationContext(), R.color.lightBlue));
 
         bottomAppBar = findViewById(R.id.bottomAppBar);
         homeTransaction = getSupportFragmentManager().beginTransaction();
