@@ -40,7 +40,8 @@
                 android:src="@drawable/ic_home"
                 android:clickable="true"
                 android:focusable="true"
-                android:background="?selectableItemBackgroundBorderless"/>
+                android:background="?selectableItemBackgroundBorderless"
+                android:padding="4dp"/>
 
             <ImageView
                 android:id="@+id/contact"
@@ -50,7 +51,8 @@
                 android:src="@drawable/ic_contact"
                 android:clickable="true"
                 android:focusable="true"
-                android:background="?selectableItemBackgroundBorderless"/>
+                android:background="?selectableItemBackgroundBorderless"
+                android:padding="4dp"/>
 
             <ImageView
                 android:layout_width="0dp"
@@ -65,7 +67,8 @@
                 android:src="@drawable/ic_task"
                 android:clickable="true"
                 android:focusable="true"
-                android:background="?selectableItemBackgroundBorderless"/>
+                android:background="?selectableItemBackgroundBorderless"
+                android:padding="4dp"/>
 
             <ImageView
                 android:id="@+id/calendar"
@@ -75,7 +78,8 @@
                 android:src="@drawable/ic_calendar"
                 android:clickable="true"
                 android:focusable="true"
-                android:background="?selectableItemBackgroundBorderless"/>
+                android:background="?selectableItemBackgroundBorderless"
+                android:padding="4dp"/>
 
         </LinearLayout>
 
@@ -83,6 +87,7 @@
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/ic_add"
