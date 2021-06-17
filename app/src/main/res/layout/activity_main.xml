@@ -93,6 +93,7 @@
         app:srcCompat="@drawable/ic_add_user"
         app:layout_anchor="@id/bottomAppBar"
         app:tint="#757575"
+        android:backgroundTint="@color/white"
         />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
