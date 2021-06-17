@@ -13,7 +13,17 @@
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+
+        <item name="android:actionButtonStyle">@style/ActionButtonStyle</item>
+
+
         <!-- Customize your theme here. -->
+    </style>
+
+    <style name="ActionButtonStyle" parent="Widget.AppCompat.ActionButton">
+        <item name="android:minWidth">0dip</item>
+        <item name="android:paddingStart">20dip</item>
+        <item name="android:paddingEnd">20dip</item>
     </style>
 
     <style name="AppBottomSheetDialogTheme"
