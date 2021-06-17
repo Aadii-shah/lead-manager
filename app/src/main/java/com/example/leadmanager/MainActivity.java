@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -106,13 +107,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             @Override
             public void onClick(View view) {
                 calendar.getDrawable().setTint(ContextCompat.getColor(getApplicationContext(), R.color.lightBlue));
+                home.getDrawable().setTint(ContextCompat.getColor(getApplicationContext(), R.color.lightGrey));
                 contact.getDrawable().setTint(ContextCompat.getColor(getApplicationContext(), R.color.lightGrey));
                 task.getDrawable().setTint(ContextCompat.getColor(getApplicationContext(), R.color.lightGrey));
-                calendar.getDrawable().setTint(ContextCompat.getColor(getApplicationContext(), R.color.lightGrey));
                 getSupportFragmentManager().beginTransaction().replace(R.id.content, new ScheduleFragment()).commit();
                 isHome = false;
             }
         });
+
+        home.getDrawable().setTint(ContextCompat.getColor(getApplicationContext(), R.color.lightBlue));
 
         bottomAppBar = findViewById(R.id.bottomAppBar);
         homeTransaction = getSupportFragmentManager().beginTransaction();
@@ -120,6 +123,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         homeTransaction.commit();
 
 
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, NewLeadActivity.class);
+                startActivity(intent);
+            }
+        });
 
 //        bottomAppBar.getMenu().getItem(0).getIcon().setTint(ContextCompat.getColor(getApplicationContext(), R.color.lightBlue));
 
