@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#1A1414BC"
-    tools:context=".DealsActivity">
+    tools:context="sales_crm.customers.leads.crm.leadmanager.DealsActivity">
 
     <!--Custom toolBar-->
 

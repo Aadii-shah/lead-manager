@@ -11,7 +11,7 @@
         <item>New Lead</item>
         <item>Interested</item>
         <item>Unanswered</item>
-        <item>Busy</item>
+        <item>Pending</item>
         <item>Not Interested</item>
         <item>Converted</item>
     </string-array>

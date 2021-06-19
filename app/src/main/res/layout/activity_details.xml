@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#1A1414BC"
-    tools:context=".DetailsActivity">
+    tools:context="sales_crm.customers.leads.crm.leadmanager.DetailsActivity">
 
     <!--Design the layout after on click on contacts layout starts here-->
     <!--we will remove this layout from here later-->

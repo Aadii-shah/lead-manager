@@ -14,6 +14,67 @@
       },
       "oauth_client": [
         {
+          "client_id": "647810365000-35oerjk62bntg8k08hnvkfekc4l668so.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.leadmanager",
+            "certificate_hash": "917833b07c101b2634209fccb08e265b223af54c"
+          }
+        },
+        {
+          "client_id": "647810365000-3vpbm28mbb8j0ulf5baocc6nk76l0n46.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.leadmanager",
+            "certificate_hash": "b1ed7c0788e31ee601676c083514f0f06ee5b734"
+          }
+        },
+        {
+          "client_id": "647810365000-shfqso273j8ngr7b9vfv4daa7qiph9pu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.leadmanager",
+            "certificate_hash": "d80ccc540ce18bcdfbaddd5f39385873e461ff38"
+          }
+        },
+        {
+          "client_id": "647810365000-8lav1ecl9k7ph0h2mkdt9gnn07o25lki.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDcnRWkkSqn4DwrUOBsXYpeXaLqeICVYWA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "647810365000-8lav1ecl9k7ph0h2mkdt9gnn07o25lki.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:647810365000:android:d9600c8946272bac9a8a7d",
+        "android_client_info": {
+          "package_name": "sales_crm.customers.leads.crm.leadmanager"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "647810365000-uog5f1mmltfhfbtmjei2upq8nh3ks3f6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "sales_crm.customers.leads.crm.leadmanager",
+            "certificate_hash": "b1ed7c0788e31ee601676c083514f0f06ee5b734"
+          }
+        },
+        {
           "client_id": "647810365000-8lav1ecl9k7ph0h2mkdt9gnn07o25lki.apps.googleusercontent.com",
           "client_type": 3
         }

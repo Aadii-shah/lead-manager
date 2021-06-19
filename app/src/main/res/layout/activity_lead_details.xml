@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/lightWhite"
     android:orientation="vertical"
-    tools:context=".LeadDetailsActivity">
+    tools:context="sales_crm.customers.leads.crm.leadmanager.LeadDetailsActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
