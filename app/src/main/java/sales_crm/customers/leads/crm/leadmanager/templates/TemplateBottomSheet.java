@@ -19,6 +19,7 @@ import androidx.core.content.ContextCompat;
 
 import sales_crm.customers.leads.crm.leadmanager.R;
 import sales_crm.customers.leads.crm.leadmanager.models.Template;
+
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -82,7 +83,7 @@ public class TemplateBottomSheet extends BottomSheetDialogFragment {
         emoji.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(isEmoji) {
+                if (isEmoji) {
                     emoji.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_keyboard));
                     isEmoji = false;
                 } else {
@@ -127,7 +128,13 @@ public class TemplateBottomSheet extends BottomSheetDialogFragment {
                         template.setDescription(description.getText().toString());
                         template.setName(name.getText().toString());
 
-                        db.collection("cache").document(user.getUid())
+                        DocumentReference documentReference = db.collection("cache").document(user.getUid())
+                                //.collection("contacts").document(contact.getUid())
+                                .collection("templates").document();
+
+                        documentReference.set(template);
+
+                        /*db.collection("cache").document(user.getUid())
                                 //.collection("contacts").document(contact.getUid())
                                 .collection("templates")
                                 .add(template).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -149,7 +156,7 @@ public class TemplateBottomSheet extends BottomSheetDialogFragment {
                                 mArgs = null;
                                 dismiss();
                             }
-                        });
+                        });*/
 
                     } else {
 
@@ -160,8 +167,15 @@ public class TemplateBottomSheet extends BottomSheetDialogFragment {
                         db.collection("cache").document(user.getUid())
                                 //.collection("contacts").document(contact.getUid())
                                 .collection("templates").document(uid)
-                                .update("description", description.getText().toString(), "name", name.getText().toString())
-                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                .update("description", description.getText().toString(), "name", name.getText().toString());
+
+                        progress.dismiss();
+                        description.setText("");
+                        name.setText("");
+                        if (notifyParent != null)
+                            notifyParent.notifyAdded();
+                        dismiss();
+                                /*.addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
                                         progress.dismiss();
@@ -179,7 +193,7 @@ public class TemplateBottomSheet extends BottomSheetDialogFragment {
                                     notifyParent.notifyAdded();
                                 dismiss();
                             }
-                        });
+                        });*/
 
                     }
 
@@ -189,7 +203,6 @@ public class TemplateBottomSheet extends BottomSheetDialogFragment {
 
             }
         });
-
 
 
     }

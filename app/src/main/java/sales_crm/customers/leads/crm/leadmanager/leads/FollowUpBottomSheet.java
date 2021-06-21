@@ -146,7 +146,28 @@ public class FollowUpBottomSheet extends BottomSheetDialogFragment {
                     long epoch = date.getTime() / 1000;
                     db.collection("cache").document(user.getUid()).collection("leads")
                             .document(leadUid)
-                            .update("latestFollowup", epoch, "lfd", description.getText().toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            .update("latestFollowup", epoch, "lfd", description.getText().toString());
+
+                    HistoryItem historyItem = new HistoryItem();
+                    historyItem.setDescription("Follow-up updated to: " + date);
+                    historyItem.setDate(Utility.getCurrentTime());
+
+                    db.collection("cache").document(user.getUid())
+                            //.collection("contacts").document(contact.getUid())
+                            .collection("leads")
+                            .document(leadUid)
+                            .update("history", FieldValue.arrayUnion(historyItem));
+
+                    java.util.Date d = new java.util.Date(epoch * 1000L);
+                    String itemDateStr = new SimpleDateFormat("E, dd MMM hh:mm a").format(d);
+                    if (notifyParent != null)
+                        notifyParent.notifyAdded(itemDateStr, description.getText().toString());
+
+                    //followUpText.setText(itemDateStr);
+                    progress.dismiss();
+                    dismiss();
+
+                            /*.addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
                             HistoryItem historyItem = new HistoryItem();
@@ -181,7 +202,7 @@ public class FollowUpBottomSheet extends BottomSheetDialogFragment {
                         public void onFailure(@NonNull Exception e) {
 
                         }
-                    });
+                    });*/
 
                     Log.v("dddddddd", epoch + "");
                 } else {

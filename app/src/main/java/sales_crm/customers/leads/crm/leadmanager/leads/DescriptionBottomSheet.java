@@ -18,6 +18,7 @@ import android.widget.Toast;
 import sales_crm.customers.leads.crm.leadmanager.R;
 import sales_crm.customers.leads.crm.leadmanager.Utility;
 import sales_crm.customers.leads.crm.leadmanager.models.HistoryItem;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -45,7 +46,6 @@ public class DescriptionBottomSheet extends BottomSheetDialogFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
 
 
         //setStyle(DialogFragment.STYLE_NORMAL, R.style.AppBottomSheetDialogTheme);
@@ -81,7 +81,7 @@ public class DescriptionBottomSheet extends BottomSheetDialogFragment {
 
                 HistoryItem historyItem = new HistoryItem();
 
-                if(!description.getText().toString().equals("")) {
+                if (!description.getText().toString().equals("")) {
                     historyItem.setDescription(description.getText().toString());
                     historyItem.setDate(Utility.getCurrentTime());
 
@@ -89,7 +89,21 @@ public class DescriptionBottomSheet extends BottomSheetDialogFragment {
                             //.collection("contacts").document(contact.getUid())
                             .collection("leads")
                             .document(leadUid)
-                            .update(category, FieldValue.arrayUnion(historyItem)).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            .update(category, FieldValue.arrayUnion(historyItem));
+
+                    historyItem.setDescription("Added " + category);
+                    db.collection("cache").document(user.getUid())
+                            //.collection("contacts").document(contact.getUid())
+                            .collection("leads")
+                            .document(leadUid)
+                            .update("history", FieldValue.arrayUnion(historyItem));
+
+                    progress.dismiss();
+
+                    notifyParent.notifyAdded();
+                    dismiss();
+
+                            /*.addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             Log.v("ttttttt", historyItem.getDate() + "");
@@ -120,7 +134,7 @@ public class DescriptionBottomSheet extends BottomSheetDialogFragment {
                             notifyParent.notifyAdded();
                             dismiss();
                         }
-                    });
+                    });*/
 
                 } else {
                     Toast.makeText(getContext(), "Please fill the form", Toast.LENGTH_SHORT).show();

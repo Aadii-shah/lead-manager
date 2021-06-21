@@ -53,10 +53,10 @@
             android:layout_centerVertical="true"
             android:layout_marginEnd="30dp"
             android:layout_toStartOf="@+id/notification"
-            android:src="@drawable/ic_search"
+            android:background="?selectableItemBackgroundBorderless"
             android:clickable="true"
             android:focusable="true"
-            android:background="?selectableItemBackgroundBorderless"/>
+            android:src="@drawable/ic_search" />
     </RelativeLayout>
 
     <!--Custom Tool bar ends here-->

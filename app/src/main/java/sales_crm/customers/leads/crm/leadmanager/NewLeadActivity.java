@@ -1,10 +1,12 @@
 package sales_crm.customers.leads.crm.leadmanager;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +16,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import sales_crm.customers.leads.crm.leadmanager.models.Contact;
@@ -31,10 +34,13 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.Source;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -75,6 +81,15 @@ public class NewLeadActivity extends AppCompatActivity {
         } else {
             //syncData();
         }
+
+        TextView importCSV = findViewById(R.id.importCSV);
+        importCSV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(NewLeadActivity.this, ImportCSV.class);
+                startActivity(intent);
+            }
+        });
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -198,15 +213,38 @@ public class NewLeadActivity extends AppCompatActivity {
         contact.setPhone(ccp.getSelectedCountryCode() + editNumber.getText().toString());
         contact.setEmail(editEmail.getText().toString());
 
-        Lead lead = new Lead();
-        lead.setStatus(spinnerStatus.getSelectedItem().toString());
-        lead.setSource(spinnerSource.getSelectedItem().toString());
-        lead.setDescription(editDescription.getText().toString());
-        lead.setCreationDate(getCurrentTime());
-
         if (contactList.contains(contact)) {
+
+            Lead lead = new Lead();
+            lead.setStatus(spinnerStatus.getSelectedItem().toString());
+            lead.setSource(spinnerSource.getSelectedItem().toString());
+            lead.setDescription(editDescription.getText().toString());
+            lead.setCreationDate(getCurrentTime());
             lead.setContactUid(contact.getUid());
+
+            DocumentReference documentReference = db.collection("cache").document(user.getUid())
+                    //.collection("contacts").document(contact.getUid())
+                    .collection("leads").document();
+
+                    documentReference.set(lead);
+
+
+
+            HistoryItem historyItem = new HistoryItem();
+            historyItem.setDescription("Created");
+            historyItem.setDate(getCurrentTime());
+
             db.collection("cache").document(user.getUid())
+                    //.collection("contacts").document(contact.getUid())
+                    .collection("leads")
+                    .document(documentReference.getId())
+                    .update("history", FieldValue.arrayUnion(historyItem));
+
+            progress.dismiss();
+            finish();
+
+
+            /*db.collection("cache").document(user.getUid())
                     //.collection("contacts").document(contact.getUid())
                     .collection("leads").add(lead).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                 @Override
@@ -242,13 +280,45 @@ public class NewLeadActivity extends AppCompatActivity {
                     finish();
 
                 }
-            });
+            });*/
         } else {
 
             ContactDetails contactDetails = new ContactDetails();
             contactDetails.setDetails(contact);
 
-            db.collection("cache").document(user.getUid()).collection("contacts")
+            DocumentReference documentSnapshot = db.collection("cache").document(user.getUid()).collection("contacts").document();
+            documentSnapshot.set(contact);
+                    //.set(contact);
+
+            Lead lead = new Lead();
+            lead.setStatus(spinnerStatus.getSelectedItem().toString());
+            lead.setSource(spinnerSource.getSelectedItem().toString());
+            lead.setDescription(editDescription.getText().toString());
+            lead.setCreationDate(getCurrentTime());
+            lead.setContactUid(documentSnapshot.getId());
+
+            documentSnapshot = db.collection("cache").document(user.getUid())
+                    //.collection("contacts").document(documentReference.getId())
+                    .collection("leads").document();
+
+                    documentSnapshot.set(lead);
+
+
+            HistoryItem historyItem = new HistoryItem();
+            historyItem.setDescription("Created");
+            historyItem.setDate(Utility.getCurrentTime());
+
+            db.collection("cache").document(user.getUid())
+                    //.collection("contacts").document(contact.getUid())
+                    .collection("leads")
+                    .document(documentSnapshot.getId())
+                    .update("history", FieldValue.arrayUnion(historyItem));
+
+            progress.dismiss();
+            finish();
+
+
+            /*db.collection("cache").document(user.getUid()).collection("contacts")
                     .add(contact).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                 @Override
                 public void onSuccess(DocumentReference documentReference) {
@@ -259,11 +329,18 @@ public class NewLeadActivity extends AppCompatActivity {
                     lead.setDescription(editDescription.getText().toString());
                     lead.setCreationDate(getCurrentTime());
                     lead.setContactUid(documentReference.getId());
+
+
                     db.collection("cache").document(user.getUid())
                             //.collection("contacts").document(documentReference.getId())
-                            .collection("leads").add(lead).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                            .collection("leads").add(lead)
+
+                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                         @Override
                         public void onSuccess(DocumentReference documentReference) {
+
+
+
                             HistoryItem historyItem = new HistoryItem();
                             historyItem.setDescription("Created");
                             historyItem.setDate(Utility.getCurrentTime());
@@ -301,13 +378,13 @@ public class NewLeadActivity extends AppCompatActivity {
                     }*/
 
 
-                }
+                /*}
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
 
                 }
-            });
+            });*/
 
         }
     }

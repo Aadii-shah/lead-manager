@@ -45,7 +45,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="A"
+                android:text="n"
                 android:textSize="50sp"
                 android:textStyle="bold"/>
 
@@ -60,7 +60,7 @@
             android:layout_marginTop="5dp"
             android:layout_centerHorizontal="true"
             android:layout_below="@id/relativeContactImage"
-            android:text="Aaditya Shah"
+            android:text="NA"
             android:textStyle="bold"
             android:textColor="@color/darkGrey"
             android:textSize="20sp"/>

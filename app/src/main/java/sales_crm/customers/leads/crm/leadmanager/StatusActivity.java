@@ -17,6 +17,7 @@ import androidx.appcompat.widget.Toolbar;
 import sales_crm.customers.leads.crm.leadmanager.models.HistoryItem;
 
 import sales_crm.customers.leads.crm.leadmanager.R;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -43,7 +44,6 @@ public class StatusActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_status);
-
 
 
         String leadUid = getIntent().getStringExtra("lead_uid");
@@ -253,7 +253,27 @@ public class StatusActivity extends AppCompatActivity {
     private void changeStatus(String leadUid, String status) {
         db.collection("cache").document(user.getUid()).collection("leads")
                 .document(leadUid)
-                .update("status", status)
+                .update("status", status);
+
+        HistoryItem historyItem = new HistoryItem();
+        historyItem.setDescription("Status changed to: " + status);
+        historyItem.setDate(Utility.getCurrentTime());
+
+        db.collection("cache").document(user.getUid())
+                //.collection("contacts").document(contact.getUid())
+                .collection("leads")
+                .document(leadUid)
+                .update("history", FieldValue.arrayUnion(historyItem));
+
+        progress.dismiss();
+        Intent intent = new Intent();
+        intent.putExtra("status", status);
+        //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        //intent.setData(Uri.parse(status));
+        setResult(20, intent);
+        finish();
+
+                /*
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -289,7 +309,7 @@ public class StatusActivity extends AppCompatActivity {
             public void onFailure(@NonNull Exception e) {
                 //Log.w(TAG, "Error updating document", e);
             }
-        });
+        });*/
     }
 
 

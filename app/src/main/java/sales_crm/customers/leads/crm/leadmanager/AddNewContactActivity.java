@@ -20,6 +20,7 @@ import sales_crm.customers.leads.crm.leadmanager.models.HistoryItem;
 import sales_crm.customers.leads.crm.leadmanager.models.Lead;
 
 import sales_crm.customers.leads.crm.leadmanager.R;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -69,14 +70,13 @@ public class AddNewContactActivity extends AppCompatActivity {
         newLeadText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(newLeadLayout.getVisibility() == View.VISIBLE) {
+                if (newLeadLayout.getVisibility() == View.VISIBLE) {
                     newLeadLayout.setVisibility(View.GONE);
                     newLeadText.setImageResource(R.drawable.ic_add_contact);
 
                 } else {
                     newLeadLayout.setVisibility(View.VISIBLE);
                     newLeadText.setImageResource(R.drawable.ic_up_arrow);
-
 
 
                 }
@@ -110,16 +110,12 @@ public class AddNewContactActivity extends AppCompatActivity {
             public void onClick(View v) {
 
 
-
-
                 String name = editName.getText().toString();
                 String email = editEmail.getText().toString();
                 String number = editNumber.getText().toString();
 
 
-
-
-                if(!name.equals("") && (!email.equals("") || !number.equals(""))) {
+                if (!name.equals("") && (!email.equals("") || !number.equals(""))) {
                     progress.setMessage("adding new contact");
                     progress.setCancelable(false); // disable dismiss by tapping outside of the dialog
                     progress.show();
@@ -133,7 +129,43 @@ public class AddNewContactActivity extends AppCompatActivity {
                     ContactDetails contactDetails = new ContactDetails();
                     contactDetails.setDetails(contact);
 
-                    db.collection("cache").document(user.getUid()).collection("contacts")
+                    DocumentReference documentReference = db.collection("cache").document(user.getUid()).collection("contacts")
+                            .document();
+                    documentReference.set(contact);
+                    if (newLeadLayout.getVisibility() == View.VISIBLE) {
+                        Lead lead = new Lead();
+                        lead.setStatus(spinnerStatus.getSelectedItem().toString());
+                        lead.setSource(spinnerSource.getSelectedItem().toString());
+                        lead.setDescription(editDescription.getText().toString());
+                        lead.setContactUid(documentReference.getId());
+                        documentReference = db.collection("cache").document(user.getUid()).collection("leads")
+                                //.document(documentReference.getId()).collection("leads")
+                                .document();
+
+                        documentReference.set(lead);
+
+                        HistoryItem historyItem = new HistoryItem();
+                        historyItem.setDescription("Created");
+                        historyItem.setDate(Utility.getCurrentTime());
+
+                        db.collection("cache").document(user.getUid())
+                                //.collection("contacts").document(contact.getUid())
+                                .collection("leads")
+                                .document(documentReference.getId())
+                                .update("history", FieldValue.arrayUnion(historyItem));
+
+                        progress.dismiss();
+                        finish();
+
+                    } else {
+                        progress.dismiss();
+                        finish();
+                    }
+
+
+
+
+                    /*db.collection("cache").document(user.getUid()).collection("contacts")
                             .add(contact).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                         @Override
                         public void onSuccess(DocumentReference documentReference) {
@@ -190,7 +222,7 @@ public class AddNewContactActivity extends AppCompatActivity {
                         public void onFailure(@NonNull Exception e) {
 
                         }
-                    });
+                    });*/
 
 
                 }

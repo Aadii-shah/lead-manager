@@ -25,6 +25,7 @@ import sales_crm.customers.leads.crm.leadmanager.templates.ChooseTemplateBottomS
 import sales_crm.customers.leads.crm.leadmanager.templates.TemplateBottomSheet;
 
 import sales_crm.customers.leads.crm.leadmanager.R;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -56,13 +57,12 @@ public class LeadDetailsActivity extends AppCompatActivity implements FollowUpBo
         setContentView(R.layout.activity_lead_details);
 
 
-
         ActivityResultLauncher<Intent> mLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 new ActivityResultCallback<ActivityResult>() {
                     @Override
                     public void onActivityResult(ActivityResult result) {
-                        if(result.getResultCode() == 20) {
+                        if (result.getResultCode() == 20) {
                             statusText.setText(result.getData().getStringExtra("status"));
                             lead.setStatus(result.getData().getStringExtra("status"));
                         }
@@ -86,9 +86,14 @@ public class LeadDetailsActivity extends AppCompatActivity implements FollowUpBo
         contactImage = findViewById(R.id.contactImage);
 
         statusText.setText(lead.getStatus());
-        java.util.Date d = new java.util.Date(lead.getLatestFollowup() * 1000L);
-        String itemDateStr = new SimpleDateFormat("E, dd MMM hh:mm a").format(d);
-        followUpText.setText(itemDateStr);
+
+        if (lead.getLatestFollowup() == 0) {
+            followUpText.setText("No followups yet");
+        } else {
+            java.util.Date d = new java.util.Date(lead.getLatestFollowup() * 1000L);
+            String itemDateStr = new SimpleDateFormat("E, dd MMM hh:mm a").format(d);
+            followUpText.setText(itemDateStr);
+        }
         if (lead.getNotes() != null)
             notesText.setText(lead.getNotes()[lead.getNotes().length - 1].getDescription());
         if (lead.getDeals() != null)
@@ -270,7 +275,7 @@ public class LeadDetailsActivity extends AppCompatActivity implements FollowUpBo
                 Contact contact = gson.fromJson(jsonElement, Contact.class);
                 contactGlobal = contact;
                 contactName.setText(contact.getName());
-                contactImage.setText(contact.getName().substring(0,1).toUpperCase());
+                contactImage.setText(contact.getName().substring(0, 1).toUpperCase());
 
             }
         });

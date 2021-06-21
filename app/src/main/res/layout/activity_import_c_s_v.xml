@@ -18,9 +18,41 @@
         />
 
     <TextView
+        android:id="@+id/fileName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="coming soon.."
-        android:layout_centerInParent="true"/>
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/chooserCard"
+        android:layout_margin="8dp"
+        android:gravity="center"/>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/chooserCard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="18dp">
+    <TextView
+        android:id="@+id/chooser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="choose a csv file"
+        android:padding="8dp"
+        android:background="@color/lightBlue"
+        android:textColor="@color/white"/>
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/importButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Import"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/chooserCard"
+        android:padding="8dp"
+        android:textSize="18sp"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackground"/>
 
 </RelativeLayout>
