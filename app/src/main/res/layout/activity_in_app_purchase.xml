@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".billing.InAppPurchase">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/showPlanToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:navigationIcon="@drawable/navigation_back"
+        app:title="Subscription" />
+
+    <TextView
+        android:id="@+id/freeHundred"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="First 100 leads always free"
+        android:layout_below="@+id/showPlanToolbar"/>
+
+
+    <LinearLayout
+        android:id="@+id/subscriptionLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/freeHundred"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="18dp"
+        android:background="@drawable/edit_background"
+        android:backgroundTint="@color/lightBlue"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp">
+
+        <TextView
+            android:id="@+id/subscriptionTypeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Free trial ends on: "
+            android:textColor="@color/white"
+            android:includeFontPadding="false"/>
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:includeFontPadding="false"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/plansLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@id/subscriptionLayout"
+        android:layout_marginTop="40dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Please choose a plan"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_marginBottom="20dp"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/plans"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/free_trial"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="7 days Free trial"
+        android:textSize="24sp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/plansLayout"
+        android:layout_marginTop="36dp"
+        android:visibility="gone"/>
+
+</RelativeLayout>

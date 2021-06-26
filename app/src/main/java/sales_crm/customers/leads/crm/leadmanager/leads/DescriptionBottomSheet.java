@@ -106,7 +106,7 @@ public class DescriptionBottomSheet extends BottomSheetDialogFragment {
                             /*.addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
-                            Log.v("ttttttt", historyItem.getDate() + "");
+                            //Log.v("ttttttt", historyItem.getDate() + "");
                             historyItem.setDescription("Added " + category);
                             db.collection("cache").document(user.getUid())
                                     //.collection("contacts").document(contact.getUid())
@@ -150,7 +150,7 @@ public class DescriptionBottomSheet extends BottomSheetDialogFragment {
         super.onAttach(context);
         notifyParent = (NotifyParent) context;
         if (context instanceof NotifyParent) {
-            Log.v("jhgfff", "called");
+            //Log.v("jhgfff", "called");
             notifyParent = (NotifyParent) context;
         } else {
             throw new RuntimeException(context.toString()

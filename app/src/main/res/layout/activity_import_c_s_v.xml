@@ -7,6 +7,19 @@
     tools:context="sales_crm.customers.leads.crm.leadmanager.ImportCSV"
     android:background="@color/lightWhite">
 
+    <TextView
+        android:id="@+id/downloadSampleCSV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Download Sample CSV"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="24dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:textColor="#a7a7a7"/>
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"

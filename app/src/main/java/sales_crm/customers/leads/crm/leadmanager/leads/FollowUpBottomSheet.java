@@ -1,8 +1,12 @@
 package sales_crm.customers.leads.crm.leadmanager.leads;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.app.job.JobScheduler;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,22 +23,21 @@ import androidx.annotation.Nullable;
 import sales_crm.customers.leads.crm.leadmanager.R;
 import sales_crm.customers.leads.crm.leadmanager.Utility;
 import sales_crm.customers.leads.crm.leadmanager.models.HistoryItem;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
+import sales_crm.customers.leads.crm.leadmanager.NotificationEventService;
+
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.kunzisoft.switchdatetime.SwitchDateTimeDialogFragment;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+
+import static android.content.Context.ALARM_SERVICE;
 
 public class FollowUpBottomSheet extends BottomSheetDialogFragment {
 
@@ -47,6 +50,9 @@ public class FollowUpBottomSheet extends BottomSheetDialogFragment {
     private FollowUpBottomSheet.NotifyParent notifyParent;
     private TextView time;
     private Date date;
+
+    private static final int JOB_ID = 0;
+    private JobScheduler mScheduler;
 
     public FollowUpBottomSheet(FollowUpBottomSheet.NotifyParent notifyParent) {
         this.notifyParent = notifyParent;
@@ -130,6 +136,8 @@ public class FollowUpBottomSheet extends BottomSheetDialogFragment {
             @Override
             public void onClick(View view1) {
 
+                //createNotification(1000L);
+
                 if (!description.getText().toString().equals("")) {
 
                     progress.setMessage("scheduling followup");
@@ -140,7 +148,7 @@ public class FollowUpBottomSheet extends BottomSheetDialogFragment {
                     progress.show();*/
                     // Date is get on positive button click
                     // Do something
-                    Log.v("dddddddd", date.toString() + "");
+                    //Log.v("dddddddd", date.toString() + "");
                     //SimpleDateFormat df = new SimpleDateFormat("MMM dd yyyy HH:mm:ss.SSS zzz");
                     //Date date1 = df.parse(date);
                     long epoch = date.getTime() / 1000;
@@ -161,7 +169,9 @@ public class FollowUpBottomSheet extends BottomSheetDialogFragment {
                     java.util.Date d = new java.util.Date(epoch * 1000L);
                     String itemDateStr = new SimpleDateFormat("E, dd MMM hh:mm a").format(d);
                     if (notifyParent != null)
-                        notifyParent.notifyAdded(itemDateStr, description.getText().toString());
+                        notifyParent.notifyAdded(itemDateStr, description.getText().toString(), epoch);
+
+                    //createNotification(epoch * 1000L);
 
                     //followUpText.setText(itemDateStr);
                     progress.dismiss();
@@ -204,7 +214,7 @@ public class FollowUpBottomSheet extends BottomSheetDialogFragment {
                         }
                     });*/
 
-                    Log.v("dddddddd", epoch + "");
+                    //Log.v("dddddddd", epoch + "");
                 } else {
                     Toast.makeText(getContext(), "Please fill the form", Toast.LENGTH_SHORT).show();
                 }
@@ -219,7 +229,7 @@ public class FollowUpBottomSheet extends BottomSheetDialogFragment {
         super.onAttach(context);
         notifyParent = (FollowUpBottomSheet.NotifyParent) context;
         if (context instanceof FollowUpBottomSheet.NotifyParent) {
-            Log.v("jhgfff", "called");
+            //Log.v("jhgfff", "called");
             notifyParent = (FollowUpBottomSheet.NotifyParent) context;
         } else {
             throw new RuntimeException(context.toString()
@@ -243,7 +253,38 @@ public class FollowUpBottomSheet extends BottomSheetDialogFragment {
     }
 
     public interface NotifyParent {
-        void notifyAdded(String itemDateStr, String lfd);
+        void notifyAdded(String itemDateStr, String lfd, long epoch);
+    }
+    /**
+     * onClick method for cancelling all existing jobs.
+     */
+    public void cancelJobs(View view) {
+
+        if (mScheduler != null) {
+            mScheduler.cancelAll();
+            mScheduler = null;
+            Toast.makeText(getContext(), "cancelled meeting", Toast.LENGTH_SHORT)
+                    .show();
+        }
+    }
+
+    public void createNotification (long time) {
+
+        Intent myIntent = new Intent(getActivity() , NotificationEventService. class ) ;
+        AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(ALARM_SERVICE );
+        PendingIntent pendingIntent = PendingIntent. getBroadcast ( getActivity(), 0 , myIntent , 0 ) ;
+        /*Calendar calendar = Calendar. getInstance () ;
+        calendar.set(Calendar. SECOND , 0 ) ;
+        calendar.set(Calendar. MINUTE , 0 ) ;
+        calendar.set(Calendar. HOUR , 0 ) ;
+        calendar.set(Calendar. AM_PM , Calendar. AM ) ;
+        calendar.add(Calendar. DAY_OF_MONTH , 1 ) ;*/
+        //alarmManager.setRepeating(AlarmManager. RTC_WAKEUP , calendar.getTimeInMillis() , 1000 * 60 * 60 * 24 , pendingIntent) ;
+
+        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 10000, pendingIntent);
+
+        Toast.makeText(getContext(), "scheduled meeting", Toast.LENGTH_SHORT)
+                .show();
     }
 
 }

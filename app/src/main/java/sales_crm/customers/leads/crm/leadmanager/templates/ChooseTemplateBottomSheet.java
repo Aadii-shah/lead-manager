@@ -135,7 +135,7 @@ public class ChooseTemplateBottomSheet extends BottomSheetDialogFragment impleme
 
             if (task.isSuccessful() && task.getResult()!=null) {
                 itemsList.clear();
-                //Log.v("dipppppp", "kkk" + task.getResult().getData());
+                ////Log.v("dipppppp", "kkk" + task.getResult().getData());
 
                 //ArrayList<HistoryItem> historyItems = (ArrayList<HistoryItem>) task.getResult().get(category);
 
@@ -165,7 +165,7 @@ public class ChooseTemplateBottomSheet extends BottomSheetDialogFragment impleme
         super.onAttach(context);
 //        notifyParent = (TemplateBottomSheet.NotifyParent) context;
   /*      if (context instanceof ChooseTemplateBottomSheet .NotifyParent) {
-            Log.v("jhgfff", "called");
+            //Log.v("jhgfff", "called");
             notifyParent = (TemplateBottomSheet.NotifyParent) context;
         } else {
             throw new RuntimeException(context.toString()

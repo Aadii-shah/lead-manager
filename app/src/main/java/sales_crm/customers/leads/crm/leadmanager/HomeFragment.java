@@ -211,7 +211,7 @@ public class HomeFragment extends Fragment {
 
     private void getCount(boolean isToday) {
 
-        Log.v("htjfhgt", "called");
+        //Log.v("htjfhgt", "called");
         time = getMidNightTimeStamp();
 
         if (!isToday)
@@ -288,7 +288,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onResume() {
 
-        Log.v("hfgytfyshfy", "called");
+        //Log.v("hfgytfyshfy", "called");
 
         if (flag) {
             if (spinner.getSelectedItem().toString().equals("Overall"))

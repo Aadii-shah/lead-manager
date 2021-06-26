@@ -216,16 +216,16 @@ public class ListActivity extends AppCompatActivity implements LeadAdapter.Recyc
     private void getLeadsv1(String category) {
 
         long time = getMidNightTimeStamp();
-        Log.v("dipak", "" + time);
+        //Log.v("dipak", "" + time);
         Task<QuerySnapshot> dataRef = db
                 .collectionGroup("leads").whereGreaterThan("creationDate", time).whereEqualTo("status", category).get(Source.CACHE)
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        Log.v("dipak", "" + queryDocumentSnapshots.getDocuments());
+                        //Log.v("dipak", "" + queryDocumentSnapshots.getDocuments());
                         for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
 
-                            Log.v("dipak1111", "" + document.getReference().getParent().getParent());
+                            //Log.v("dipak1111", "" + document.getReference().getParent().getParent());
                             Gson gson = new Gson();
                             JsonElement jsonElement = gson.toJsonTree(document.getData());
                             LeadApp lead = gson.fromJson(jsonElement, LeadApp.class);
@@ -281,7 +281,7 @@ public class ListActivity extends AppCompatActivity implements LeadAdapter.Recyc
                     JsonElement jsonElement = gson.toJsonTree(document.getData());
                     LeadApp lead = gson.fromJson(jsonElement, LeadApp.class);
                     //document.getReference().getId();
-                    Log.v("gdgdgdgd", "" +  document.getReference().getId());
+                    //Log.v("gdgdgdgd", "" +  document.getReference().getId());
 
                     lead.setUid(document.getReference().getId());
                     itemsList.add(lead);

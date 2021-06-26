@@ -15,6 +15,8 @@ import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
 import sales_crm.customers.leads.crm.leadmanager.R;
+import sales_crm.customers.leads.crm.leadmanager.billing.InAppPurchase;
+
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -43,6 +45,16 @@ public class ProfileBottomSheet extends BottomSheetDialogFragment {
         TextView name = view.findViewById(R.id.name);
         TextView email = view.findViewById(R.id.email);
         TextView signOut = view.findViewById(R.id.signOut);
+
+        TextView manageSubscription = view.findViewById(R.id.manageSubscription);
+        manageSubscription.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getContext(), InAppPurchase.class);
+                startActivity(i);
+                //getActivity().finish();
+            }
+        });
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 

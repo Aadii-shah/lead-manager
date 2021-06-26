@@ -2,10 +2,12 @@ package sales_crm.customers.leads.crm.leadmanager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,12 +21,16 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import sales_crm.customers.leads.crm.leadmanager.billing.InAppPurchase;
 import sales_crm.customers.leads.crm.leadmanager.models.Contact;
 import sales_crm.customers.leads.crm.leadmanager.models.ContactDetails;
 import sales_crm.customers.leads.crm.leadmanager.models.HistoryItem;
 import sales_crm.customers.leads.crm.leadmanager.models.Lead;
 
 import sales_crm.customers.leads.crm.leadmanager.R;
+import sales_crm.customers.leads.crm.leadmanager.models.Pro;
+import sales_crm.customers.leads.crm.leadmanager.models.TemplateApp;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -134,9 +140,78 @@ public class NewLeadActivity extends AppCompatActivity {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!contactName.getText().toString().equals("") && !editDescription.getText().toString().equals(""))
-                addNewLead(contactGlobal);
-                else {
+                if (!contactName.getText().toString().equals("") && !editDescription.getText().toString().equals("")) {
+
+                    db.collection("cache")
+                            .document(user.getUid()).collection("account").document("pro")
+                            .get(Source.CACHE).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+
+                            Gson gson = new Gson();
+                            JsonElement jsonElement = gson.toJsonTree(documentSnapshot.getData());
+
+                            Pro pro = gson.fromJson(jsonElement, Pro.class);
+                            int count = pro.getCount();
+
+
+                            if(count <= 100) {
+                                db.collection("cache")
+                                        .document(user.getUid()).collection("account").document("pro")
+                                        .update("count", count +1);
+                                addNewLead(contactGlobal);
+                            } else if(pro.getValidTill()>(System.currentTimeMillis()/1000)) {
+                                addNewLead(contactGlobal);
+                            } else {
+                                //Subscription Message
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+
+                                        if (!isFinishing()){
+                                            new AlertDialog.Builder(NewLeadActivity.this)
+                                                    .setTitle("Get Premium")
+                                                    .setMessage("You have reached free 100 contact limit.")
+                                                    .setCancelable(false)
+                                                    .setPositiveButton("Purchase", new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog, int which) {
+                                                            Intent i = new Intent(NewLeadActivity.this, InAppPurchase.class);
+                                                            startActivity(i);
+                                                            finish();
+                                                        }
+                                                    }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    dialog.dismiss();
+                                                    //finish();
+                                                }
+                                            }).show();
+                                        }
+                                    }
+                                });
+                            }
+
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.v("dipak", "failed" + e.toString());
+
+                            Pro pro = new Pro();
+                            pro.setCount(1);
+                            pro.setValidTill(0);
+
+                                db.collection("cache")
+                                        .document(user.getUid()).collection("account").document("pro")
+                                        .set(pro);
+                                addNewLead(contactGlobal);
+
+
+                        }
+                    });
+
+                } else {
                     Toast.makeText(NewLeadActivity.this, "Please fill the description and contact form", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -178,7 +253,7 @@ public class NewLeadActivity extends AppCompatActivity {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                        Log.v("hsgftsfts", "tsds");
+                        //Log.v("hsgftsfts", "tsds");
                         //isSupplierAvailable = true;
                         availableContact = contactAdapter.getItem(i);
                         editAddress.setText(availableContact.getAddress());
@@ -226,8 +301,7 @@ public class NewLeadActivity extends AppCompatActivity {
                     //.collection("contacts").document(contact.getUid())
                     .collection("leads").document();
 
-                    documentReference.set(lead);
-
+            documentReference.set(lead);
 
 
             HistoryItem historyItem = new HistoryItem();
@@ -288,7 +362,7 @@ public class NewLeadActivity extends AppCompatActivity {
 
             DocumentReference documentSnapshot = db.collection("cache").document(user.getUid()).collection("contacts").document();
             documentSnapshot.set(contact);
-                    //.set(contact);
+            //.set(contact);
 
             Lead lead = new Lead();
             lead.setStatus(spinnerStatus.getSelectedItem().toString());
@@ -301,7 +375,7 @@ public class NewLeadActivity extends AppCompatActivity {
                     //.collection("contacts").document(documentReference.getId())
                     .collection("leads").document();
 
-                    documentSnapshot.set(lead);
+            documentSnapshot.set(lead);
 
 
             HistoryItem historyItem = new HistoryItem();

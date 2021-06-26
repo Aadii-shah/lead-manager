@@ -51,6 +51,6 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:backgroundTint="@color/white"
-        android:visibility="gone"/>
+        android:visibility="visible"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

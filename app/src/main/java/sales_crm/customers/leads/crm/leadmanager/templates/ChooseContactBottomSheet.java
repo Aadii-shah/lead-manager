@@ -163,7 +163,7 @@ public class ChooseContactBottomSheet extends BottomSheetDialogFragment implemen
 
             if (task.isSuccessful() && task.getResult()!=null) {
                 itemsList.clear();
-                //Log.v("dipppppp", "kkk" + task.getResult().getData());
+                ////Log.v("dipppppp", "kkk" + task.getResult().getData());
 
                 //ArrayList<HistoryItem> historyItems = (ArrayList<HistoryItem>) task.getResult().get(category);
 
@@ -189,7 +189,7 @@ public class ChooseContactBottomSheet extends BottomSheetDialogFragment implemen
         super.onAttach(context);
 //        notifyParent = (TemplateBottomSheet.NotifyParent) context;
   /*      if (context instanceof ChooseContactBottomSheet  .NotifyParent) {
-            Log.v("jhgfff", "called");
+            //Log.v("jhgfff", "called");
             notifyParent = (TemplateBottomSheet.NotifyParent) context;
         } else {
             throw new RuntimeException(context.toString()

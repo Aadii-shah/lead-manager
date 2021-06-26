@@ -181,14 +181,14 @@ public class ScheduleFragment extends Fragment implements WeekView.EventClickLis
 
         Source CACHE = Source.CACHE;
 
-        Log.v("gggg:", "entered1");
+        //Log.v("gggg:", "entered1");
 
         Calendar calendar = Calendar.getInstance();
         calendar.set(newYear, newMonth, 1, 0, 0);
-        Log.v("dygfyds", calendar.get(Calendar.MONTH) + "");
+        //Log.v("dygfyds", calendar.get(Calendar.MONTH) + "");
         if (!containsLocation(events, calendar)) {
 
-            Log.v("dygfyds", "called");
+            //Log.v("dygfyds", "called");
 
             dataRef.whereGreaterThan("latestFollowup", getMidNightTimeStampByMonth(newYear, newMonth))
                     .whereLessThanOrEqualTo("latestFollowup", getMidNightTimeStampByMonth(newYear, newMonth + 1) - 1)
@@ -244,7 +244,7 @@ public class ScheduleFragment extends Fragment implements WeekView.EventClickLis
                             toAdd.setContactUid(leadApp.getContactUid());
                             eventsNew.add(toAdd);
                             weekViewEvent = toAdd;
-                            Log.v("kjfhruygfru", "" + eventsNew.get(0).getName());
+                            //Log.v("kjfhruygfru", "" + eventsNew.get(0).getName());
                             i++;
                         }
 
@@ -266,7 +266,7 @@ public class ScheduleFragment extends Fragment implements WeekView.EventClickLis
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Log.v("gggg:", "enterederror");
+                    //Log.v("gggg:", "enterederror");
                 }
             });
 
@@ -306,7 +306,7 @@ public class ScheduleFragment extends Fragment implements WeekView.EventClickLis
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
 
-                Log.v("hbchbch", "called");
+                //Log.v("hbchbch", "called");
                 if (task.isSuccessful() && !Objects.requireNonNull(task.getResult()).isEmpty()) {
 
                     long i = Long.MAX_VALUE;
@@ -322,7 +322,7 @@ public class ScheduleFragment extends Fragment implements WeekView.EventClickLis
                     Calendar calendar1 = Calendar.getInstance();
                     calendar1.setTimeInMillis(i * 1000);
 
-                    Log.v("fetrfdgvHour", "" + calendar1.getTime());
+                    //Log.v("fetrfdgvHour", "" + calendar1.getTime());
                     mWeekView.goToHour(calendar1.get(Calendar.HOUR_OF_DAY));
 
                 }
@@ -331,7 +331,7 @@ public class ScheduleFragment extends Fragment implements WeekView.EventClickLis
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.v("gggg:", "enterederror");
+                //Log.v("gggg:", "enterederror");
             }
         });
 

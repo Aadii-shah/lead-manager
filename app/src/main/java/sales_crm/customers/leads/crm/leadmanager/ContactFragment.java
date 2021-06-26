@@ -69,7 +69,6 @@ public class ContactFragment extends Fragment implements ContactsAdapter.Recycle
 
     @Override
     public void onResume() {
-        Log.v("juswcre3 ", "called");
         itemsList.clear();
         getContacts();
 
@@ -282,7 +281,7 @@ public class ContactFragment extends Fragment implements ContactsAdapter.Recycle
                     Contact contact = gson.fromJson(jsonElement, Contact.class);
                     contact.setUid(document.getReference().getId());
 
-                    //Log.v("dipak", contact.getName());
+                    ////Log.v("dipak", contact.getName());
 
                     //Contact contact = Objects.requireNonNull(document.toObject(Contact.class));
 

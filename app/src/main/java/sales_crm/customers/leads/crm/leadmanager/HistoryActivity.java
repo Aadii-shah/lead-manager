@@ -119,7 +119,6 @@ public class HistoryActivity extends AppCompatActivity implements HistoryAdapter
         fabHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.v("test", "called");
                 Intent home = new Intent(HistoryActivity.this, MainActivity.class);
                 startActivity(home);
                 finish();
@@ -205,15 +204,13 @@ public class HistoryActivity extends AppCompatActivity implements HistoryAdapter
 
         Source CACHE = Source.CACHE;
 
-        Log.v("dipppppp",  leadUid);
+        //Log.v("dipppppp",  leadUid);
         assert leadUid != null;
         db.collection("cache").document(user.getUid()).collection("leads")
                 .document(leadUid).get(CACHE).addOnCompleteListener(task -> {
 
 
             if (task.isSuccessful() && task.getResult()!=null) {
-
-                //Log.v("dipppppp", "kkk" + task.getResult().getData());
 
                 ArrayList<HistoryItem> historyItems = (ArrayList<HistoryItem>) task.getResult().get(category);
 
@@ -238,12 +235,11 @@ public class HistoryActivity extends AppCompatActivity implements HistoryAdapter
     @Override
     public void notifyAdded() {
 
-        Log.v("jhgfff", "called1");
+        //Log.v("jhgfff", "called1");
 
         itemsList.clear();
         Source CACHE = Source.CACHE;
 
-        Log.v("dipppppp",  leadUid);
         assert leadUid != null;
         db.collection("cache").document(user.getUid()).collection("leads")
                 .document(leadUid).get(CACHE).addOnCompleteListener(task -> {
@@ -255,14 +251,14 @@ public class HistoryActivity extends AppCompatActivity implements HistoryAdapter
 
                 ArrayList<HistoryItem> historyItems = (ArrayList<HistoryItem>) task.getResult().get(category);
 
-                Log.v("dipppppjjjp", "kkk" + task.getResult().get("history"));
+                //Log.v("dipppppjjjp", "kkk" + task.getResult().get("history"));
 
                 if(historyItems!=null) {
                     for(int i = 0; i<historyItems.size(); i++) {
                         Gson gson = new Gson();
                         JsonElement jsonElement = gson.toJsonTree(historyItems.get(i));
                         HistoryItem historyItem1 = gson.fromJson(jsonElement, HistoryItem.class);
-                        Log.v("sgfgdsfgyhj", historyItem1 + "");
+                        //Log.v("sgfgdsfgyhj", historyItem1 + "");
                         //lead.setUid(document.getId());
                         itemsList.add(historyItem1);
 

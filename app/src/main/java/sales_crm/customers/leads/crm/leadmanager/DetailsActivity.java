@@ -215,7 +215,6 @@ public class DetailsActivity extends AppCompatActivity implements LeadAdapter.Re
                     JsonElement jsonElement = gson.toJsonTree(document.getData());
                     LeadApp lead = gson.fromJson(jsonElement, LeadApp.class);
                     //document.getReference().getId();
-                    Log.v("gdgdgdgd", "" +  document.getReference().getId());
 
                     lead.setUid(document.getReference().getId());
                     itemsList.add(lead);

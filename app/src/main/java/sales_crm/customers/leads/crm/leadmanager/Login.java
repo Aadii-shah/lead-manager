@@ -16,12 +16,18 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.Source;
 import com.shobhitpuri.custombuttons.GoogleSignInButton;
 
 public class Login extends AppCompatActivity {
@@ -107,17 +113,68 @@ public class Login extends AppCompatActivity {
 
     private void firebaseAuthWithGoogle(String idToken) {
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
-        //Log.v("cred1", store);
+        ////Log.v("cred1", store);
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // To dismiss the dialog
-                            progress.dismiss();
-                            Intent i = new Intent(Login.this, MainActivity.class);
-                            startActivity(i);
-                            finish();
+
+                            FirebaseFirestore db = FirebaseFirestore.getInstance();
+                            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+                            db.collection("cache").document(user.getUid()).collection("contacts").get(Source.SERVER).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                @Override
+                                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+
+                                    db.collection("cache").document(user.getUid()).collection("leads").get(Source.SERVER).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+
+                                            db.collection("cache").document(user.getUid()).collection("templates").get(Source.SERVER).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                                @Override
+                                                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+
+                                                    db.collection("cache").document(user.getUid()).collection("account").get(Source.SERVER).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                                        @Override
+                                                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                                            progress.dismiss();
+                                                            Intent i = new Intent(Login.this, MainActivity.class);
+                                                            startActivity(i);
+                                                            finish();
+                                                        }
+                                                    }).addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+
+                                                        }
+                                                    });
+
+                                                }
+                                            }).addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+
+                                                }
+                                            });
+
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+
+                                        }
+                                    });
+
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+
+                                }
+                            });
+
                         } else {
                             signInAgain();
                         }

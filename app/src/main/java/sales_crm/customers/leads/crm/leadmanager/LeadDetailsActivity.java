@@ -7,15 +7,24 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
+import androidx.core.app.NotificationCompat;
 
+import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import sales_crm.customers.leads.crm.leadmanager.leads.DescriptionBottomSheet;
 import sales_crm.customers.leads.crm.leadmanager.leads.FollowUpBottomSheet;
@@ -24,13 +33,10 @@ import sales_crm.customers.leads.crm.leadmanager.models.LeadApp;
 import sales_crm.customers.leads.crm.leadmanager.templates.ChooseTemplateBottomSheet;
 import sales_crm.customers.leads.crm.leadmanager.templates.TemplateBottomSheet;
 
-import sales_crm.customers.leads.crm.leadmanager.R;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.Source;
 import com.google.gson.Gson;
@@ -55,6 +61,19 @@ public class LeadDetailsActivity extends AppCompatActivity implements FollowUpBo
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lead_details);
+
+
+
+        /*if (android.os.Build.VERSION. SDK_INT >= android.os.Build.VERSION_CODES. O ) {
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel notificationChannel = new
+                    NotificationChannel( "leadManager" , "lead manager" , importance) ;
+            notificationChannel.setDescription("lead manager meeting");
+
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(notificationChannel) ;
+        }*/
+
 
 
         ActivityResultLauncher<Intent> mLauncher = registerForActivityResult(
@@ -141,7 +160,7 @@ public class LeadDetailsActivity extends AppCompatActivity implements FollowUpBo
                 Bundle bundle = new Bundle();
                 bundle.putString("lead_uid", lead.getUid());
                 bundle.putLong("latestFollowUp", lead.getLatestFollowup());
-                //Log.v("ifhrgbuergv", lead.getLfd());
+                ////Log.v("ifhrgbuergv", lead.getLfd());
                 bundle.putString("lfd", lead.getLfd());
                 FollowUpBottomSheet followUpBottomSheet = new FollowUpBottomSheet(context);
                 followUpBottomSheet.setArguments(bundle);
@@ -255,7 +274,6 @@ public class LeadDetailsActivity extends AppCompatActivity implements FollowUpBo
 
     private void getContact(String uid) {
 
-
         DocumentReference dataRef = db.collection("cache")
                 .document(user.getUid())
                 .collection("contacts").document(uid);
@@ -269,7 +287,7 @@ public class LeadDetailsActivity extends AppCompatActivity implements FollowUpBo
 
 
             if (task.isSuccessful() && task.getResult().exists()) {
-                Log.v("dipakUID", "uid:" + task.getResult().getData());
+                //Log.v("dipakUID", "uid:" + task.getResult().getData());
                 Gson gson = new Gson();
                 JsonElement jsonElement = gson.toJsonTree(task.getResult().getData());
                 Contact contact = gson.fromJson(jsonElement, Contact.class);
@@ -283,9 +301,62 @@ public class LeadDetailsActivity extends AppCompatActivity implements FollowUpBo
     }
 
     @Override
-    public void notifyAdded(String itemDateStr, String lfd) {
+    public void notifyAdded(String itemDateStr, String lfd, long epoch) {
         followUpText.setText(itemDateStr);
         lead.setLfd(lfd);
+        //createNotification(1000);
+
+        //scheduleNotification(getNotification( "10 second delay" ) , 10000 ) ;
+        createNotification(epoch, lfd);
+
+        /*OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(MyWorker.class)
+                .setInitialDelay(10, TimeUnit.SECONDS)
+                .build();
+        WorkManager.getInstance().enqueue(workRequest);*/
+
+
+    }
+
+    public void createNotification (long time, String lfd) {
+
+        Intent myIntent = new Intent(this, NotificationEventService.class);
+        myIntent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
+        //myIntent.putExtra("epoch", time);
+        myIntent.putExtra("lfd", lfd);
+        myIntent.putExtra("name", contactGlobal.getName());
+        myIntent.putExtra("number", contactGlobal.getPhone());
+        myIntent.putExtra("email", contactGlobal.getEmail());
+        myIntent.putExtra("uid", lead.getUid());
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        PendingIntent pendingIntent = PendingIntent. getBroadcast ( getApplicationContext(), (int) System.currentTimeMillis()/1000 , myIntent , PendingIntent.FLAG_UPDATE_CURRENT ) ;
+
+        alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, ((time-19000) * 1000), pendingIntent);
+
+        Toast.makeText(LeadDetailsActivity.this, "scheduled meeting", Toast.LENGTH_SHORT)
+                .show();
+
+    }
+
+    private void scheduleNotification (Notification notification , int delay) {
+        Intent notificationIntent = new Intent( this, NotificationEventService.class ) ;
+        notificationIntent.putExtra(NotificationEventService.NOTIFICATION_ID , 1 ) ;
+        notificationIntent.putExtra(NotificationEventService.NOTIFICATION , notification) ;
+        PendingIntent pendingIntent = PendingIntent. getBroadcast ( this, 0 , notificationIntent , PendingIntent. FLAG_UPDATE_CURRENT ) ;
+        long futureInMillis = SystemClock. elapsedRealtime () + delay ;
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context. ALARM_SERVICE ) ;
+        assert alarmManager != null;
+        alarmManager.set(AlarmManager. ELAPSED_REALTIME_WAKEUP , futureInMillis , pendingIntent) ;
+    }
+
+    private Notification getNotification (String content) {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder( this, "lead_manager_app" ) ;
+        builder.setContentTitle( "Scheduled Notification" ) ;
+        builder.setContentText(content) ;
+        builder.setSmallIcon(R.drawable. ic_launcher_foreground ) ;
+        builder.setAutoCancel( true ) ;
+        builder.setChannelId( "lead_manager_app" ) ;
+        return builder.build() ;
     }
 
 }

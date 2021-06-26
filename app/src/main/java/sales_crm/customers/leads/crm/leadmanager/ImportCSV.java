@@ -1,10 +1,13 @@
 package sales_crm.customers.leads.crm.leadmanager;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -15,11 +18,17 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Source;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.opencsv.CSVReader;
 
 import java.io.FileNotFoundException;
@@ -30,10 +39,12 @@ import java.io.InputStreamReader;
 import java.net.URISyntaxException;
 
 import sales_crm.customers.leads.crm.leadmanager.R;
+import sales_crm.customers.leads.crm.leadmanager.billing.InAppPurchase;
 import sales_crm.customers.leads.crm.leadmanager.models.Contact;
 import sales_crm.customers.leads.crm.leadmanager.models.ContactDetails;
 import sales_crm.customers.leads.crm.leadmanager.models.HistoryItem;
 import sales_crm.customers.leads.crm.leadmanager.models.Lead;
+import sales_crm.customers.leads.crm.leadmanager.models.Pro;
 
 import static sales_crm.customers.leads.crm.leadmanager.Utility.getCurrentTime;
 
@@ -58,6 +69,14 @@ public class ImportCSV extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+
+        TextView downloadSCSV = findViewById(R.id.downloadSampleCSV);
+        downloadSCSV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                downloadSampleCSV();
             }
         });
 
@@ -113,8 +132,76 @@ public class ImportCSV extends AppCompatActivity {
                                 lead.setSource(nextLine[5]);
                                 lead.setDescription(nextLine[6]);
 
-                                addNewLead(contact, lead);
-                                Log.d("error-csv", nextLine[0]  + "   " + nextLine[1] + "   " + nextLine[2] + "   " + nextLine[3] + "   " + nextLine[4] + "   " + nextLine[5] + "   " + nextLine[6] + "etc...");
+
+
+                                db.collection("cache")
+                                        .document(user.getUid()).collection("account").document("pro")
+                                        .get(Source.CACHE).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+
+                                        Gson gson = new Gson();
+                                        JsonElement jsonElement = gson.toJsonTree(documentSnapshot.getData());
+
+                                        Pro pro = gson.fromJson(jsonElement, Pro.class);
+                                        int count = pro.getCount();
+
+                                        if(count <= 100) {
+                                            db.collection("cache")
+                                                    .document(user.getUid()).collection("account").document("pro")
+                                                    .update("count", count +1);
+                                            addNewLead(contact, lead);
+                                        } else if(pro.getValidTill()>(System.currentTimeMillis()/1000)) {
+                                            addNewLead(contact, lead);
+                                        } else {
+                                            //Subscription Message
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+
+                                                    if (!isFinishing()){
+                                                        new AlertDialog.Builder(ImportCSV.this)
+                                                                .setTitle("Get Premium")
+                                                                .setMessage("You have reached free 100 contact limit.")
+                                                                .setCancelable(false)
+                                                                .setPositiveButton("Purchase", new DialogInterface.OnClickListener() {
+                                                                    @Override
+                                                                    public void onClick(DialogInterface dialog, int which) {
+                                                                        Intent i = new Intent(ImportCSV.this, InAppPurchase.class);
+                                                                        startActivity(i);
+                                                                        finish();
+                                                                    }
+                                                                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(DialogInterface dialog, int which) {
+                                                                dialog.dismiss();
+                                                                //finish();
+                                                            }
+                                                        }).show();
+                                                    }
+                                                }
+                                            });
+                                        }
+
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.v("dipak", "failed" + e.toString());
+
+                                        Pro pro = new Pro();
+                                        pro.setCount(1);
+                                        pro.setValidTill(0);
+
+                                        db.collection("cache")
+                                                .document(user.getUid()).collection("account").document("pro")
+                                                .set(pro);
+                                        addNewLead(contact, lead);
+
+
+                                    }
+                                });
+                                //Log.d("error-csv", nextLine[0]  + "   " + nextLine[1] + "   " + nextLine[2] + "   " + nextLine[3] + "   " + nextLine[4] + "   " + nextLine[5] + "   " + nextLine[6] + "etc...");
                             }
 
                         }
@@ -137,13 +224,13 @@ public class ImportCSV extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        Log.d("error-csv", "File Path: " + "test");
+        //Log.d("error-csv", "File Path: " + "test");
         switch (requestCode) {
             case FILE_SELECT_CODE:
                 if (resultCode == RESULT_OK) {
                     // Get the Uri of the selected file
                     uri = data.getData();
-                    Log.d("error-csv", "File Uri: " + uri.toString());
+                    //Log.d("error-csv", "File Uri: " + uri.toString());
                     String[] splits = uri.toString().split("/");
                     csvName.setText("File name: " + splits[splits.length - 1]);
 
@@ -162,7 +249,7 @@ public class ImportCSV extends AppCompatActivity {
                         String[] nextLine;
                         while ((nextLine = reader.readNext()) != null) {
                             // nextLine[] is an array of values from the line
-                            Log.d("error-csv", nextLine[0] + nextLine[1] + "etc...");
+                            //Log.d("error-csv", nextLine[0] + nextLine[1] + "etc...");
                         }
 
                     } catch (IOException e) {
@@ -175,7 +262,7 @@ public class ImportCSV extends AppCompatActivity {
                         path = getPath(this, uri);
                     } catch (URISyntaxException e) {
                         //e.printStackTrace();
-                        Log.d("error-csv", "File Path: " + e);
+                        //Log.d("error-csv", "File Path: " + e);
                     }
 
                     // Get the file instance
@@ -252,5 +339,12 @@ public class ImportCSV extends AppCompatActivity {
                 .collection("leads")
                 .document(documentReference.getId())
                 .update("history", FieldValue.arrayUnion(historyItem));
+    }
+
+    private void downloadSampleCSV() {
+        String url = "https://docs.google.com/spreadsheets/d/19ixd-b_DKXCi-jVh5KeiKdIKlI8oF6gJE-p7EKqPjJQ/export?format=csv";
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(url));
+        startActivity(i);
     }
 }

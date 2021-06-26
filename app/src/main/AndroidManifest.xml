@@ -3,6 +3,9 @@
     package="sales_crm.customers.leads.crm.leadmanager">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="com.android.vending.BILLING" />
 
     <application
         android:name=".Emoji"
@@ -12,8 +15,25 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.LeadManager">
-
-        <activity android:name=".SplashActivity">
+        <activity android:name=".billing.InAppPurchase"></activity>
+        <!--
+        <service
+            android:name=".notification.NotificationIntentService"
+            android:enabled="true"
+            android:exported="false" />
+        -->
+        <!--
+<receiver android:name=".notification.NotificationServiceStarterReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.TIMEZONE_CHANGED" />
+                <action android:name="android.intent.action.TIME_SET" />
+            </intent-filter>
+        </receiver>
+        -->
+        <activity
+            android:name=".SplashActivity"
+            android:theme="@style/FullScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -44,8 +64,9 @@
         <activity
             android:name=".AddNewContactActivity"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".MainActivity">
-        </activity>
+        <activity android:name=".MainActivity"></activity>
+
+        <receiver android:name=".NotificationEventService"></receiver>
     </application>
 
 </manifest>

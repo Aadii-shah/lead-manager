@@ -13,8 +13,7 @@
         android:layout_height="wrap_content"
         app:navigationIcon="@drawable/navigation_back"
         app:layout_scrollFlags="scroll"
-        app:title="Add New Lead"
-        />
+        app:title="Add New Lead"/>
 
 
     <LinearLayout
@@ -42,9 +41,9 @@
             android:text="Import csv"
             android:textColor="@color/white"
             android:textStyle="bold"
-            android:background="@drawable/drawable"
+            android:background="@drawable/edit_background"
             android:padding="6dp"
-            android:backgroundTint="@color/darkWhite"
+            android:backgroundTint="#60ADEA"
             android:includeFontPadding="false"
             android:clickable="true"
             android:focusable="true"

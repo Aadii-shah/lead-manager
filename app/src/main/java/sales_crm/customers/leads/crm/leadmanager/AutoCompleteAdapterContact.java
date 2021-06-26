@@ -71,7 +71,6 @@ public class AutoCompleteAdapterContact extends ArrayAdapter<Contact> {
             } else {
                 String filterPattern = constraint.toString().toLowerCase().trim();
                 for (Contact contact: allContactsList) {
-                    Log.v("dipak", contact.getName() + "");
                     if (contact.getName().toLowerCase().contains(filterPattern)) {
                         filteredContactsList.add(contact);
                     }

@@ -122,7 +122,6 @@ public class TaskFragment extends Fragment implements TemplateBottomSheet.Notify
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 
-        Log.v("dippppp", "entered");
         inflater.inflate(R.menu.toolbar_menu, menu);
         SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
         searchView = (SearchView) menu.findItem(R.id.action_search)

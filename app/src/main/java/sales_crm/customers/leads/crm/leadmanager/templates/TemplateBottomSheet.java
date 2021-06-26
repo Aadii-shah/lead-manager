@@ -99,7 +99,6 @@ public class TemplateBottomSheet extends BottomSheetDialogFragment {
         proceed = view.findViewById(R.id.proceed);
 
         if (mArgs != null) {
-            Log.v("jgfds", "called1");
             String descriptionText = mArgs.getString("description");
             description.setText(descriptionText);
             String nameText = mArgs.getString("name");
@@ -212,7 +211,7 @@ public class TemplateBottomSheet extends BottomSheetDialogFragment {
         super.onAttach(context);
 //        notifyParent = (TemplateBottomSheet.NotifyParent) context;
   /*      if (context instanceof TemplateBottomSheet.NotifyParent) {
-            Log.v("jhgfff", "called");
+            //Log.v("jhgfff", "called");
             notifyParent = (TemplateBottomSheet.NotifyParent) context;
         } else {
             throw new RuntimeException(context.toString()

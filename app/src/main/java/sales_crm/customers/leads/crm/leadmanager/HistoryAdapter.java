@@ -48,7 +48,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
         holder.description.setText(item.getDescription());
         //holder.source.setText(item.getDescription());
 
-        Log.v("sgfgdsfgyh", item.getDate() + "");
+        //Log.v("sgfgdsfgyh", item.getDate() + "");
         java.util.Date d = new java.util.Date(item.getDate()*1000L);
         String itemDateStr = new SimpleDateFormat("E, dd MMM hh:mm a").format(d);
         holder.time.setText(itemDateStr);

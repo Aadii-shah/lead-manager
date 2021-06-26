@@ -181,7 +181,7 @@ public class StatusActivity extends AppCompatActivity {
                 progress.setCancelable(false); // disable dismiss by tapping outside of the dialog
                 progress.show();
                 //if(flag) {
-                Log.v("kjdgf6f", "called");
+                //Log.v("kjdgf6f", "called");
                 RadioButton radioButton = (RadioButton) findViewById(radioGroup.getCheckedRadioButtonId());
                 status = radioButton.getText().toString();
                 changeStatus(leadUid, status);
@@ -302,7 +302,7 @@ public class StatusActivity extends AppCompatActivity {
 
                             }
                         });
-                        //Log.d(TAG, "DocumentSnapshot successfully updated!");
+                        ////Log.d(TAG, "DocumentSnapshot successfully updated!");
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
