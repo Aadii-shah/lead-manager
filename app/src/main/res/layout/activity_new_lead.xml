@@ -16,13 +16,12 @@
         app:title="Add New Lead"/>
 
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/newLeadLayout"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_below="@+id/toolbar"
-        android:gravity="center_vertical">
+        android:gravity="center">
     <TextView
         android:id="@+id/addLeads"
         android:layout_width="wrap_content"
@@ -37,11 +36,17 @@
             android:id="@+id/importCSV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
+           android:layout_alignParentEnd="true"
+            android:layout_marginEnd="20dp"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
             android:text="Import csv"
             android:textColor="@color/white"
             android:textStyle="bold"
+            android:textAlignment="center"
             android:background="@drawable/edit_background"
+            android:drawableStart="@drawable/ic_import"
+            android:drawablePadding="6dp"
             android:padding="6dp"
             android:backgroundTint="#60ADEA"
             android:includeFontPadding="false"
@@ -49,7 +54,7 @@
             android:focusable="true"
             android:foreground="?android:attr/selectableItemBackground"/>
 
-    </LinearLayout>
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/Information"
@@ -175,7 +180,7 @@
                     android:id="@+id/editDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Description(optional)"
+                    android:hint="Description"
                     android:singleLine="true" />
                 <!--Edit Layout for email starts here-->
 
