@@ -82,7 +82,7 @@
                 android:layout_weight="1"
                 android:layout_height="60dp"
                 android:layout_marginStart="10dp"
-                android:background="@drawable/drawable">
+                android:background="?selectableItemBackgroundBorderless">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -90,8 +90,7 @@
                     android:layout_centerInParent="true"
                     android:src="@drawable/ic_mobile"
                     android:clickable="true"
-                    android:focusable="true"
-                    android:background="?selectableItemBackgroundBorderless"/>
+                    android:focusable="true"/>
 
             </RelativeLayout>
 
@@ -101,14 +100,13 @@
                 android:layout_weight="1"
                 android:layout_height="60dp"
                 android:layout_marginStart="10dp"
-                android:background="@drawable/drawable">
+                android:background="?selectableItemBackgroundBorderless">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/ic_sms"
-                    android:background="?selectableItemBackgroundBorderless"/>
+                    android:src="@drawable/ic_sms"/>
 
             </RelativeLayout>
 
@@ -118,14 +116,13 @@
                 android:layout_weight="1"
                 android:layout_height="60dp"
                 android:layout_marginStart="10dp"
-                android:background="@drawable/drawable">
+                android:background="?selectableItemBackgroundBorderless">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/ic_whatsapp"
-                    android:background="?selectableItemBackgroundBorderless"/>
+                    android:src="@drawable/ic_whatsapp" />
 
             </RelativeLayout>
 
@@ -135,14 +132,13 @@
                 android:layout_weight="1"
                 android:layout_height="60dp"
                 android:layout_marginStart="10dp"
-                android:background="@drawable/drawable">
+                android:background="?selectableItemBackgroundBorderless">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/ic_email"
-                    android:background="?selectableItemBackgroundBorderless"/>
+                    android:src="@drawable/ic_email"/>
 
             </RelativeLayout>
 

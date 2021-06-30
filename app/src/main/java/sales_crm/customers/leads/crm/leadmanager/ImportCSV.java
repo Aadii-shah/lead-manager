@@ -100,7 +100,7 @@ public class ImportCSV extends AppCompatActivity {
 
                 if (uri != null) {
 
-                    progress.setMessage("adding new lead");
+                    progress.setMessage("adding new leads");
                     progress.setCancelable(false); // disable dismiss by tapping outside of the dialog
                     progress.show();
 
@@ -155,6 +155,7 @@ public class ImportCSV extends AppCompatActivity {
                                             addNewLead(contact, lead);
                                         } else {
                                             //Subscription Message
+                                            progress.dismiss();
                                             runOnUiThread(new Runnable() {
                                                 @Override
                                                 public void run() {

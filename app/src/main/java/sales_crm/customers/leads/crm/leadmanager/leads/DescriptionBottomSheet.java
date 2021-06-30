@@ -138,6 +138,7 @@ public class DescriptionBottomSheet extends BottomSheetDialogFragment {
 
                 } else {
                     Toast.makeText(getContext(), "Please fill the form", Toast.LENGTH_SHORT).show();
+                    progress.dismiss();
                 }
 
             }
