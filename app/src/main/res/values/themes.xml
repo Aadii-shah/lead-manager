@@ -16,7 +16,13 @@
 
 
         <item name="android:actionButtonStyle">@style/ActionButtonStyle</item>
+        <item name="actionModeBackground">@color/lightBlue</item>
+        <item name="actionModeCloseButtonStyle">@style/myclosebutton</item>
         <!-- Customize your theme here. -->
+    </style>
+
+    <style name="myclosebutton" parent="Widget.AppCompat.Light.ActionButton.CloseMode">
+        <item name="android:tint">@color/white</item> <!-- whatever color -->
     </style>
 
     <style name="ActionButtonStyle" parent="Widget.AppCompat.ActionButton">

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="24dp"/>
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_width="wrap_content"
+        android:text="test@gmail.com"
+        android:textAppearance="?attr/textAppearanceHeadline6" />
+
+    <TextView
+        android:id="@+id/email"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_width="wrap_content"
+        android:text="tested"
+        android:textAppearance="?attr/textAppearanceBody2"
+        android:textColor="@color/material_on_surface_emphasis_medium" />
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.1dip"
+        android:background="#a7a7a7"/>
+
+</LinearLayout>

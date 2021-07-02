@@ -28,6 +28,14 @@
             android:textColor="@color/black"
             android:textSize="22sp" />
 
+        <ImageView
+            android:id="@+id/iv_check_box"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_check"
+            android:layout_alignParentEnd="true"
+            android:visibility="gone"/>
+
         <!--TextView for name starts here-->
 
         <LinearLayout

@@ -3,11 +3,15 @@ package sales_crm.customers.leads.crm.leadmanager;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.ui.AppBarConfiguration;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -17,6 +21,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import sales_crm.customers.leads.crm.leadmanager.R;
+
+import com.bumptech.glide.Glide;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -53,6 +60,46 @@ public class HomeFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
+        DrawerLayout drawerLayout = view.findViewById(R.id.drawer_layout);
+        NavigationView navigationView = view.findViewById(R.id.navigationDrawer);
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                switch (item.getItemId()) {
+                    case R.id.item1:
+                        break;
+
+                    case R.id.item2:
+                         break;
+                }
+
+                return false;
+            }
+        });
+
+        View headerView = navigationView.getHeaderView(0);
+        ImageView imageView = (ImageView) headerView.findViewById(R.id.imageView);
+        TextView navUsername = (TextView) headerView.findViewById(R.id.name);
+        TextView navUseremail = (TextView) headerView.findViewById(R.id.email);
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        navUsername.setText(user.getDisplayName());
+        navUseremail.setText(user.getEmail());
+
+        Glide.with(this)
+                // .load(item.getThumbnail())
+                .load(user.getPhotoUrl())
+                .circleCrop()
+                .into(imageView);
+        //drawerLayout.close();
+
+        /*AppBarConfiguration appBarConfiguration =
+                new AppBarConfiguration.Builder(navController.getGraph())
+                        .setDrawerLayout(drawerLayout)
+                        .build();*/
 
 
         spinner = view.findViewById(R.id.daySpinner);
@@ -65,8 +112,9 @@ public class HomeFragment extends Fragment {
         profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ProfileBottomSheet profileSheet = ProfileBottomSheet.newInstance();
-                profileSheet.show(getChildFragmentManager(), ProfileBottomSheet.TAG);
+                drawerLayout.open();
+                //ProfileBottomSheet profileSheet = ProfileBottomSheet.newInstance();
+                //profileSheet.show(getChildFragmentManager(), ProfileBottomSheet.TAG);
             }
         });
 

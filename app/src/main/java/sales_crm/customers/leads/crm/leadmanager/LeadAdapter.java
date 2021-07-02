@@ -2,7 +2,13 @@ package sales_crm.customers.leads.crm.leadmanager;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.util.Log;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
@@ -10,7 +16,15 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import sales_crm.customers.leads.crm.leadmanager.R;
 import sales_crm.customers.leads.crm.leadmanager.models.LeadApp;
@@ -19,11 +33,17 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LeadAdapter extends RecyclerView.Adapter<LeadAdapter.MyViewHolder> implements Filterable  {
+public class LeadAdapter extends RecyclerView.Adapter<LeadAdapter.MyViewHolder> implements Filterable {
     public List<LeadApp> itemsFiltered;
     private Context context;
     private RecyclerViewAdapterListener listener;
     public List<LeadApp> itemList;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+    boolean isEnable = false;
+    boolean isSelectAll = false;
+    public List<LeadApp> selectList;
 
     public LeadAdapter(Context context, List<LeadApp> itemList, RecyclerViewAdapterListener recyclerViewAdapterListener) {
         this.listener = recyclerViewAdapterListener;
@@ -36,6 +56,7 @@ public class LeadAdapter extends RecyclerView.Adapter<LeadAdapter.MyViewHolder> 
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.lead_item, parent, false);
+        selectList = new ArrayList<>();
 
         return new MyViewHolder(itemView);
     }
@@ -46,58 +67,138 @@ public class LeadAdapter extends RecyclerView.Adapter<LeadAdapter.MyViewHolder> 
 
         holder.description.setText(item.getDescription());
         holder.source.setText(item.getSource());
-        java.util.Date d = new java.util.Date(item.getCreationDate()*1000L);
+        java.util.Date d = new java.util.Date(item.getCreationDate() * 1000L);
         String itemDateStr = new SimpleDateFormat("E, dd MMM hh:mm a").format(d);
         holder.time.setText(itemDateStr);
         holder.status.setText(item.getStatus());
 
-        /*holder.name.setText(item.getName());
-        holder.sellingPrice.setText(String.format("%.02f", item.getPrice()));
-
-        holder.count.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public void onClick(View view) {
-                updateCount(item, holder);
+            public boolean onLongClick(View view) {
+                if (!isEnable) {
+                    isEnable = true;
+                    listener.hideToolBar(true);
+                    ActionMode.Callback callback = new ActionMode.Callback() {
+                        @Override
+                        public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
+
+                            MenuInflater menuInflater = actionMode.getMenuInflater();
+                            menuInflater.inflate(R.menu.action_menu, menu);
+                            return true;
+                        }
+
+                        @Override
+                        public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
+                            isEnable = true;
+                            ClickItem(holder);
+                            return true;
+                        }
+
+                        @Override
+                        public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
+                            switch (menuItem.getItemId()) {
+                                case R.id.delete:
+
+                                    for(LeadApp lead : selectList) {
+                                        itemList.remove(lead);
+                                        db.collection("cache")
+                                                .document(user.getUid())
+                                                .collection("leads")
+                                                .document(lead.getUid())
+                                                .delete()
+                                                /*.addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                    @Override
+                                                    public void onSuccess(Void aVoid) {
+                                                        Log.v("isEnabled", "deleted");
+                                                    }
+                                                })
+                                                .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Log.v("isEnabled", "failure" + e.toString());
+                                            }
+                                        })*/;
+                                    }
+                                    listener.hideToolBar(false);
+                                    actionMode.finish();
+
+
+                                    break;
+
+                                case R.id.select_all:
+                                    listener.hideToolBar(false);
+                                    actionMode.finish();
+                                    if (selectList.size() == itemList.size()) {
+                                        isSelectAll = false;
+                                        menuItem.setIcon(R.drawable.ic_checked);
+                                        selectList.clear();
+                                    } else {
+                                        isSelectAll = true;
+                                        menuItem.setIcon(R.drawable.ic_close_a);
+                                        selectList.clear();
+                                        selectList.addAll(itemList);
+                                    }
+                                    notifyDataSetChanged();
+                                    break;
+                            }
+                            return true;
+                        }
+
+                        @Override
+                        public void onDestroyActionMode(ActionMode actionMode) {
+                            listener.hideToolBar(false);
+                            isEnable = false;
+                            isSelectAll = false;
+                            selectList.clear();
+                            notifyDataSetChanged();
+                        }
+                    };
+
+                    ((AppCompatActivity) view.getContext()).startActionMode(callback);
+                } else {
+                    ClickItem(holder);
+                }
+                return true;
             }
         });
 
-        holder.remove.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.onItemRemoved(item);
-                itemList.remove(item);
-                //notifyDataSetChanged();
-            }
-        });
 
-        holder.minus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (item.getCount() != 0) {
-                    item.setCount(item.getCount() - 1);
-                    item.setTotal((float) (item.getCount() * (item.getPrice() + item.getTaxAmount())));
-                    holder.count.setText(String.valueOf(item.getCount()));
-                    holder.total.setText(String.format("%.02f", (item.getCount() * (item.getPrice() + item.getTaxAmount()))));
-                    listener.onValueChanged((float) (item.getPrice() + item.getTaxAmount()), "minus");
+                Log.v("isEnabled", "" + isEnable);
+                if(isEnable) {
+                    ClickItem(holder);
+                } else {
+                    listener.onItemRemoved(item);
                 }
             }
         });
 
-        holder.plus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                item.setCount(item.getCount() + 1);
-                item.setTotal((float) (item.getCount() * (item.getPrice() + item.getTaxAmount())));
-                holder.count.setText(String.valueOf(item.getCount()));
-                holder.total.setText(String.format("%.02f", (item.getCount() * (item.getPrice() + item.getTaxAmount()))));
-                listener.onValueChanged((float) (item.getPrice() + item.getTaxAmount()), "plus");
-            }
-        });
+        if(isSelectAll) {
+            holder.ivCheckBox.setVisibility(View.VISIBLE);
+            holder.itemView.setBackgroundColor(Color.LTGRAY);
+        } else {
+            holder.ivCheckBox.setVisibility(View.GONE);
+            holder.itemView.setBackgroundColor(Color.WHITE);
+        }
 
+    }
 
-        holder.count.setText(String.valueOf(item.getCount()));
-        holder.total.setText(String.format("%.02f", item.getCount() * (item.getPrice() + item.getTaxAmount())));*/
+    private void ClickItem(MyViewHolder holder) {
+        LeadApp leadApp = itemList.get(itemsFiltered.size() - holder.getAdapterPosition() - 1);
 
+        if (holder.ivCheckBox.getVisibility() == View.GONE) {
+
+            holder.ivCheckBox.setVisibility(View.VISIBLE);
+            holder.itemView.setBackgroundColor(Color.LTGRAY);
+
+            selectList.add(leadApp);
+        } else {
+            holder.ivCheckBox.setVisibility(View.GONE);
+            holder.itemView.setBackgroundColor(Color.WHITE);
+            selectList.remove(leadApp);
+        }
     }
 
     @Override
@@ -153,17 +254,20 @@ public class LeadAdapter extends RecyclerView.Adapter<LeadAdapter.MyViewHolder> 
 
         void onItemUpdated(float amount, int count);
 
+        void hideToolBar(boolean hide);
+
     }
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         public TextView description, source, time, status;
-        public ImageView imageUrl, plus, minus, remove;
+        public ImageView ivCheckBox;
 
         public MyViewHolder(View view) {
             super(view);
 
+            ivCheckBox = view.findViewById(R.id.iv_check_box);
             description = view.findViewById(R.id.leadInfo);
             source = view.findViewById(R.id.sources);
             time = view.findViewById(R.id.creationDate);

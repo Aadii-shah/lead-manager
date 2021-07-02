@@ -205,12 +205,22 @@ public class ListActivity extends AppCompatActivity implements LeadAdapter.Recyc
 
     @Override
     public void onItemRemoved(LeadApp item) {
-
+        Intent intent = new Intent(ListActivity.this, LeadDetailsActivity.class);
+        intent.putExtra("lead", item);
+        startActivity(intent);
     }
 
     @Override
     public void onItemUpdated(float amount, int count) {
 
+    }
+
+    @Override
+    public void hideToolBar(boolean hide) {
+        if(hide)
+        toolbar.setVisibility(View.GONE);
+        else
+            toolbar.setVisibility(View.VISIBLE);
     }
 
     private void getLeadsv1(String category) {
@@ -249,10 +259,10 @@ public class ListActivity extends AppCompatActivity implements LeadAdapter.Recyc
         recyclerView.addOnItemTouchListener(new RecyclerViewTouchListener(this, recyclerView, new RecyclerViewTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
-                LeadApp lead = leadAdapter.itemsFiltered.get(leadAdapter.itemsFiltered.size() - position - 1);
+                /*LeadApp lead = leadAdapter.itemsFiltered.get(leadAdapter.itemsFiltered.size() - position - 1);
                 Intent intent = new Intent(ListActivity.this, LeadDetailsActivity.class);
                 intent.putExtra("lead", lead);
-                startActivity(intent);
+                startActivity(intent);*/
             }
 
             @Override
@@ -301,10 +311,10 @@ public class ListActivity extends AppCompatActivity implements LeadAdapter.Recyc
         recyclerView.addOnItemTouchListener(new RecyclerViewTouchListener(this, recyclerView, new RecyclerViewTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
-                LeadApp lead = leadAdapter.itemsFiltered.get(leadAdapter.itemsFiltered.size() - position - 1);
+                /*LeadApp lead = leadAdapter.itemsFiltered.get(leadAdapter.itemsFiltered.size() - position - 1);
                 Intent intent = new Intent(ListActivity.this, LeadDetailsActivity.class);
                 intent.putExtra("lead", lead);
-                startActivity(intent);
+                startActivity(intent);*/
             }
 
             @Override
@@ -354,10 +364,10 @@ public class ListActivity extends AppCompatActivity implements LeadAdapter.Recyc
         recyclerView.addOnItemTouchListener(new RecyclerViewTouchListener(this, recyclerView, new RecyclerViewTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
-                LeadApp lead = followUpAdapter.itemsFiltered.get(followUpAdapter.itemsFiltered.size() - position - 1);
+                /*LeadApp lead = followUpAdapter.itemsFiltered.get(followUpAdapter.itemsFiltered.size() - position - 1);
                 Intent intent = new Intent(ListActivity.this, LeadDetailsActivity.class);
                 intent.putExtra("lead", lead);
-                startActivity(intent);
+                startActivity(intent);*/
             }
 
             @Override

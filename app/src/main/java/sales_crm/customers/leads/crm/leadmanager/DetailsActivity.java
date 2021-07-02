@@ -238,4 +238,9 @@ public class DetailsActivity extends AppCompatActivity implements LeadAdapter.Re
     public void onItemUpdated(float amount, int count) {
 
     }
+
+    @Override
+    public void hideToolBar(boolean hide) {
+
+    }
 }
