@@ -1,8 +1,15 @@
 package sales_crm.customers.leads.crm.leadmanager;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.util.Log;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
@@ -10,10 +17,23 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.Source;
 
 import sales_crm.customers.leads.crm.leadmanager.R;
 import sales_crm.customers.leads.crm.leadmanager.models.Contact;
+import sales_crm.customers.leads.crm.leadmanager.models.LeadApp;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +43,13 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.MyView
     private Context context;
     private ContactsAdapter.RecyclerViewAdapterListener listener;
     public List<Contact> itemList;
+
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+    boolean isEnable = false;
+    boolean isSelectAll = false;
+    public List<Contact> selectList = new ArrayList<>();
 
     public ContactsAdapter(Context context, List<Contact> itemList, ContactsAdapter.RecyclerViewAdapterListener recyclerViewAdapterListener) {
         this.listener = recyclerViewAdapterListener;
@@ -40,64 +67,141 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.MyView
     }
 
     @Override
-    public void onBindViewHolder(ContactsAdapter.MyViewHolder holder, final int position) {
+    public void onBindViewHolder(MyViewHolder holder, final int position) {
         final Contact item = itemsFiltered.get(itemsFiltered.size() - position - 1);
 
         holder.name.setText(item.getName());
         holder.address.setText(item.getAddress());
         holder.phone.setText(item.getPhone());
         holder.email.setText(item.getEmail());
-        /*java.util.Date d = new java.util.Date(item.getCreationDate()*1000L);
-        String itemDateStr = new SimpleDateFormat("dd-MMM-YYYY HH:mm").format(d);
-        holder.time.setText(itemDateStr);*/
-
-        /*holder.name.setText(item.getName());
-        holder.sellingPrice.setText(String.format("%.02f", item.getPrice()));
-
-        holder.count.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public void onClick(View view) {
-                updateCount(item, holder);
+            public boolean onLongClick(View view) {
+                if (!isEnable) {
+                    isEnable = true;
+                    listener.hideToolBar(true);
+                    ActionMode.Callback callback = new ActionMode.Callback() {
+                        @Override
+                        public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
+
+                            MenuInflater menuInflater = actionMode.getMenuInflater();
+                            menuInflater.inflate(R.menu.action_menu, menu);
+                            return true;
+                        }
+
+                        @Override
+                        public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
+                            isEnable = true;
+                            ClickItem(holder);
+                            return true;
+                        }
+
+                        @Override
+                        public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
+                            switch (menuItem.getItemId()) {
+                                case R.id.delete:
+                                    new AlertDialog.Builder(context)
+                                            .setIcon(android.R.drawable.ic_dialog_alert)
+                                            .setTitle("Closing App")
+                                            .setMessage("Are you sure you want to close this app?")
+                                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    for (Contact contact : selectList) {
+                                                        itemList.remove(contact);
+                                                        db.collection("cache")
+                                                                .document(user.getUid())
+                                                                .collection("contacts")
+                                                                .document(contact.getUid())
+                                                                .delete();
+
+                                                        deleteLeadsByContactUID(contact.getUid());
+                                                    }
+                                                    listener.hideToolBar(false);
+                                                    actionMode.finish();
+                                                }
+
+                                            })
+                                            .setNegativeButton("No", null)
+                                            .show();
+
+
+                                    break;
+
+                                case R.id.select_all:
+                                    //listener.hideToolBar(false);
+                                    //actionMode.finish();
+                                    if (selectList.size() == itemList.size()) {
+                                        isSelectAll = false;
+                                        menuItem.setIcon(R.drawable.ic_checked);
+                                        selectList.clear();
+                                    } else {
+                                        isSelectAll = true;
+                                        menuItem.setIcon(R.drawable.ic_close_a);
+                                        selectList.clear();
+                                        selectList.addAll(itemList);
+                                    }
+                                    notifyDataSetChanged();
+                                    break;
+                            }
+                            return true;
+                        }
+
+                        @Override
+                        public void onDestroyActionMode(ActionMode actionMode) {
+                            listener.hideToolBar(false);
+                            isEnable = false;
+                            isSelectAll = false;
+                            selectList.clear();
+                            notifyDataSetChanged();
+                        }
+                    };
+
+                    ((AppCompatActivity) view.getContext()).startActionMode(callback);
+                } else {
+                    ClickItem(holder);
+                }
+                return true;
             }
         });
 
-        holder.remove.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.onItemRemoved(item);
-                itemList.remove(item);
-                //notifyDataSetChanged();
-            }
-        });
 
-        holder.minus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (item.getCount() != 0) {
-                    item.setCount(item.getCount() - 1);
-                    item.setTotal((float) (item.getCount() * (item.getPrice() + item.getTaxAmount())));
-                    holder.count.setText(String.valueOf(item.getCount()));
-                    holder.total.setText(String.format("%.02f", (item.getCount() * (item.getPrice() + item.getTaxAmount()))));
-                    listener.onValueChanged((float) (item.getPrice() + item.getTaxAmount()), "minus");
+                Log.v("isEnabled", "" + isEnable);
+                if (isEnable) {
+                    ClickItem(holder);
+                } else {
+                    listener.onItemRemoved(item);
                 }
             }
         });
 
-        holder.plus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                item.setCount(item.getCount() + 1);
-                item.setTotal((float) (item.getCount() * (item.getPrice() + item.getTaxAmount())));
-                holder.count.setText(String.valueOf(item.getCount()));
-                holder.total.setText(String.format("%.02f", (item.getCount() * (item.getPrice() + item.getTaxAmount()))));
-                listener.onValueChanged((float) (item.getPrice() + item.getTaxAmount()), "plus");
-            }
-        });
+        if (isSelectAll) {
+            holder.ivCheckBox.setVisibility(View.VISIBLE);
+            holder.itemView.setBackgroundColor(Color.LTGRAY);
+        } else {
+            holder.ivCheckBox.setVisibility(View.GONE);
+            holder.itemView.setBackgroundColor(Color.WHITE);
+        }
 
+    }
 
-        holder.count.setText(String.valueOf(item.getCount()));
-        holder.total.setText(String.format("%.02f", item.getCount() * (item.getPrice() + item.getTaxAmount())));*/
+    private void ClickItem(MyViewHolder holder) {
+        Contact leadApp = itemList.get(itemsFiltered.size() - holder.getAdapterPosition() - 1);
 
+        if (holder.ivCheckBox.getVisibility() == View.GONE) {
+
+            holder.ivCheckBox.setVisibility(View.VISIBLE);
+            holder.itemView.setBackgroundColor(Color.LTGRAY);
+
+            selectList.add(leadApp);
+        } else {
+            holder.ivCheckBox.setVisibility(View.GONE);
+            holder.itemView.setBackgroundColor(Color.WHITE);
+            selectList.remove(leadApp);
+        }
     }
 
     @Override
@@ -155,17 +259,19 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.MyView
 
         void onItemUpdated(float amount, int count);
 
+        void hideToolBar(boolean hide);
+
     }
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         public TextView name, address, email, phone;
-        public ImageView imageUrl, plus, minus, remove;
+        public ImageView ivCheckBox;
 
         public MyViewHolder(View view) {
             super(view);
-
+            ivCheckBox = view.findViewById(R.id.iv_check_box);
             name = view.findViewById(R.id.contactName);
             address = view.findViewById(R.id.contactAddress);
             phone = view.findViewById(R.id.phone);
@@ -173,5 +279,29 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.MyView
 
 
         }
+    }
+
+    private void deleteLeadsByContactUID(String uid) {
+        db.collection("cache")
+                .document(user.getUid())
+                .collection("leads")
+                .whereEqualTo("contactUid", uid).get(Source.CACHE).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                if (queryDocumentSnapshots != null) {
+                    for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                        db.collection("cache")
+                                .document(user.getUid())
+                                .collection("leads")
+                                .document(documentSnapshot.getReference().getId()).delete();
+                    }
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });
     }
 }

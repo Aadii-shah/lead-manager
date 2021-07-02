@@ -54,6 +54,7 @@ public class ContactFragment extends Fragment implements ContactsAdapter.Recycle
     private List<Contact> itemsList;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseUser user;
+    private Toolbar toolbar;
 
     private SearchView searchView;
 
@@ -82,7 +83,7 @@ public class ContactFragment extends Fragment implements ContactsAdapter.Recycle
         // Inflate the layout for this fragment
         setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.fragment_contact, container, false);
-        Toolbar toolbar = view.findViewById(R.id.toolbar);
+        toolbar = view.findViewById(R.id.toolbar);
         ((AppCompatActivity) requireActivity()).setSupportActionBar( toolbar );
 
         user = FirebaseAuth.getInstance().getCurrentUser();
@@ -98,9 +99,9 @@ public class ContactFragment extends Fragment implements ContactsAdapter.Recycle
         recyclerView.addOnItemTouchListener(new RecyclerViewTouchListener(requireContext(), recyclerView, new RecyclerViewTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
-                Intent intent = new Intent(getActivity(), DetailsActivity.class);
+                /*Intent intent = new Intent(getActivity(), DetailsActivity.class);
                 intent.putExtra("contact", contactsAdapter.itemsFiltered.get(contactsAdapter.itemsFiltered.size() - 1 - position));
-                startActivity(intent);
+                startActivity(intent);*/
             }
 
             @Override
@@ -253,12 +254,21 @@ public class ContactFragment extends Fragment implements ContactsAdapter.Recycle
 
     @Override
     public void onItemRemoved(Contact item) {
-
+        Intent intent = new Intent(getActivity(), DetailsActivity.class);
+        intent.putExtra("contact", item);
+        startActivity(intent);
     }
 
     @Override
     public void onItemUpdated(float amount, int count) {
 
+    }
+
+    @Override
+    public void hideToolBar(boolean hide) {
+        if(hide)
+            toolbar.setVisibility(View.GONE);
+        else toolbar.setVisibility(View.VISIBLE);
     }
 
     private void getContacts() {

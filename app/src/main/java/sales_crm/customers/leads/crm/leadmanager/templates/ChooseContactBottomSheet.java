@@ -236,6 +236,11 @@ public class ChooseContactBottomSheet extends BottomSheetDialogFragment implemen
 
     }
 
+    @Override
+    public void hideToolBar(boolean hide) {
+
+    }
+
 
     public interface NotifyParent {
         void notifyAdded();

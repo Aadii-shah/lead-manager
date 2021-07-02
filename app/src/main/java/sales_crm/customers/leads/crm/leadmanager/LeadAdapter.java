@@ -1,6 +1,7 @@
 package sales_crm.customers.leads.crm.leadmanager;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.util.Log;
@@ -17,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -99,35 +101,35 @@ public class LeadAdapter extends RecyclerView.Adapter<LeadAdapter.MyViewHolder> 
                             switch (menuItem.getItemId()) {
                                 case R.id.delete:
 
-                                    for(LeadApp lead : selectList) {
-                                        itemList.remove(lead);
-                                        db.collection("cache")
-                                                .document(user.getUid())
-                                                .collection("leads")
-                                                .document(lead.getUid())
-                                                .delete()
-                                                /*.addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                    @Override
-                                                    public void onSuccess(Void aVoid) {
-                                                        Log.v("isEnabled", "deleted");
+                                    new AlertDialog.Builder(context)
+                                            .setIcon(android.R.drawable.ic_dialog_alert)
+                                            .setTitle("Delete Leads")
+                                            .setMessage("Are you sure you want to delete selected items=s?")
+                                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    for (LeadApp lead : selectList) {
+                                                        itemList.remove(lead);
+                                                        db.collection("cache")
+                                                                .document(user.getUid())
+                                                                .collection("leads")
+                                                                .document(lead.getUid())
+                                                                .delete();
                                                     }
-                                                })
-                                                .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                Log.v("isEnabled", "failure" + e.toString());
-                                            }
-                                        })*/;
-                                    }
-                                    listener.hideToolBar(false);
-                                    actionMode.finish();
+                                                    listener.hideToolBar(false);
+                                                    actionMode.finish();
+                                                }
+
+                                            })
+                                            .setNegativeButton("No", null)
+                                            .show();
 
 
                                     break;
 
                                 case R.id.select_all:
-                                    listener.hideToolBar(false);
-                                    actionMode.finish();
+                                    //listener.hideToolBar(false);
+                                    //actionMode.finish();
                                     if (selectList.size() == itemList.size()) {
                                         isSelectAll = false;
                                         menuItem.setIcon(R.drawable.ic_checked);
@@ -167,7 +169,7 @@ public class LeadAdapter extends RecyclerView.Adapter<LeadAdapter.MyViewHolder> 
             public void onClick(View view) {
 
                 Log.v("isEnabled", "" + isEnable);
-                if(isEnable) {
+                if (isEnable) {
                     ClickItem(holder);
                 } else {
                     listener.onItemRemoved(item);
@@ -175,7 +177,7 @@ public class LeadAdapter extends RecyclerView.Adapter<LeadAdapter.MyViewHolder> 
             }
         });
 
-        if(isSelectAll) {
+        if (isSelectAll) {
             holder.ivCheckBox.setVisibility(View.VISIBLE);
             holder.itemView.setBackgroundColor(Color.LTGRAY);
         } else {
