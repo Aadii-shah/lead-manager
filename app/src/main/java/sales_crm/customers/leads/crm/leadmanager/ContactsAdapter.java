@@ -103,7 +103,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.MyView
                                     new AlertDialog.Builder(context)
                                             .setIcon(android.R.drawable.ic_dialog_alert)
                                             .setTitle("Closing App")
-                                            .setMessage("Are you sure you want to close this app?")
+                                            .setMessage("Are you sure you want to delete selected contacts and associated leads?")
                                             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int which) {

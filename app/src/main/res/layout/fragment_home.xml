@@ -10,17 +10,6 @@
 
     <!--Custom Tool bar starts here-->
 
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/navigationDrawer"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        app:behavior_hideable="true"
-        app:menu="@menu/navigation_drawer"
-        app:headerLayout="@layout/header_navigation_drawer"
-        android:layout_gravity="start"
-        android:fitsSystemWindows="true"
-        />
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -42,9 +31,9 @@
             android:clickable="true"
             android:focusable="true"
             android:paddingStart="12dp"
-            android:paddingTop="3dp"
-            android:paddingEnd="10dp"
-            android:paddingBottom="3dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="24dp"
+            android:paddingBottom="10dp"
             android:src="@drawable/ic_menu_new"
             android:tint="@color/lightBlue"
             android:visibility="visible" />
@@ -53,9 +42,10 @@
             android:id="@+id/daySpinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
             android:layout_centerVertical="true"
-            android:backgroundTint="#C03A2B" />
+            android:layout_centerHorizontal="true"
+            android:backgroundTint="#C03A2B"
+            android:background="@null"/>
 
         <ImageView
             android:id="@+id/notification"
@@ -63,17 +53,22 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="12dp"
+            android:padding="12dp"
             android:background="?selectableItemBackgroundBorderless"
             android:clickable="true"
             android:focusable="true"
             android:src="@drawable/ic_notification_1" />
 
         <ImageView
+            android:id="@id/search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="30dp"
+            android:layout_marginEnd="10dp"
+            android:paddingEnd="20dp"
+            android:paddingStart="20dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             android:layout_toStartOf="@+id/notification"
             android:background="?selectableItemBackgroundBorderless"
             android:clickable="true"
@@ -652,6 +647,18 @@
 
     </LinearLayout>
     </RelativeLayout>
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/navigationDrawer"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        app:behavior_hideable="true"
+        app:menu="@menu/navigation_drawer"
+        app:headerLayout="@layout/header_navigation_drawer"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:itemIconTint="@color/lightGrey"
+        />
 
     <!--Linear layout for pipeline ends here-->
 </androidx.drawerlayout.widget.DrawerLayout>

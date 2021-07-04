@@ -250,7 +250,7 @@ public class ListActivity extends AppCompatActivity implements LeadAdapter.Recyc
 
     private void getLeads(String category) {
 
-        leadAdapter = new LeadAdapter(this, itemsList, this);
+        leadAdapter = new LeadAdapter(this, itemsList, this, true);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -302,7 +302,7 @@ public class ListActivity extends AppCompatActivity implements LeadAdapter.Recyc
     }
 
     private void getAllLeads() {
-        leadAdapter = new LeadAdapter(this, itemsList, this);
+        leadAdapter = new LeadAdapter(this, itemsList, this, true);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());

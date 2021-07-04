@@ -2,12 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group
         android:id="@+id/group1"
-        android:checkableBehavior="single">
+        android:checkableBehavior="none">
         <item
             android:id="@+id/item1"
             android:icon="@drawable/ic_premium"
-            android:title="Manage Subscription"
-            android:checked="true" />
+            android:title="Manage Subscription" />
         <item
             android:id="@+id/item2"
             android:icon="@drawable/ic_demo"
@@ -16,16 +15,15 @@
 
     <group
         android:id="@+id/group2"
-        android:checkableBehavior="single">
+        android:checkableBehavior="none">
         <item
             android:id="@+id/item3"
-            android:icon="@drawable/ic_phone_contact"
-            android:title="Contact us"
-            android:checked="true" />
-        <item
-            android:id="@+id/item4"
             android:icon="@drawable/ic_share"
             android:title="Share us" />
+        <item
+            android:id="@+id/item4"
+            android:icon="@drawable/ic_at"
+            android:title="Contact us"/>
         <item
             android:id="@+id/item5"
             android:icon="@drawable/ic_power"

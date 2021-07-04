@@ -11,8 +11,8 @@ android {
         applicationId "sales_crm.customers.leads.crm.leadmanager"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 8
-        versionName "1.0.5"
+        versionCode 9
+        versionName "1.0.6"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

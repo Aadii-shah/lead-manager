@@ -173,7 +173,7 @@ public class DetailsActivity extends AppCompatActivity implements LeadAdapter.Re
 
     private void getLeads() {
 
-        leadAdapter = new LeadAdapter(this, itemsList, this);
+        leadAdapter = new LeadAdapter(this, itemsList, this, true);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());

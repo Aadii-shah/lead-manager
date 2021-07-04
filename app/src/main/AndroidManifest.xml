@@ -63,7 +63,7 @@
         <activity
             android:name=".AddNewContactActivity"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".MainActivity" ></activity>
 
         <receiver android:name=".NotificationEventService"></receiver>
     </application>

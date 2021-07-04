@@ -46,12 +46,14 @@ public class LeadAdapter extends RecyclerView.Adapter<LeadAdapter.MyViewHolder> 
     boolean isEnable = false;
     boolean isSelectAll = false;
     public List<LeadApp> selectList;
+    private boolean isDeleteOption = false;
 
-    public LeadAdapter(Context context, List<LeadApp> itemList, RecyclerViewAdapterListener recyclerViewAdapterListener) {
+    public LeadAdapter(Context context, List<LeadApp> itemList, RecyclerViewAdapterListener recyclerViewAdapterListener, boolean isDeleteOption) {
         this.listener = recyclerViewAdapterListener;
         this.context = context;
         this.itemList = itemList;
         this.itemsFiltered = itemList;
+        this.isDeleteOption = isDeleteOption;
     }
 
     @Override
@@ -77,88 +79,91 @@ public class LeadAdapter extends RecyclerView.Adapter<LeadAdapter.MyViewHolder> 
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                if (!isEnable) {
-                    isEnable = true;
-                    listener.hideToolBar(true);
-                    ActionMode.Callback callback = new ActionMode.Callback() {
-                        @Override
-                        public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
 
-                            MenuInflater menuInflater = actionMode.getMenuInflater();
-                            menuInflater.inflate(R.menu.action_menu, menu);
-                            return true;
-                        }
+                if(isDeleteOption) {
+                    if (!isEnable) {
+                        isEnable = true;
+                        listener.hideToolBar(true);
+                        ActionMode.Callback callback = new ActionMode.Callback() {
+                            @Override
+                            public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
 
-                        @Override
-                        public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
-                            isEnable = true;
-                            ClickItem(holder);
-                            return true;
-                        }
-
-                        @Override
-                        public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
-                            switch (menuItem.getItemId()) {
-                                case R.id.delete:
-
-                                    new AlertDialog.Builder(context)
-                                            .setIcon(android.R.drawable.ic_dialog_alert)
-                                            .setTitle("Delete Leads")
-                                            .setMessage("Are you sure you want to delete selected items=s?")
-                                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                    for (LeadApp lead : selectList) {
-                                                        itemList.remove(lead);
-                                                        db.collection("cache")
-                                                                .document(user.getUid())
-                                                                .collection("leads")
-                                                                .document(lead.getUid())
-                                                                .delete();
-                                                    }
-                                                    listener.hideToolBar(false);
-                                                    actionMode.finish();
-                                                }
-
-                                            })
-                                            .setNegativeButton("No", null)
-                                            .show();
-
-
-                                    break;
-
-                                case R.id.select_all:
-                                    //listener.hideToolBar(false);
-                                    //actionMode.finish();
-                                    if (selectList.size() == itemList.size()) {
-                                        isSelectAll = false;
-                                        menuItem.setIcon(R.drawable.ic_checked);
-                                        selectList.clear();
-                                    } else {
-                                        isSelectAll = true;
-                                        menuItem.setIcon(R.drawable.ic_close_a);
-                                        selectList.clear();
-                                        selectList.addAll(itemList);
-                                    }
-                                    notifyDataSetChanged();
-                                    break;
+                                MenuInflater menuInflater = actionMode.getMenuInflater();
+                                menuInflater.inflate(R.menu.action_menu, menu);
+                                return true;
                             }
-                            return true;
-                        }
 
-                        @Override
-                        public void onDestroyActionMode(ActionMode actionMode) {
-                            listener.hideToolBar(false);
-                            isEnable = false;
-                            isSelectAll = false;
-                            selectList.clear();
-                            notifyDataSetChanged();
-                        }
-                    };
+                            @Override
+                            public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
+                                isEnable = true;
+                                ClickItem(holder);
+                                return true;
+                            }
 
-                    ((AppCompatActivity) view.getContext()).startActionMode(callback);
-                } else {
-                    ClickItem(holder);
+                            @Override
+                            public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
+                                switch (menuItem.getItemId()) {
+                                    case R.id.delete:
+
+                                        new AlertDialog.Builder(context)
+                                                .setIcon(android.R.drawable.ic_dialog_alert)
+                                                .setTitle("Delete Leads")
+                                                .setMessage("Are you sure you want to delete selected items?")
+                                                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        for (LeadApp lead : selectList) {
+                                                            itemList.remove(lead);
+                                                            db.collection("cache")
+                                                                    .document(user.getUid())
+                                                                    .collection("leads")
+                                                                    .document(lead.getUid())
+                                                                    .delete();
+                                                        }
+                                                        listener.hideToolBar(false);
+                                                        actionMode.finish();
+                                                    }
+
+                                                })
+                                                .setNegativeButton("No", null)
+                                                .show();
+
+
+                                        break;
+
+                                    case R.id.select_all:
+                                        //listener.hideToolBar(false);
+                                        //actionMode.finish();
+                                        if (selectList.size() == itemList.size()) {
+                                            isSelectAll = false;
+                                            menuItem.setIcon(R.drawable.ic_checked);
+                                            selectList.clear();
+                                        } else {
+                                            isSelectAll = true;
+                                            menuItem.setIcon(R.drawable.ic_close_a);
+                                            selectList.clear();
+                                            selectList.addAll(itemList);
+                                        }
+                                        notifyDataSetChanged();
+                                        break;
+                                }
+                                return true;
+                            }
+
+                            @Override
+                            public void onDestroyActionMode(ActionMode actionMode) {
+                                listener.hideToolBar(false);
+                                isEnable = false;
+                                isSelectAll = false;
+                                selectList.clear();
+                                notifyDataSetChanged();
+                            }
+                        };
+
+                        ((AppCompatActivity) view.getContext()).startActionMode(callback);
+                    } else {
+                        ClickItem(holder);
+                    }
                 }
                 return true;
             }

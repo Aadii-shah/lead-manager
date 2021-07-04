@@ -33,6 +33,29 @@
         android:textAppearance="?attr/textAppearanceBody2"
         android:textColor="@color/material_on_surface_emphasis_medium" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="24dp"
+        android:paddingEnd="24dp"
+        android:paddingBottom="24dp"
+        android:paddingStart="20dp"
+        android:background="@color/lightBlue">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="First 100 Leads always free"
+            android:drawableStart="@drawable/ic_shopping_basket"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:drawablePadding="8dp"
+            android:textSize="16sp"
+            android:textColor="@color/white"
+            android:textAlignment="textStart"
+            android:includeFontPadding="false"/>
+
+    </LinearLayout>
 
     <View
         android:layout_width="match_parent"

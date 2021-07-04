@@ -1,6 +1,9 @@
 package sales_crm.customers.leads.crm.leadmanager;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -21,6 +24,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import sales_crm.customers.leads.crm.leadmanager.R;
+import sales_crm.customers.leads.crm.leadmanager.billing.InAppPurchase;
+import sales_crm.customers.leads.crm.leadmanager.templates.SearchDialog;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
@@ -63,16 +68,62 @@ public class HomeFragment extends Fragment {
         DrawerLayout drawerLayout = view.findViewById(R.id.drawer_layout);
         NavigationView navigationView = view.findViewById(R.id.navigationDrawer);
 
+        navigationView.setItemTextColor(ColorStateList.valueOf(Color.parseColor("#757575")));
+
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
+
                 switch (item.getItemId()) {
                     case R.id.item1:
+                        Intent i = new Intent(getContext(), InAppPurchase.class);
+                        startActivity(i);
                         break;
 
                     case R.id.item2:
-                         break;
+                        String [] addresses = {"narpichas.app@gmail.com"};
+                        Intent intent = new Intent(Intent.ACTION_SENDTO);
+                        intent.setData(Uri.parse("mailto:")); // only email apps should handle this
+                        intent.putExtra(Intent.EXTRA_EMAIL, addresses);
+                        intent.putExtra(Intent.EXTRA_SUBJECT, "Require Free demo of your app.");
+                        intent.putExtra(Intent.EXTRA_TEXT, "Hi there,\nWe are looking for free demo for your app.");
+                        //if (intent.resolveActivity(getPackageManager()) != null) {
+                        startActivity(intent);
+                        break;
+
+                    case R.id.item3:
+                        try {
+                            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                            shareIntent.setType("text/plain");
+                            shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Lead Manager CRM");
+                            String shareMessage = "\nTry Lead Manager CRM app to track leads, customers & sales for higher conversion\n\n";
+                            shareMessage = shareMessage + "https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID + "\n\n";
+                            shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
+                            startActivity(Intent.createChooser(shareIntent, "choose one"));
+                        } catch (Exception e) {
+                            //e.toString();
+                        }
+                        break;
+
+                    case R.id.item4:
+
+                        Intent i4 = new Intent(Intent.ACTION_SENDTO);
+                        i4.setData(Uri.parse("mailto:")); // only email apps should handle this
+                        String [] addresses1 = {"narpichas.app@gmail.com"};
+                        i4.putExtra(Intent.EXTRA_EMAIL, addresses1);
+                        i4.putExtra(Intent.EXTRA_SUBJECT, "Query.");
+                        i4.putExtra(Intent.EXTRA_TEXT, "Please write your query below this line.\n===========================\n");
+                        //if (intent.resolveActivity(getPackageManager()) != null) {
+                        startActivity(i4);
+                        //}
+                        break;
+
+                    case R.id.item5:
+                        Intent i5 = new Intent(getContext(), Login.class);
+                        startActivity(i5);
+                        getActivity().finish();
+                        break;
                 }
 
                 return false;
@@ -103,10 +154,15 @@ public class HomeFragment extends Fragment {
 
 
         spinner = view.findViewById(R.id.daySpinner);
+        String[] dayList = {"Today", "Overall"};
+
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_text, dayList);
+        arrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown);
+
         ArrayAdapter adapter = ArrayAdapter.createFromResource(getContext(),
                 R.array.day_array, R.layout.color_spinner_layout);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+        spinner.setAdapter(arrayAdapter);
 
         ImageView profile = view.findViewById(R.id.profile);
         profile.setOnClickListener(new View.OnClickListener() {
@@ -117,6 +173,16 @@ public class HomeFragment extends Fragment {
                 //profileSheet.show(getChildFragmentManager(), ProfileBottomSheet.TAG);
             }
         });
+
+        ImageView search = view.findViewById(R.id.search);
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openDialog();
+            }
+        });
+
+        //openDialog()
 
         newLead = view.findViewById(R.id.newLead);
         todayMeeting = view.findViewById(R.id.todayMeeting);
@@ -345,5 +411,9 @@ public class HomeFragment extends Fragment {
         }
         //getCount(true);
         super.onResume();
+    }
+
+    private void openDialog() {
+        SearchDialog.display(getChildFragmentManager());
     }
 }
