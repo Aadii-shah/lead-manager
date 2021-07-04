@@ -159,9 +159,6 @@ public class HomeFragment extends Fragment {
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_text, dayList);
         arrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown);
 
-        ArrayAdapter adapter = ArrayAdapter.createFromResource(getContext(),
-                R.array.day_array, R.layout.color_spinner_layout);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(arrayAdapter);
 
         ImageView profile = view.findViewById(R.id.profile);
